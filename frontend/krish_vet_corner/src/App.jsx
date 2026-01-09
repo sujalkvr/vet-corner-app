@@ -9,6 +9,7 @@ import Appointment from './components/Appointment'; // ADD THIS
 import Footer from './components/Footer';
 import './index.css';
 import About from './components/About';
+import Reviews from './components/Reviews';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
               <Hero />
               <About/>
               <Services />
+              <Reviews/>
               <ContactForm />
               <Footer />
             </>
