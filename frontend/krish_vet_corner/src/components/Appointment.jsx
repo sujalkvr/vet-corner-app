@@ -3,6 +3,8 @@ import { CalendarIcon, CameraIcon, CreditCardIcon, MailIcon, CheckCircleIcon, Ch
 
 const Appointment = () => {
   const [showSuccess, setShowSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     personName: '',
     petName: '',
@@ -36,10 +38,45 @@ const Appointment = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setTimeout(() => setShowSuccess(true), 1500);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  const formDataToSend = new FormData();
+  Object.keys(formData).forEach(key => {
+    if (key === 'screenshot' && formData[key]) {
+      formDataToSend.append(key, formData[key]);
+    } else if (formData[key]) {
+      formDataToSend.append(key, formData[key]);
+    }
+  });
+
+  try {
+    const res = await fetch('http://localhost:5000/api/appointment/book', {
+      method: 'POST',
+      body: formDataToSend
+    });
+
+    const data = await res.json();
+    
+    if (data.success) {
+      setShowSuccess(true);
+      setFormData({
+        personName: '', petName: '', email: '', phone: '',
+        serviceType: '', description: '', date: '', altDate: '',
+        paymentId: '', screenshot: null
+      });
+      setPreview('');
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    alert('Network error. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <section className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50 via-white to-blue-50/30 relative overflow-hidden">
@@ -272,9 +309,10 @@ const Appointment = () => {
 
               {/* BOOK BUTTON */}
               <button
-                type="submit"
-                className="w-full group relative px-8 py-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-[0_15px_30px_-10px_rgba(34,197,94,0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-500 overflow-hidden transform-gpu"
-              >
+  type="submit"
+  disabled={loading}
+  className="w-full group relative px-8 py-4 disabled:opacity-70 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-[0_15px_30px_-10px_rgba(34,197,94,0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-500 overflow-hidden transform-gpu disabled:shadow-md disabled:scale-100"
+>
                 <span className="relative z-10 flex items-center justify-center space-x-3">
                   <CalendarIcon className="w-6 h-6 group-hover:rotate-12 transition-all duration-500" />
                   <span>CONFIRM & BOOK APPOINTMENT</span>
