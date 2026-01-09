@@ -8,6 +8,7 @@ import ContactForm from './components/ContactForm';
 import Appointment from './components/Appointment'; // ADD THIS
 import Footer from './components/Footer';
 import './index.css';
+import About from './components/About';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={
             <>
               <Hero />
+              <About/>
               <Services />
               <ContactForm />
               <Footer />
