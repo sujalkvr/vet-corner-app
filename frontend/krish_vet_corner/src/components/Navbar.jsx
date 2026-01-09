@@ -5,15 +5,17 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'About', path: '/about' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Appointment', path: '/appointment' },
-    { name: 'Admin', path: '/admin' }
-  ];
+  // In Navbar.jsx - Replace navLinks array with:
+const navLinks = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '#services' },
+  { name: 'About', path: '#about' },
+  { name: 'Blog', path: '#blog' },
+  { name: 'Contact', path: '#contact' },
+  { name: 'Appointment', path: '/appointment' },
+  { name: 'Admin', path: '/admin' }
+];
+
 
   return (
     <>
