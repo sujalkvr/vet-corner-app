@@ -1,1 +1,45 @@
 @import "tailwindcss";
+/* src/index.css - Replace everything with this */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+@layer components {
+  .navbar-link {
+    @apply relative px-3 py-2 text-lg font-medium text-gray-700 hover:text-blue-600 transition-all duration-300;
+  }
+  .navbar-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300;
+  }
+  .navbar-link:hover::after {
+    @apply w-full;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
