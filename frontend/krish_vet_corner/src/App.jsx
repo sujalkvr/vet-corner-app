@@ -5,6 +5,9 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import './index.css';
+import { Contact } from 'lucide-react';
+import ContactForm from './components/ContactForm';
+import Footer from './components/Footer'
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -32,6 +35,9 @@ function App() {
             <>
               <Hero />
               <Services />
+              <ContactForm/>
+              <Footer/>
+              
               {/* Add more sections here */}
             </>
           } />
