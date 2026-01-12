@@ -1,4 +1,4 @@
-// src/components/NotificationBanner.jsx
+// src/components/NotificationBanner.jsx - CLEAN FULL WIDTH DESIGN
 import { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -24,13 +24,13 @@ const NotificationBanner = () => {
     }
   };
 
-  // Auto-slide notifications
+  // Auto-slide notifications every 2.5 seconds
   useEffect(() => {
     if (notifications.length <= 1 || !isVisible || isPaused) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % notifications.length);
-    }, 4000);
+    }, 2500);
 
     return () => clearInterval(interval);
   }, [notifications.length, isVisible, isPaused]);
@@ -48,10 +48,10 @@ const NotificationBanner = () => {
   const currentNotification = notifications[currentIndex];
 
   return (
-    <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-lg sticky top-0 z-40">
+    <div className="bg-white border-b-2 border-emerald-200 shadow-sm sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
-          className="flex items-center justify-between py-3 gap-4"
+          className="flex items-center justify-center gap-6 py-4"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -59,45 +59,45 @@ const NotificationBanner = () => {
           {notifications.length > 1 && (
             <button
               onClick={handlePrev}
-              className="flex-shrink-0 p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all duration-300 hover:scale-110"
+              className="flex-shrink-0 p-2.5 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 transition-all duration-300 hover:scale-110"
               aria-label="Previous notification"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
           )}
 
           {/* Notification Content */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            {/* Image */}
+          <div className="flex items-center gap-5 flex-1 max-w-4xl">
+            {/* Large Image */}
             <div className="flex-shrink-0">
               <img
                 src={`http://localhost:5000${currentNotification.image}`}
                 alt="Notification"
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-3 border-white shadow-lg"
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-3 border-emerald-300 shadow-lg"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/56?text=🔔';
+                  e.target.src = 'https://via.placeholder.com/80?text=🔔';
                 }}
               />
             </div>
 
-            {/* Text Content */}
+            {/* Large Text Content */}
             <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm sm:text-base leading-tight line-clamp-2">
+              <p className="text-gray-900 font-bold text-lg sm:text-xl md:text-2xl leading-tight">
                 {currentNotification.content}
               </p>
             </div>
 
             {/* Dots Indicator */}
             {notifications.length > 1 && (
-              <div className="hidden sm:flex items-center gap-1.5">
+              <div className="hidden md:flex items-center gap-2.5">
                 {notifications.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={`transition-all duration-300 rounded-full ${
                       index === currentIndex
-                        ? 'w-6 h-2 bg-white'
-                        : 'w-2 h-2 bg-white/50 hover:bg-white/70'
+                        ? 'w-8 h-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md'
+                        : 'w-2.5 h-2.5 bg-gray-300 hover:bg-emerald-300'
                     }`}
                     aria-label={`Go to notification ${index + 1}`}
                   />
@@ -110,23 +110,41 @@ const NotificationBanner = () => {
           {notifications.length > 1 && (
             <button
               onClick={handleNext}
-              className="flex-shrink-0 p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-all duration-300 hover:scale-110"
+              className="flex-shrink-0 p-2.5 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 transition-all duration-300 hover:scale-110"
               aria-label="Next notification"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-5 h-5" />
             </button>
           )}
 
           {/* Close Button */}
           <button
             onClick={() => setIsVisible(false)}
-            className="flex-shrink-0 p-2 rounded-full bg-white/20 hover:bg-red-500/80 text-white transition-all duration-300 hover:scale-110"
+            className="flex-shrink-0 p-2.5 rounded-full bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 transition-all duration-300 hover:scale-110"
             aria-label="Close notification"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
       </div>
+
+      {/* Mobile Dots Indicator */}
+      {notifications.length > 1 && (
+        <div className="md:hidden flex justify-center items-center gap-2 pb-3">
+          {notifications.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`transition-all duration-300 rounded-full ${
+                index === currentIndex
+                  ? 'w-8 h-2 bg-gradient-to-r from-emerald-500 to-teal-500'
+                  : 'w-2 h-2 bg-gray-300'
+              }`}
+              aria-label={`Go to notification ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
