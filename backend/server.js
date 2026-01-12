@@ -1,11 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const mongoose = require('mongoose');       // ← ADD #1
-const slugify = require('slugify');   
 require('dotenv').config();
 
 const app = express();
@@ -22,25 +22,22 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use('/uploads', express.static(uploadsDir));
-// MongoDB Atlas Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB Atlas Connected'))
-  .catch(err => console.error('❌ MongoDB Error:', err));
 
+// ============= MULTER CONFIGURATIONS =============
 
-// Multer for file uploads
-const storage = multer.diskStorage({
+// For appointment screenshots
+const appointmentStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
+    cb(null, 'appointment-' + uniqueSuffix + '-' + file.originalname);
   }
 });
 
-const upload = multer({ 
-  storage,
+const appointmentUpload = multer({ 
+  storage: appointmentStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
@@ -55,16 +52,43 @@ const upload = multer({
   }
 });
 
-// Email transporter - FIXED FOR NODEMAILER V7
+// For blog images
+const blogStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+    cb(null, 'blog-' + uniqueName);
+  }
+});
+
+const blogUpload = multer({ 
+  storage: blogStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
+  }
+});
+
+// ============= EMAIL CONFIGURATION =============
+
 let transporter;
 
 async function initializeTransporter() {
   try {
-    // For nodemailer v7+, use the new API
     transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
-      secure: false, // use TLS
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -74,7 +98,6 @@ async function initializeTransporter() {
       }
     });
 
-    // Verify connection
     await transporter.verify();
     console.log('✅ Email server is ready to send messages');
   } catch (error) {
@@ -83,24 +106,85 @@ async function initializeTransporter() {
   }
 }
 
-// Initialize transporter
 initializeTransporter();
 
-// Health check endpoint
+// ============= MONGODB CONFIGURATION =============
+
+// Blog Schema
+const blogSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  images: [{
+    type: String,
+    required: true
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Blog = mongoose.model('Blog', blogSchema);
+
+// MongoDB Atlas Connection
+// MongoDB Atlas Connection
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log('✅ MongoDB Atlas Connected Successfully!');
+  console.log('📦 Database:', mongoose.connection.db.databaseName);
+})
+.catch(err => {
+  console.error('❌ MongoDB Atlas Connection Error:', err.message);
+  console.error('💡 Check your connection string in .env file');
+  process.exit(1);
+});
+
+// ============= AUTH MIDDLEWARE =============
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+  
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+    req.adminEmail = decoded.email;
+    next();
+  });
+};
+
+// ============= ROUTES =============
+
+// Health Check
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
     message: 'Server is running',
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
     emailConfigured: !!transporter
   });
 });
-// Blog Routes ← ADD #3
-app.use('/api/blogs', require('./routes/blogs'));
 
-// Appointment Booking API
-app.post('/api/appointment/book', upload.single('screenshot'), async (req, res) => {
+// ============= APPOINTMENT ROUTES =============
+
+app.post('/api/appointment/book', appointmentUpload.single('screenshot'), async (req, res) => {
   try {
-    // Check if transporter is initialized
     if (!transporter) {
       return res.status(500).json({ 
         success: false, 
@@ -120,7 +204,6 @@ app.post('/api/appointment/book', upload.single('screenshot'), async (req, res) 
       paymentId 
     } = req.body;
 
-    // Validate required fields
     if (!personName || !petName || !email || !phone || !serviceType || !date || !paymentId) {
       return res.status(400).json({ 
         success: false, 
@@ -287,7 +370,6 @@ app.post('/api/appointment/book', upload.single('screenshot'), async (req, res) 
       `
     };
 
-    // Send emails
     console.log('📧 Sending emails...');
     await transporter.sendMail(adminMail);
     console.log('✅ Admin email sent');
@@ -317,7 +399,172 @@ app.post('/api/appointment/book', upload.single('screenshot'), async (req, res) 
   }
 });
 
-// Error handling middleware
+// ============= ADMIN BLOG ROUTES =============
+
+// 1. Admin Sign In
+app.post('/api/admin/signin', (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Email and password are required' 
+      });
+    }
+    
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      const token = jwt.sign(
+        { email }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: '24h' }
+      );
+      
+      res.json({ 
+        success: true, 
+        token,
+        message: 'Login successful'
+      });
+    } else {
+      res.status(401).json({ 
+        success: false, 
+        message: 'Invalid email or password' 
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error during login' 
+    });
+  }
+});
+
+// 2. Get All Blogs (Public)
+app.get('/api/blogs', async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ createdAt: -1 });
+    res.json(blogs);
+  } catch (error) {
+    console.error('Error fetching blogs:', error);
+    res.status(500).json({ 
+      message: 'Error fetching blogs', 
+      error: error.message 
+    });
+  }
+});
+
+// 3. Get Single Blog by ID (Public)
+app.get('/api/blogs/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    
+    if (!blog) {
+      return res.status(404).json({ message: 'Blog not found' });
+    }
+    
+    res.json(blog);
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error fetching blog', 
+      error: error.message 
+    });
+  }
+});
+
+// 4. Create Blog (Protected)
+app.post('/api/blogs', verifyToken, blogUpload.array('images', 3), async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    
+    if (!title || !content) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Title and content are required' 
+      });
+    }
+    
+    if (!req.files || req.files.length !== 3) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Exactly 3 images are required' 
+      });
+    }
+    
+    // Generate slug from title
+    const slug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    
+    // Check if slug already exists
+    const existingBlog = await Blog.findOne({ slug });
+    const finalSlug = existingBlog ? `${slug}-${Date.now()}` : slug;
+    
+    const images = req.files.map(file => `/uploads/${file.filename}`);
+    
+    const blog = new Blog({ 
+      title, 
+      slug: finalSlug, 
+      content, 
+      images 
+    });
+    
+    await blog.save();
+    
+    console.log('✅ Blog created:', blog.title);
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Blog created successfully',
+      blog 
+    });
+  } catch (error) {
+    console.error('Error creating blog:', error);
+    res.status(400).json({ 
+      success: false,
+      message: 'Error creating blog', 
+      error: error.message 
+    });
+  }
+});
+
+// 5. Delete Blog (Protected)
+app.delete('/api/blogs/:id', verifyToken, async (req, res) => {
+  try {
+    const blog = await Blog.findByIdAndDelete(req.params.id);
+    
+    if (!blog) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'Blog not found' 
+      });
+    }
+    
+    // Delete associated images
+    blog.images.forEach(imgPath => {
+      const filePath = path.join(__dirname, imgPath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    });
+    
+    console.log('🗑️ Blog deleted:', blog.title);
+    
+    res.json({ 
+      success: true, 
+      message: 'Blog deleted successfully' 
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      message: 'Error deleting blog', 
+      error: error.message 
+    });
+  }
+});
+
+// ============= ERROR HANDLING =============
+
 app.use((error, req, res, next) => {
   if (error instanceof multer.MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
@@ -328,6 +575,7 @@ app.use((error, req, res, next) => {
     }
   }
   
+  console.error('Server Error:', error);
   res.status(500).json({
     success: false,
     message: error.message || 'Something went wrong!'
@@ -342,9 +590,12 @@ app.use((req, res) => {
   });
 });
 
+// ============= START SERVER =============
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📁 Upload directory: ${uploadsDir}`);
   console.log(`📧 Email: ${process.env.EMAIL_USER || 'Not configured'}`);
+  console.log(`📊 API Docs: http://localhost:${PORT}/api/health`);
 });

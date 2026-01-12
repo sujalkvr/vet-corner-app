@@ -1,16 +1,18 @@
-// src/App.jsx - FULLY UPDATED
+// src/App.jsx - UPDATED WITH ADMIN ROUTES
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import ContactForm from './components/ContactForm';
-import Appointment from './components/Appointment'; // ADD THIS
+import Appointment from './components/Appointment';
 import Footer from './components/Footer';
-import './index.css';
 import About from './components/About';
 import Reviews from './components/Reviews';
 import BlogSection from './components/BlogSection';
+import SignIn from './components/Admin/SignIn';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import './index.css';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -31,37 +33,58 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-white">
-        <Navbar />
         <ScrollToSection />
         <Routes>
           {/* HOME - COMPLETE SINGLE PAGE */}
           <Route path="/" element={
             <>
+              <Navbar />
               <Hero />
-              <About/>
+              <About />
               <Services />
-              <Reviews/>
-              <BlogSection/>
+              <Reviews />
+              <BlogSection />
               <ContactForm />
               <Footer />
             </>
           } />
           
-          {/* INDIVIDUAL PAGES */}
-          <Route path="/services" element={<Services />} />
-          <Route path="/appointment" element={<Appointment />} />
+          {/* INDIVIDUAL PAGES (with Navbar & Footer) */}
+          <Route path="/services" element={
+            <>
+              <Navbar />
+              <Services />
+              <Footer />
+            </>
+          } />
+          
+          <Route path="/appointment" element={
+            <>
+              <Navbar />
+              <Appointment />
+              <Footer />
+            </>
+          } />
+          
+          {/* ADMIN ROUTES (No Navbar/Footer) */}
+          <Route path="/admin" element={<SignIn />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           
           {/* 404 Fallback */}
           <Route path="*" element={
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
-              <div className="text-center p-12 max-w-md mx-auto">
-                <h1 className="text-6xl font-black text-gray-900 mb-6">404</h1>
-                <p className="text-2xl text-gray-600 mb-8">Page not found</p>
-                <a href="/" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300">
-                  ← Back to Home
-                </a>
+            <>
+              <Navbar />
+              <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
+                <div className="text-center p-12 max-w-md mx-auto">
+                  <h1 className="text-6xl font-black text-gray-900 mb-6">404</h1>
+                  <p className="text-2xl text-gray-600 mb-8">Page not found</p>
+                  <a href="/" className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300">
+                    ← Back to Home
+                  </a>
+                </div>
               </div>
-            </div>
+              <Footer />
+            </>
           } />
         </Routes>
       </div>
