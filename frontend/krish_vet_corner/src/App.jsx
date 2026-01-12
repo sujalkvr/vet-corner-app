@@ -1,4 +1,4 @@
-// src/App.jsx - UPDATED WITH ADMIN ROUTES
+// src/App.jsx - ADD ALL BLOGS ROUTE
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
@@ -10,6 +10,8 @@ import Footer from './components/Footer';
 import About from './components/About';
 import Reviews from './components/Reviews';
 import BlogSection from './components/BlogSection';
+import BlogDetail from './components/BlogDetail';
+import AllBlogs from './components/AllBlogs'; // ADD THIS
 import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import './index.css';
@@ -65,6 +67,12 @@ function App() {
               <Footer />
             </>
           } />
+
+          {/* ALL BLOGS PAGE - ADD THIS */}
+          <Route path="/blog" element={<AllBlogs />} />
+
+          {/* BLOG DETAIL PAGE */}
+          <Route path="/blog/:slug" element={<BlogDetail />} />
           
           {/* ADMIN ROUTES (No Navbar/Footer) */}
           <Route path="/admin" element={<SignIn />} />
