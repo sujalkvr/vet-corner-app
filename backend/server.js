@@ -136,20 +136,20 @@ const blogSchema = new mongoose.Schema({
   }
 });
 
-const Blog = mongoose.model('Blog', blogSchema);
-
+const Blog = require('./models/Blog');
+const Notification = require('./models/Notification');
 // MongoDB Atlas Connection
 // MongoDB Atlas Connection
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('✅ MongoDB Atlas Connected Successfully!');
-  console.log('📦 Database:', mongoose.connection.db.databaseName);
-})
-.catch(err => {
-  console.error('❌ MongoDB Atlas Connection Error:', err.message);
-  console.error('💡 Check your connection string in .env file');
-  process.exit(1);
-});
+  .then(() => {
+    console.log('✅ MongoDB Atlas Connected Successfully!');
+    console.log('📦 Database:', mongoose.connection.db.databaseName);
+  })
+  .catch(err => {
+    console.error('❌ MongoDB Atlas Connection Error:', err.message);
+    console.error('💡 Check your connection string in .env file');
+    process.exit(1);
+  });
 
 // ============= AUTH MIDDLEWARE =============
 
@@ -558,6 +558,143 @@ app.delete('/api/blogs/:id', verifyToken, async (req, res) => {
     res.status(500).json({ 
       success: false,
       message: 'Error deleting blog', 
+      error: error.message 
+    });
+  }
+});
+// 1. Get Active Notifications (Public)
+app.get('/api/notifications', async (req, res) => {
+  try {
+    const notifications = await Notification.find({ isActive: true }).sort({ createdAt: -1 });
+    res.json(notifications);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({ 
+      message: 'Error fetching notifications', 
+      error: error.message 
+    });
+  }
+});
+
+// 2. Get All Notifications (Protected - for admin)
+app.get('/api/notifications/all', verifyToken, async (req, res) => {
+  try {
+    const notifications = await Notification.find().sort({ createdAt: -1 });
+    res.json(notifications);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    res.status(500).json({ 
+      message: 'Error fetching notifications', 
+      error: error.message 
+    });
+  }
+});
+
+// 3. Create Notification (Protected)
+app.post('/api/notifications', verifyToken, blogUpload.single('image'), async (req, res) => {
+  try {
+    const { content } = req.body;
+    
+    if (!content) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Content is required' 
+      });
+    }
+    
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Image is required' 
+      });
+    }
+    
+    const image = `/uploads/${req.file.filename}`;
+    
+    const notification = new Notification({ 
+      content, 
+      image,
+      isActive: true
+    });
+    
+    await notification.save();
+    
+    console.log('✅ Notification created:', notification.content);
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Notification created successfully',
+      notification 
+    });
+  } catch (error) {
+    console.error('Error creating notification:', error);
+    res.status(400).json({ 
+      success: false,
+      message: 'Error creating notification', 
+      error: error.message 
+    });
+  }
+});
+
+// 4. Toggle Notification Active Status (Protected)
+app.patch('/api/notifications/:id/toggle', verifyToken, async (req, res) => {
+  try {
+    const notification = await Notification.findById(req.params.id);
+    
+    if (!notification) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'Notification not found' 
+      });
+    }
+    
+    notification.isActive = !notification.isActive;
+    await notification.save();
+    
+    console.log(`🔄 Notification ${notification.isActive ? 'activated' : 'deactivated'}:`, notification.content);
+    
+    res.json({ 
+      success: true, 
+      message: `Notification ${notification.isActive ? 'activated' : 'deactivated'}`,
+      notification 
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      message: 'Error toggling notification', 
+      error: error.message 
+    });
+  }
+});
+
+// 5. Delete Notification (Protected)
+app.delete('/api/notifications/:id', verifyToken, async (req, res) => {
+  try {
+    const notification = await Notification.findByIdAndDelete(req.params.id);
+    
+    if (!notification) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'Notification not found' 
+      });
+    }
+    
+    // Delete associated image
+    const filePath = path.join(__dirname, notification.image);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+    
+    console.log('🗑️ Notification deleted:', notification.content);
+    
+    res.json({ 
+      success: true, 
+      message: 'Notification deleted successfully' 
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false,
+      message: 'Error deleting notification', 
       error: error.message 
     });
   }

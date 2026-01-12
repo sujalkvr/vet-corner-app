@@ -1,7 +1,8 @@
-// src/App.jsx - ADD ALL BLOGS ROUTE
+// src/App.jsx - ADD NOTIFICATION BANNER
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
+import NotificationBanner from './components/NotificationBanner'; // ✅ ADD THIS
 import Hero from './components/Hero';
 import Services from './components/Services';
 import ContactForm from './components/ContactForm';
@@ -11,7 +12,7 @@ import About from './components/About';
 import Reviews from './components/Reviews';
 import BlogSection from './components/BlogSection';
 import BlogDetail from './components/BlogDetail';
-import AllBlogs from './components/AllBlogs'; // ADD THIS
+import AllBlogs from './components/AllBlogs';
 import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import './index.css';
@@ -41,6 +42,7 @@ function App() {
           <Route path="/" element={
             <>
               <Navbar />
+              <NotificationBanner /> {/* ✅ ADD THIS */}
               <Hero />
               <About />
               <Services />
@@ -55,6 +57,7 @@ function App() {
           <Route path="/services" element={
             <>
               <Navbar />
+              <NotificationBanner /> {/* ✅ ADD THIS */}
               <Services />
               <Footer />
             </>
@@ -63,12 +66,13 @@ function App() {
           <Route path="/appointment" element={
             <>
               <Navbar />
+              <NotificationBanner /> {/* ✅ ADD THIS */}
               <Appointment />
               <Footer />
             </>
           } />
 
-          {/* ALL BLOGS PAGE - ADD THIS */}
+          {/* ALL BLOGS PAGE */}
           <Route path="/blog" element={<AllBlogs />} />
 
           {/* BLOG DETAIL PAGE */}
@@ -82,6 +86,7 @@ function App() {
           <Route path="*" element={
             <>
               <Navbar />
+              <NotificationBanner /> {/* ✅ ADD THIS */}
               <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
                 <div className="text-center p-12 max-w-md mx-auto">
                   <h1 className="text-6xl font-black text-gray-900 mb-6">404</h1>
