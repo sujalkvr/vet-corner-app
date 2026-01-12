@@ -5,13 +5,13 @@ const Reviews = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   const reviews = [
-    { name: 'Anna K.', rating: 5, text: 'Dr. Krish saved my puppy! His expertise and care were exceptional.' },
-    { name: 'Piotr N.', rating: 5, text: 'Best vet in Warsaw. My cat recovered quickly from surgery.' },
-    { name: 'Maria Z.', rating: 5, text: 'Smooth vaccination process. Great service and friendly staff.' },
-    { name: 'Tomasz W.', rating: 5, text: 'Emergency care was perfect - truly a lifesaver for my dog!' },
-    { name: 'Katarzyna L.', rating: 5, text: 'Perfect dental surgery. My pet is happy and healthy now.' },
-    { name: 'Jan K.', rating: 5, text: 'My lab lost 10kg with their diet plan. Excellent guidance!' },
-    { name: 'Ewa S.', rating: 5, text: 'Grooming plus checkup combo was perfect and affordable.' },
+    { name: 'rohan K.', rating: 5, text: 'Dr. Krish saved my puppy! His expertise and care were exceptional.' },
+    { name: 'mukul N.', rating: 5, text: 'Best vet in Warsaw. My cat recovered quickly from surgery.' },
+    { name: 'surya Z.', rating: 5, text: 'Smooth vaccination process. Great service and friendly staff.' },
+    { name: 'thalapathy vijay.', rating: 5, text: 'Emergency care was perfect - truly a lifesaver for my dog!' },
+    { name: 'samantha L.', rating: 5, text: 'Perfect dental surgery. My pet is happy and healthy now.' },
+    { name: 'vijay s.', rating: 5, text: 'My lab lost 10kg with their diet plan. Excellent guidance!' },
+    { name: 'anuska S.', rating: 5, text: 'Grooming plus checkup combo was perfect and affordable.' },
     { name: 'Michał J.', rating: 5, text: 'Puppy vaccines done right. Very professional service.' },
     { name: 'Monika W.', rating: 5, text: 'Painless dental extraction. My cat didn\'t even notice!' },
     { name: 'Robert M.', rating: 5, text: '8 years of excellent care. We trust Dr. Krish completely.' }

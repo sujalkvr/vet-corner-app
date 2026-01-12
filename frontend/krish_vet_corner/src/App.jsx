@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import './index.css';
 import About from './components/About';
 import Reviews from './components/Reviews';
+import BlogSection from './components/BlogSection';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ function App() {
               <About/>
               <Services />
               <Reviews/>
+              <BlogSection/>
               <ContactForm />
               <Footer />
             </>
