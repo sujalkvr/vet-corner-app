@@ -1,6 +1,6 @@
-// src/components/BlogSection.jsx
+// src/components/Blog/BlogSection.jsx - ✅ FULLY FIXED
 import { useState } from 'react';
-import { ChevronRight, ArrowRight, Star } from 'lucide-react';
+import { ChevronRight, ArrowRight, Star, FileText } from 'lucide-react';  // ✅ FileText ADDED
 import React from 'react';
 
 const BlogSection = () => {
@@ -107,9 +107,10 @@ const BlogSection = () => {
                     <Star className="w-5 h-5 fill-current" />
                     <span className="ml-2 font-semibold text-sm text-gray-700">(5.0)</span>
                   </div>
-                  <span className="text-xs text-emerald-600 font-semibold uppercase tracking-wide">
-                    2 min read
-                  </span>
+                  <div className="flex items-center space-x-1 text-emerald-600 text-sm font-semibold">
+                    <FileText className="w-4 h-4" />
+                    <span>2 min</span>
+                  </div>
                 </div>
 
                 <a
