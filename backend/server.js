@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const mongoose = require('mongoose');       // ← ADD #1
+const slugify = require('slugify');   
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +22,11 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 app.use('/uploads', express.static(uploadsDir));
+// MongoDB Atlas Connection
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB Atlas Connected'))
+  .catch(err => console.error('❌ MongoDB Error:', err));
+
 
 // Multer for file uploads
 const storage = multer.diskStorage({
@@ -87,6 +94,8 @@ app.get('/api/health', (req, res) => {
     emailConfigured: !!transporter
   });
 });
+// Blog Routes ← ADD #3
+app.use('/api/blogs', require('./routes/blogs'));
 
 // Appointment Booking API
 app.post('/api/appointment/book', upload.single('screenshot'), async (req, res) => {
