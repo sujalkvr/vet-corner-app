@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
-import NotificationBanner from './components/NotificationBanner'; // ✅ ADD THIS
+import NotificationBanner from './components/NotificationBanner';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import ContactForm from './components/ContactForm';
@@ -15,6 +15,7 @@ import BlogDetail from './components/BlogDetail';
 import AllBlogs from './components/AllBlogs';
 import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminStore from './components/Admin/AdminStore'; // ✅ ADD THIS
 import './index.css';
 
 const ScrollToSection = () => {
@@ -42,7 +43,7 @@ function App() {
           <Route path="/" element={
             <>
               <Navbar />
-              <NotificationBanner /> {/* ✅ ADD THIS */}
+              <NotificationBanner />
               <Hero />
               <About />
               <Services />
@@ -57,7 +58,7 @@ function App() {
           <Route path="/services" element={
             <>
               <Navbar />
-              <NotificationBanner /> {/* ✅ ADD THIS */}
+              <NotificationBanner />
               <Services />
               <Footer />
             </>
@@ -66,7 +67,7 @@ function App() {
           <Route path="/appointment" element={
             <>
               <Navbar />
-              <NotificationBanner /> {/* ✅ ADD THIS */}
+              <NotificationBanner />
               <Appointment />
               <Footer />
             </>
@@ -81,12 +82,13 @@ function App() {
           {/* ADMIN ROUTES (No Navbar/Footer) */}
           <Route path="/admin" element={<SignIn />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/store" element={<AdminStore />} /> {/* ✅ ADD THIS */}
           
           {/* 404 Fallback */}
           <Route path="*" element={
             <>
               <Navbar />
-              <NotificationBanner /> {/* ✅ ADD THIS */}
+              <NotificationBanner />
               <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
                 <div className="text-center p-12 max-w-md mx-auto">
                   <h1 className="text-6xl font-black text-gray-900 mb-6">404</h1>

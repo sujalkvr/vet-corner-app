@@ -35,14 +35,14 @@ const productSchema = new mongoose.Schema({
 });
 
 // Generate slug before saving
-productSchema.pre('save', function(next) {
+// Generate slug before saving
+productSchema.pre('save', function() {
   if (this.name && !this.slug) {
     this.slug = this.name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '') + '-' + Date.now();
   }
-  next();
 });
 
 module.exports = mongoose.model('Product', productSchema);
