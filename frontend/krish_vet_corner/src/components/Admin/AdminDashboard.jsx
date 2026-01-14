@@ -211,7 +211,7 @@ const AdminDashboard = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Admin Dashboard
+              Welcome Krish Nayak
             </h1>
             <p className="text-gray-600 mt-2">Manage your content</p>
           </div>

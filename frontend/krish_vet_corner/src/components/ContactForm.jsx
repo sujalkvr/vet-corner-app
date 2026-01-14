@@ -10,7 +10,7 @@ const ContactForm = () => {
   const socialLinks = [
     { icon: Instagram, href: 'https://instagram.com/krishvetcorner', color: 'from-pink-500 to-purple-500' },
     { icon: Youtube, href: 'https://youtube.com/@krishvetcorner', color: 'from-red-500 to-yellow-500' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/krish-vet-corner', color: 'from-blue-500 to-blue-700' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/krish-vet-corner/', color: 'from-blue-500 to-blue-700' }
   ];
 
   const handleSubmit = async (e) => {
@@ -77,7 +77,7 @@ const ContactForm = () => {
                 <MapPin className="w-12 h-12 text-emerald-500 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <div>
                   <h4 className="font-bold text-xl text-gray-900 mb-2">Visit Us</h4>
-                  <p className="text-gray-700 leading-relaxed">Warsaw, Mazovia<br/>Poland - 00-001</p>
+                  <p className="text-gray-700 leading-relaxed">Koramangala 4rth block<br/>Bangalore 560095</p>
                 </div>
               </a>
 
@@ -85,7 +85,7 @@ const ContactForm = () => {
                 <Phone className="w-12 h-12 text-blue-500 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <div>
                   <h4 className="font-bold text-xl text-gray-900 mb-2">Call Us</h4>
-                  <p className="text-gray-700 leading-relaxed">+48 123 456 789</p>
+                  <p className="text-gray-700 leading-relaxed">+91 7338612963</p>
                 </div>
               </a>
 
@@ -93,7 +93,7 @@ const ContactForm = () => {
                 <Mail className="w-12 h-12 text-teal-500 mt-1 flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <div>
                   <h4 className="font-bold text-xl text-gray-900 mb-2">Email</h4>
-                  <p className="text-gray-700 leading-relaxed">hello@krishvetcorner.com</p>
+                  <p className="text-gray-700 leading-relaxed">vetcorner2025@gmail.com</p>
                 </div>
               </a>
             </div>
@@ -162,7 +162,7 @@ const ContactForm = () => {
                       type="tel"
                       name="_phone"  // Formspree special field for phone
                       className="w-full p-5 border-2 border-gray-200 rounded-3xl focus:border-blue-400 focus:ring-4 focus:ring-blue-200/50 focus:outline-none transition-all duration-400 text-lg bg-white/60 backdrop-blur-sm shadow-xl hover:shadow-2xl"
-                      placeholder="+48 123 456 789"
+                      placeholder="+91 7663563563"
                     />
                   </div>
                   <div>

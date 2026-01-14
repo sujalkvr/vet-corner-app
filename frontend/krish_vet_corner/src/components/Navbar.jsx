@@ -5,17 +5,15 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  // In Navbar.jsx - Replace navLinks array with:
-const navLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Services', path: '#services' },
-  { name: 'About', path: '#about' },
-  { name: 'Blog', path: '#blog' },
-  { name: 'Contact', path: '#contact' },
-  { name: 'Appointment', path: '/appointment' },
-  { name: 'Admin', path: '/admin' }
-];
-
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '#services' },
+    { name: 'About', path: '#about' },
+    { name: 'Blog', path: '#blog' },
+    { name: 'Contact', path: '#contact' },
+    { name: 'Appointment', path: '/appointment' },
+    { name: 'Admin', path: '/admin' }
+  ];
 
   return (
     <>
@@ -26,11 +24,13 @@ const navLinks = [
             {/* Logo */}
             <Link 
               to="/" 
-              className="flex items-center space-x-2 group cursor-pointer"
+              className="flex items-center space-x-3 group cursor-pointer"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg group-hover:scale-110 transition-all duration-300 flex items-center justify-center">
-                <span className="text-xl font-bold text-white">K</span>
-              </div>
+              <img 
+                src="images/logo.png" 
+                alt="Krish Vet Corner" 
+                className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 rounded-lg shadow-md hover:shadow-lg"
+              />
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                 Krish Vet Corner
               </span>

@@ -14,7 +14,7 @@ const Footer = () => (
         <a href="/appointment" className="hover:text-emerald-400 transition-colors">📅 Book</a>
       </div>
       <div className="border-t border-gray-700 pt-8 text-sm text-gray-400">
-        © 2026 Krish Vet Corner. All rights reserved. Warsaw, Poland.
+        © 2026 Krish Vet Corner. All rights reserved. Koramangala, Bangalore.
       </div>
     </div>
   </footer>

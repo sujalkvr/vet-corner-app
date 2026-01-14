@@ -115,7 +115,7 @@ const Appointment = () => {
               {/* QR Image */}
               <div className="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg border-4 border-dashed border-emerald-300/50 hover:border-emerald-400/70 transition-all duration-400 overflow-hidden">
                 <img 
-                  src="/images/qr-payment.png" 
+                  src="/images/qr.jpg" 
                   alt="Payment QR Code" 
                   className="w-48 h-48 mx-auto rounded-xl shadow-xl group-hover:scale-105 transition-transform duration-300 object-cover border-4 border-white/50"
                 />
@@ -164,7 +164,7 @@ const Appointment = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-emerald-300/40 hover:border-emerald-400"
-                    placeholder="John Doe"
+                    placeholder="Rahul tripathi"
                   />
                 </div>
                 <div>
@@ -176,7 +176,7 @@ const Appointment = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-teal-500 focus:ring-2 focus:ring-teal-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-teal-300/40 hover:border-teal-400"
-                    placeholder="Max"
+                    placeholder="Chintu"
                   />
                 </div>
               </div>
@@ -192,7 +192,7 @@ const Appointment = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-blue-300/40 hover:border-blue-400"
-                    placeholder="john@example.com"
+                    placeholder="Rahul@gmail.com"
                   />
                 </div>
                 <div>
@@ -204,7 +204,7 @@ const Appointment = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-purple-300/40 hover:border-purple-400"
-                    placeholder="+48 123 456 789"
+                    placeholder="+91 7338696563"
                   />
                 </div>
               </div>
