@@ -17,6 +17,11 @@ import {
   AlertCircle
 } from 'lucide-react';
 
+const checkStoreAuth = () => {
+  const token = localStorage.getItem('storeAuthToken');
+  return !!token;
+};
+
 const AdminStore = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -37,11 +42,22 @@ const AdminStore = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (!token) navigate('/admin');
-    fetchProducts();
-  }, []);
+ useEffect(() => {
+  const adminToken = localStorage.getItem('adminToken');
+  const storeToken = localStorage.getItem('storeAuthToken');
+  
+  if (!adminToken) {
+    navigate('/admin');
+    return;
+  }
+  
+  if (!storeToken) {
+    navigate('/admin/store/auth');
+    return;
+  }
+  
+  fetchProducts();
+}, []);
 
   useEffect(() => {
     filterProducts();

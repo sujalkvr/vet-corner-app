@@ -16,6 +16,7 @@ import AllBlogs from './components/AllBlogs';
 import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminStore from './components/Admin/AdminStore'; // ✅ ADD THIS
+import AdminStoreAuth from './components/Admin/AdminStoreAuth';
 import './index.css';
 
 const ScrollToSection = () => {
@@ -82,6 +83,7 @@ function App() {
           {/* ADMIN ROUTES (No Navbar/Footer) */}
           <Route path="/admin" element={<SignIn />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/store/auth" element={<AdminStoreAuth />} />
           <Route path="/admin/store" element={<AdminStore />} /> {/* ✅ ADD THIS */}
           
           {/* 404 Fallback */}
