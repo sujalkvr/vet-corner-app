@@ -216,6 +216,12 @@ const AdminDashboard = () => {
             <p className="text-gray-600 mt-2">Manage your content</p>
           </div>
           <div className="flex gap-3">
+            <a 
+  href="/admin/store"
+  className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all shadow-lg"
+>
+  <span className="hidden sm:inline">Store</span>
+</a>
             
               <a href="/"
               target="_blank"
