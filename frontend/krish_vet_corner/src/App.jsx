@@ -1,4 +1,4 @@
-// src/App.jsx - ADD NOTIFICATION BANNER
+// src/App.jsx - UPDATED WITH PAYMENT ROUTE
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
@@ -15,8 +15,11 @@ import BlogDetail from './components/BlogDetail';
 import AllBlogs from './components/AllBlogs';
 import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
-import AdminStore from './components/Admin/AdminStore'; // ✅ ADD THIS
+import AdminStore from './components/Admin/AdminStore';
 import AdminStoreAuth from './components/Admin/AdminStoreAuth';
+import Store from './components/Store';
+import ProductsByCategory from './components/ProductsByCategory';
+import Payment from './components/Payment'; // ✅ ADD THIS
 import './index.css';
 
 const ScrollToSection = () => {
@@ -50,6 +53,7 @@ function App() {
               <Services />
               <Reviews />
               <BlogSection />
+              <Store />
               <ContactForm />
               <Footer />
             </>
@@ -79,12 +83,16 @@ function App() {
 
           {/* BLOG DETAIL PAGE */}
           <Route path="/blog/:slug" element={<BlogDetail />} />
+
+          {/* STORE & PAYMENT ROUTES */}
+          <Route path="/store/:category" element={<ProductsByCategory />} />
+          <Route path="/payment" element={<Payment />} /> {/* ✅ ADD THIS */}
           
           {/* ADMIN ROUTES (No Navbar/Footer) */}
           <Route path="/admin" element={<SignIn />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/store/auth" element={<AdminStoreAuth />} />
-          <Route path="/admin/store" element={<AdminStore />} /> {/* ✅ ADD THIS */}
+          <Route path="/admin/store" element={<AdminStore />} />
           
           {/* 404 Fallback */}
           <Route path="*" element={
