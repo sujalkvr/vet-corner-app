@@ -21,6 +21,8 @@ import Store from './components/Store';
 import ProductsByCategory from './components/ProductsByCategory';
 import Payment from './components/Payment'; // ✅ ADD THIS
 import './index.css';
+import Animation from './components/Animation';
+import Faq from './components/Faq';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -54,6 +56,7 @@ function App() {
               <Reviews />
               <BlogSection />
               <Store />
+              <Faq/>
               <ContactForm />
               <Footer />
             </>
