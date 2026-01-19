@@ -39,9 +39,9 @@ const Faq = () => {
   const images = [
     "/images/faq1.jpeg",
     "/images/faq2.jpeg",
-    "/images/faq3.jpg",
-    "/images/faq4.jpg",
-    "/images/faq5.jpg",
+    "/images/faq3.jpeg",
+    "/images/faq4.jpeg",
+    "/images/faq5.jpeg",
    
   ];
 
