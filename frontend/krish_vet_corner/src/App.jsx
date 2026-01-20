@@ -48,8 +48,8 @@ function App() {
           {/* HOME - COMPLETE SINGLE PAGE */}
           <Route path="/" element={
             <>
-              <Navbar />
               <NotificationBanner />
+              <Navbar />
               <Hero />
               <About />
               <Services />

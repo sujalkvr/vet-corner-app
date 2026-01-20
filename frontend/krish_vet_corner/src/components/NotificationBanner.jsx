@@ -1,12 +1,8 @@
-// src/components/NotificationBanner.jsx - CLEAN FULL WIDTH DESIGN
-import { useState, useEffect } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from "react";
 
 const NotificationBanner = () => {
   const [notifications, setNotifications] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     fetchNotifications();
@@ -14,137 +10,92 @@ const NotificationBanner = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/notifications');
-      const data = await response.json();
-      if (data.length > 0) {
+      const res = await fetch("http://localhost:5000/api/notifications");
+      const data = await res.json();
+      if (Array.isArray(data)) {
         setNotifications(data);
       }
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
+    } catch (err) {
+      console.error("Failed to fetch notifications", err);
+      // Fallback demo notifications for testing
+      setNotifications([
+        { id: 1, content: "Welcome to our platform!" },
+        { id: 2, content: "New features available now" },
+        { id: 3, content: "Check out our latest updates" },
+        { id: 4, content: "Special offer - Limited time only" }
+      ]);
     }
   };
 
-  // Auto-slide notifications every 2.5 seconds
-  useEffect(() => {
-    if (notifications.length <= 1 || !isVisible || isPaused) return;
+  if (notifications.length === 0 || !isVisible) return null;
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % notifications.length);
-    }, 2500);
-
-    return () => clearInterval(interval);
-  }, [notifications.length, isVisible, isPaused]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + notifications.length) % notifications.length);
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % notifications.length);
-  };
-
-  if (!isVisible || notifications.length === 0) return null;
-
-  const currentNotification = notifications[currentIndex];
+  // Create many duplicates for truly infinite scroll
+  const infiniteNotifications = Array(10).fill(notifications).flat();
 
   return (
-    <div className="bg-white border-b-2 border-emerald-200 shadow-sm sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div 
-          className="flex items-center justify-center gap-6 py-4"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          {/* Navigation - Left Arrow */}
-          {notifications.length > 1 && (
-            <button
-              onClick={handlePrev}
-              className="flex-shrink-0 p-2.5 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 transition-all duration-300 hover:scale-110"
-              aria-label="Previous notification"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-          )}
-
-          {/* Notification Content */}
-          <div className="flex items-center gap-5 flex-1 max-w-4xl">
-            {/* Large Image */}
-            <div className="flex-shrink-0">
-              <img
-                src={`http://localhost:5000${currentNotification.image}`}
-                alt="Notification"
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-3 border-emerald-300 shadow-lg"
-                onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/80?text=🔔';
-                }}
-              />
-            </div>
-
-            {/* Large Text Content */}
-            <div className="flex-1 min-w-0">
-              <p className="text-gray-900 font-bold text-lg sm:text-xl md:text-2xl leading-tight">
-                {currentNotification.content}
-              </p>
-            </div>
-
-            {/* Dots Indicator */}
-            {notifications.length > 1 && (
-              <div className="hidden md:flex items-center gap-2.5">
-                {notifications.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === currentIndex
-                        ? 'w-8 h-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md'
-                        : 'w-2.5 h-2.5 bg-gray-300 hover:bg-emerald-300'
-                    }`}
-                    aria-label={`Go to notification ${index + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Navigation - Right Arrow */}
-          {notifications.length > 1 && (
-            <button
-              onClick={handleNext}
-              className="flex-shrink-0 p-2.5 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-700 transition-all duration-300 hover:scale-110"
-              aria-label="Next notification"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          )}
-
-          {/* Close Button */}
-          <button
-            onClick={() => setIsVisible(false)}
-            className="flex-shrink-0 p-2.5 rounded-full bg-gray-100 hover:bg-red-100 text-gray-600 hover:text-red-600 transition-all duration-300 hover:scale-110"
-            aria-label="Close notification"
+    <div style={{
+      backgroundColor: '#059669',
+      overflow: 'hidden',
+      height: '28px',
+      display: 'flex',
+      alignItems: 'center',
+      position: 'relative',
+      width: '100%'
+    }}>
+      <div style={{
+        display: 'flex',
+        animation: 'scrollContinuous 40s linear infinite',
+        whiteSpace: 'nowrap',
+        willChange: 'transform'
+      }}>
+        {infiniteNotifications.map((item, index) => (
+          <span
+            key={index}
+            style={{
+              color: 'white',
+              fontSize: '13px',
+              fontWeight: '500',
+              paddingRight: '80px',
+              display: 'inline-block'
+            }}
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            {item.content}
+          </span>
+        ))}
       </div>
-
-      {/* Mobile Dots Indicator */}
-      {notifications.length > 1 && (
-        <div className="md:hidden flex justify-center items-center gap-2 pb-3">
-          {notifications.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentIndex
-                  ? 'w-8 h-2 bg-gradient-to-r from-emerald-500 to-teal-500'
-                  : 'w-2 h-2 bg-gray-300'
-              }`}
-              aria-label={`Go to notification ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      
+      <button
+        onClick={() => setIsVisible(false)}
+        style={{
+          position: 'absolute',
+          right: '10px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          backgroundColor: 'transparent',
+          border: 'none',
+          color: 'white',
+          fontSize: '18px',
+          cursor: 'pointer',
+          padding: '4px 8px',
+          lineHeight: '1',
+          fontWeight: 'bold',
+          zIndex: 10
+        }}
+        aria-label="Close notifications"
+      >
+        ✕
+      </button>
+      
+      <style>{`
+        @keyframes scrollContinuous {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </div>
   );
 };

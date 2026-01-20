@@ -3,6 +3,97 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Trash2, LogOut, Eye, Star, Calendar, FileText, Bell, Power, PowerOff } from 'lucide-react';
 
+// Blog Card Component - MOVED OUTSIDE
+const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className={`border-2 rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
+      isFeatured 
+        ? 'border-emerald-300 bg-white hover:border-emerald-400 hover:shadow-lg' 
+        : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg'
+    }`}>
+      <div className="flex flex-col sm:flex-row gap-4">
+        {/* Blog Image */}
+        <div className="w-full sm:w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
+          {blog.images && blog.images.length > 0 ? (
+            <img
+              src={`http://localhost:5000${blog.images[0]}`}
+              alt={blog.title}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/150?text=Blog';
+              }}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-4xl">
+              🐾
+            </div>
+          )}
+        </div>
+
+        {/* Blog Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                {isFeatured && (
+                  <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
+                    <Star className="w-3 h-3 mr-1 fill-current" />
+                    Featured #{index + 1}
+                  </span>
+                )}
+                <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
+                  {new Date(blog.createdAt).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric'
+                  })}
+                </span>
+              </div>
+              <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-2 line-clamp-2">
+                {blog.title}
+              </h3>
+            </div>
+            <button
+              onClick={() => onDelete(blog._id)}
+              className="p-2 sm:p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all flex-shrink-0 group"
+              title="Delete blog"
+            >
+              <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
+            </button>
+          </div>
+
+          <p className={`text-gray-600 text-sm leading-relaxed mb-3 ${
+            isExpanded ? '' : 'line-clamp-2'
+          }`}>
+            {blog.content}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
+            >
+              {isExpanded ? '▲ Show Less' : '▼ Read More'}
+            </button>
+            
+            <a 
+              href={`/blog/${blog.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center"
+            >
+              <Eye size={16} className="mr-1" />
+              View Live
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AdminDashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [notifications, setNotifications] = useState([]);
@@ -10,7 +101,6 @@ const AdminDashboard = () => {
   const [content, setContent] = useState('');
   const [images, setImages] = useState([]);
   const [notificationContent, setNotificationContent] = useState('');
-  const [notificationImage, setNotificationImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [notificationLoading, setNotificationLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('create');
@@ -114,23 +204,18 @@ const AdminDashboard = () => {
 
   const handleNotificationSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!notificationImage) {
-      alert('Please upload an image');
-      return;
-    }
 
     setNotificationLoading(true);
     const token = localStorage.getItem('adminToken');
-    const formData = new FormData();
-    formData.append('content', notificationContent);
-    formData.append('image', notificationImage);
 
     try {
       const response = await fetch('http://localhost:5000/api/notifications', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: notificationContent })
       });
 
       const data = await response.json();
@@ -138,8 +223,6 @@ const AdminDashboard = () => {
       if (data.success) {
         alert('✅ Notification created successfully!');
         setNotificationContent('');
-        setNotificationImage(null);
-        document.getElementById('notificationImageInput').value = '';
         fetchNotifications();
       } else {
         alert(data.message || 'Error creating notification');
@@ -217,16 +300,17 @@ const AdminDashboard = () => {
           </div>
           <div className="flex gap-3">
             <button
-  onClick={() => {
-    localStorage.removeItem('storeAuthToken');
-    navigate('/admin/store/auth');
-  }}
-  className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all shadow-lg"
->
-  <span className="hidden sm:inline">Store</span>
-</button>
+              onClick={() => {
+                localStorage.removeItem('storeAuthToken');
+                navigate('/admin/store/auth');
+              }}
+              className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all shadow-lg"
+            >
+              <span className="hidden sm:inline">Store</span>
+            </button>
             
-              <a href="/"
+            <a 
+              href="/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-all shadow-lg"
@@ -504,37 +588,6 @@ const AdminDashboard = () => {
                   </p>
                 </div>
 
-                <div>
-                  <label className="block font-semibold mb-2 text-gray-700">Upload Image *</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-purple-400 transition-all bg-gray-50">
-                    <Upload className="w-10 h-10 mx-auto text-gray-400 mb-3" />
-                    <input
-                      id="notificationImageInput"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setNotificationImage(e.target.files[0])}
-                      className="hidden"
-                      required
-                      disabled={notificationLoading}
-                    />
-                    <label
-                      htmlFor="notificationImageInput"
-                      className="cursor-pointer inline-block px-6 py-3 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all font-semibold"
-                    >
-                      Choose Image
-                    </label>
-                    <p className="text-sm text-gray-600 mt-3">
-                      {notificationImage ? (
-                        <span className="text-green-600 font-semibold">
-                          ✓ {notificationImage.name}
-                        </span>
-                      ) : (
-                        'Recommended: 56x56px square image'
-                      )}
-                    </p>
-                  </div>
-                </div>
-
                 <button
                   type="submit"
                   disabled={notificationLoading}
@@ -575,15 +628,10 @@ const AdminDashboard = () => {
                       }`}
                     >
                       <div className="flex items-center gap-4">
-                        {/* Image */}
-                        <img
-                          src={`http://localhost:5000${notification.image}`}
-                          alt="Notification"
-                          className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-md flex-shrink-0"
-                          onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/56?text=🔔';
-                          }}
-                        />
+                        {/* Icon */}
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-2xl flex-shrink-0 shadow-md">
+                          🔔
+                        </div>
 
                         {/* Content */}
                         <div className="flex-1 min-w-0">
@@ -635,94 +683,4 @@ const AdminDashboard = () => {
   );
 };
 
-// Blog Card Component
-const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  return (
-    <div className={`border-2 rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
-      isFeatured 
-        ? 'border-emerald-300 bg-white hover:border-emerald-400 hover:shadow-lg' 
-        : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg'
-    }`}>
-      <div className="flex flex-col sm:flex-row gap-4">
-        {/* Blog Image */}
-        <div className="w-full sm:w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
-          {blog.images && blog.images.length > 0 ? (
-            <img
-              src={`http://localhost:5000${blog.images[0]}`}
-              alt={blog.title}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/150?text=Blog';
-              }}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-4xl">
-              🐾
-            </div>
-          )}
-        </div>
-
-        {/* Blog Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                {isFeatured && (
-                  <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
-                    <Star className="w-3 h-3 mr-1 fill-current" />
-                    Featured #{index + 1}
-                  </span>
-                )}
-                <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                  {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric',
-                    year: 'numeric'
-                  })}
-                </span>
-              </div>
-              <h3 className="font-bold text-lg sm:text-xl text-gray-900 mb-2 line-clamp-2">
-                {blog.title}
-              </h3>
-            </div>
-            <button
-              onClick={() => onDelete(blog._id)}
-              className="p-2 sm:p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all flex-shrink-0 group"
-              title="Delete blog"
-            >
-              <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
-            </button>
-          </div>
-
-          <p className={`text-gray-600 text-sm leading-relaxed mb-3 ${
-            isExpanded ? '' : 'line-clamp-2'
-          }`}>
-            {blog.content}
-          </p>
-
-          <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
-            >
-              {isExpanded ? '▲ Show Less' : '▼ Read More'}
-              </button>
-        
-          <a href={`/blog/${blog.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center"
-        >
-          <Eye size={16} className="mr-1" />
-          View Live
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-        );
-    };
-
-    export default AdminDashboard;
+export default AdminDashboard;
