@@ -6,10 +6,10 @@ const Hero = () => {
   const [currentImage, setCurrentImage] = useState(0);
   
   const images = [
-    '/images/hero11.jpg',
-    '/images/hero12.jpg', 
-    '/images/hero13.jpg',
-    '/images/hero14.jpg'
+    '/images/faq1.jpg',
+    '/images/faq2.jpg', 
+    '/images/faq3.jpg',
+    '/images/faq4.jpg'
   ];
 
   useEffect(() => {
