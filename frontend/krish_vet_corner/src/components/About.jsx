@@ -174,6 +174,18 @@ const About = () => {
                 </div>
               ))}
             </div>
+            {/* ADD THIS NEW CODE HERE - Why Choose Us Button */}
+<div className="mt-8 text-center">
+  
+    <a href="/more"
+    className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+  >
+    <Heart className="w-5 h-5 mr-2" />
+    Why Choose Us?
+  </a>
+</div>
+{/* END OF NEW CODE */}
+
           </div>
         </div>
       </div>

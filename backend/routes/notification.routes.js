@@ -1,42 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const Notification = require('../models/Notification');
-
-// Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
-// ============= MULTER CONFIGURATION FOR NOTIFICATIONS =============
-const notificationStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
-    cb(null, 'notification-' + uniqueName);
-  }
-});
-
-const notificationUpload = multer({ 
-  storage: notificationStorage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-    
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed!'));
-    }
-  }
-});
 
 // ============= AUTH MIDDLEWARE =============
 const verifyToken = (req, res, next) => {
@@ -86,8 +50,8 @@ router.get('/all', verifyToken, async (req, res) => {
   }
 });
 
-// 3. Create Notification (Protected)
-router.post('/', verifyToken, notificationUpload.single('image'), async (req, res) => {
+// 3. Create Notification (Protected) - NO IMAGE
+router.post('/', verifyToken, async (req, res) => {
   try {
     const { content } = req.body;
     
@@ -98,18 +62,8 @@ router.post('/', verifyToken, notificationUpload.single('image'), async (req, re
       });
     }
     
-    if (!req.file) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Image is required' 
-      });
-    }
-    
-    const image = `/uploads/${req.file.filename}`;
-    
     const notification = new Notification({ 
-      content, 
-      image,
+      content,
       isActive: true
     });
     
@@ -174,12 +128,6 @@ router.delete('/:id', verifyToken, async (req, res) => {
         success: false,
         message: 'Notification not found' 
       });
-    }
-    
-    // Delete associated image
-    const filePath = path.join(__dirname, '..', notification.image);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
     }
     
     console.log('🗑️ Notification deleted:', notification.content);

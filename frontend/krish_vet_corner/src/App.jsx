@@ -23,6 +23,7 @@ import Payment from './components/Payment'; // ✅ ADD THIS
 import './index.css';
 import Animation from './components/Animation';
 import Faq from './components/Faq';
+import More from './components/More';
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -77,6 +78,14 @@ function App() {
               <Navbar />
               <NotificationBanner />
               <Appointment />
+              <Footer />
+            </>
+          } />
+          <Route path="/more" element={
+            <>
+              <Navbar />
+              <NotificationBanner />
+              <More/>
               <Footer />
             </>
           } />
