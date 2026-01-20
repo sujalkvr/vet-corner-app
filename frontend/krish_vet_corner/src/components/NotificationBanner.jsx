@@ -39,8 +39,11 @@ const NotificationBanner = () => {
       height: '28px',
       display: 'flex',
       alignItems: 'center',
-      position: 'relative',
-      width: '100%'
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      zIndex: 9999
     }}>
       <div style={{
         display: 'flex',

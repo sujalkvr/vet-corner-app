@@ -9,7 +9,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'Services', path: '#services' },
     { name: 'About', path: '#about' },
-    { name: 'Store', path: '#store' }, // ✅ ADD THIS
+    { name: 'Store', path: '#store' },
     { name: 'Blog', path: '#blog' },
     { name: 'Contact', path: '#contact' },
     { name: 'Appointment', path: '/appointment' },
@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="bg-white/80 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-gray-100">
+      <nav className="bg-white/80 backdrop-blur-xl shadow-xl sticky top-[28px] z-40 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -71,7 +71,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl">
+        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed top-[44px] left-0 right-0 z-30">
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
             {navLinks.map((link) => (
               <Link
