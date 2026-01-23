@@ -1,9 +1,9 @@
-// src/components/Services.jsx - SINGLE ROW BUTTONS FIXED
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Services = () => {
   const [openModal, setOpenModal] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const services = [
     {
@@ -17,22 +17,22 @@ const Services = () => {
       features: ['Routine health checkups', 'Diagnostic examinations', 'Treatment planning', 'Health counseling']
     },
     {
-        id: 2,
-        title: 'Vaccination',
-        subtitle: 'Complete vaccination schedules for optimal protection',
-        brief: 'Full puppy/kitten vaccination series available. Adult booster shots and rabies vaccines. Customized schedules based on lifestyle.',
-        bgColor: 'from-blue-400/80 to-emerald-500/80',
-        image: 'images/services2.jpg',
-        details: 'We follow the latest veterinary guidelines with complete vaccination schedules customized for puppies, kittens, and adult pets. Our vaccination programs protect against deadly diseases with regular boosters to maintain lifelong immunity.',
-        features: ['Puppy/Kitten series', 'Adult boosters', 'Rabies vaccination', 'Lifestyle vaccines']
+      id: 2,
+      title: 'Vaccination',
+      subtitle: 'Complete vaccination schedules for optimal protection',
+      brief: 'Full puppy/kitten vaccination series available. Adult booster shots and rabies vaccines. Customized schedules based on lifestyle.',
+      bgColor: 'from-blue-400/80 to-emerald-500/80',
+      image: 'images/services2.jpg',
+      details: 'We follow the latest veterinary guidelines with complete vaccination schedules customized for puppies, kittens, and adult pets. Our vaccination programs protect against deadly diseases with regular boosters to maintain lifelong immunity.',
+      features: ['Puppy/Kitten series', 'Adult boosters', 'Rabies vaccination', 'Lifestyle vaccines']
     },
     {
-        id: 3,
-        title: 'Nutrition',
-        subtitle: 'Personalized nutrition plans for pet wellness',
-        brief: 'Custom diet plans for all life stages. Weight management programs. Special medical diets and supplements.',
-        bgColor: 'from-purple-400/80 to-pink-500/80',
-        image: 'images/services3.jpg',
+      id: 3,
+      title: 'Nutrition',
+      subtitle: 'Personalized nutrition plans for pet wellness',
+      brief: 'Custom diet plans for all life stages. Weight management programs. Special medical diets and supplements.',
+      bgColor: 'from-purple-400/80 to-pink-500/80',
+      image: 'images/services3.jpg',
       details: 'Nutrition consultations with specialized diets for all life stages, medical conditions, and weight management. We recommend premium foods and create feeding plans based on your pet\'s age, breed, activity level, and health requirements.',
       features: ['Dietary assessments', 'Weight management', 'Special needs diets', 'Supplement guidance']
     }
@@ -40,10 +40,44 @@ const Services = () => {
 
   const currentService = services.find(s => s.id === openModal);
 
+  // Desktop: Show 3 at a time
+  const visibleServicesDesktop = services.slice(currentIndex, currentIndex + 3);
+  const canGoPreviousDesktop = currentIndex > 0;
+  const canGoNextDesktop = currentIndex < services.length - 3;
+
+  // Mobile: Show 1 at a time
+  const visibleServiceMobile = services[currentIndex];
+  const canGoPreviousMobile = currentIndex > 0;
+  const canGoNextMobile = currentIndex < services.length - 1;
+
+  const handlePreviousDesktop = () => {
+    if (canGoPreviousDesktop) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  };
+
+  const handleNextDesktop = () => {
+    if (canGoNextDesktop) {
+      setCurrentIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePreviousMobile = () => {
+    if (canGoPreviousMobile) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  };
+
+  const handleNextMobile = () => {
+    if (canGoNextMobile) {
+      setCurrentIndex(prev => prev + 1);
+    }
+  };
+
   return (
     <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50/70 via-white to-blue-50/50">
       <div className="max-w-7xl mx-auto">
-        {/* Section Heading + Cards - UNCHANGED */}
+        {/* Section Heading */}
         <div className="text-center mb-24">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 drop-shadow-xl mb-6 leading-tight">
             Our Core Services
@@ -53,36 +87,150 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {services.map((service) => (
+        {/* Desktop View (3 cards with navigation) - Hidden on mobile */}
+        <div className="hidden lg:block relative mb-20">
+          {/* Navigation Buttons for Desktop */}
+          {services.length > 3 && (
+            <>
+              <button
+                onClick={handlePreviousDesktop}
+                disabled={!canGoPreviousDesktop}
+                className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 z-20 w-16 h-16 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
+                  canGoPreviousDesktop 
+                    ? 'hover:bg-emerald-500 hover:text-white hover:scale-110 text-emerald-600' 
+                    : 'opacity-30 cursor-not-allowed text-gray-400'
+                }`}
+              >
+                <ChevronLeft size={32} />
+              </button>
+              
+              <button
+                onClick={handleNextDesktop}
+                disabled={!canGoNextDesktop}
+                className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 z-20 w-16 h-16 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
+                  canGoNextDesktop 
+                    ? 'hover:bg-emerald-500 hover:text-white hover:scale-110 text-emerald-600' 
+                    : 'opacity-30 cursor-not-allowed text-gray-400'
+                }`}
+              >
+                <ChevronRight size={32} />
+              </button>
+            </>
+          )}
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {visibleServicesDesktop.map((service) => (
+              <div
+                key={service.id}
+                className="relative h-96 rounded-3xl overflow-hidden shadow-2xl hover:shadow-emerald-500/30 hover:shadow-3xl transition-all duration-700 hover:-translate-y-3 cursor-pointer group"
+                onClick={() => setOpenModal(service.id)}
+              >
+                <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${service.image})` }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                <div className={`absolute inset-0 ${service.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-700 backdrop-blur-sm`} />
+                
+                <div className="absolute inset-0 p-8 flex flex-col justify-center text-white z-10">
+                  <div className="mb-6 text-center">
+                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-black drop-shadow-2xl mb-4 leading-tight">
+                      {service.title}
+                    </h3>
+                    <div className="subtitle text-lg md:text-xl font-semibold drop-shadow-xl mb-6 opacity-95">
+                      {service.subtitle}
+                    </div>
+                  </div>
+                  <div className="brief text-sm md:text-base text-white/90 font-normal leading-relaxed max-w-md mx-auto drop-shadow-lg mb-8 px-2 text-center">
+                    {service.brief.split('. ').map((sentence, idx) => (
+                      <span key={idx} className="block mb-1 last:mb-0">{sentence.trim()}.</span>
+                    ))}
+                  </div>
+                  <div className="text-center">
+                    <button className="group/btn relative px-10 py-4 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm md:text-base rounded-2xl shadow-xl hover:bg-white/60 hover:border-white/80 hover:shadow-2xl hover:scale-105 transition-all duration-400">
+                      <span className="flex items-center justify-center space-x-2">
+                        <span>Learn More</span>
+                        <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination Dots for Desktop */}
+          {services.length > 3 && (
+            <div className="flex justify-center gap-2 mt-8">
+              {Array.from({ length: services.length - 2 }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentIndex === idx 
+                      ? 'bg-emerald-600 w-8' 
+                      : 'bg-emerald-300 hover:bg-emerald-400'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Mobile View (1 card with navigation) - Hidden on desktop */}
+        <div className="lg:hidden relative mb-20">
+          {/* Navigation Buttons for Mobile */}
+          <button
+            onClick={handlePreviousMobile}
+            disabled={!canGoPreviousMobile}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20 w-12 h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
+              canGoPreviousMobile 
+                ? 'hover:bg-emerald-500 hover:text-white hover:scale-110 text-emerald-600' 
+                : 'opacity-30 cursor-not-allowed text-gray-400'
+            }`}
+          >
+            <ChevronLeft size={24} />
+          </button>
+          
+          <button
+            onClick={handleNextMobile}
+            disabled={!canGoNextMobile}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-20 w-12 h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
+              canGoNextMobile 
+                ? 'hover:bg-emerald-500 hover:text-white hover:scale-110 text-emerald-600' 
+                : 'opacity-30 cursor-not-allowed text-gray-400'
+            }`}
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          <div className="px-8">
             <div
-              key={service.id}
-              className="relative h-96 rounded-3xl overflow-hidden shadow-2xl hover:shadow-emerald-500/30 hover:shadow-3xl transition-all duration-700 hover:-translate-y-3 cursor-pointer group"
-              onClick={() => setOpenModal(service.id)}
+              className="relative h-96 rounded-3xl overflow-hidden shadow-2xl cursor-pointer group"
+              onClick={() => setOpenModal(visibleServiceMobile.id)}
             >
-              <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${service.image})` }} />
+              <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${visibleServiceMobile.image})` }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              <div className={`absolute inset-0 ${service.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-700 backdrop-blur-sm`} />
+              <div className={`absolute inset-0 ${visibleServiceMobile.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-700 backdrop-blur-sm`} />
               
               <div className="absolute inset-0 p-8 flex flex-col justify-center text-white z-10">
                 <div className="mb-6 text-center">
-                  <h3 className="text-2xl md:text-3xl lg:text-4xl font-black drop-shadow-2xl mb-4 leading-tight">
-                    {service.title}
+                  <h3 className="text-2xl md:text-3xl font-black drop-shadow-2xl mb-4 leading-tight">
+                    {visibleServiceMobile.title}
                   </h3>
-                  <div className="subtitle text-lg md:text-xl font-semibold drop-shadow-xl mb-6 opacity-95">
-                    {service.subtitle}
+                  <div className="subtitle text-lg font-semibold drop-shadow-xl mb-6 opacity-95">
+                    {visibleServiceMobile.subtitle}
                   </div>
                 </div>
-                <div className="brief text-sm md:text-base text-white/90 font-normal leading-relaxed max-w-md mx-auto drop-shadow-lg mb-8 px-2 text-center">
-                  {service.brief.split('. ').map((sentence, idx) => (
+                <div className="brief text-sm text-white/90 font-normal leading-relaxed max-w-md mx-auto drop-shadow-lg mb-8 px-2 text-center">
+                  {visibleServiceMobile.brief.split('. ').map((sentence, idx) => (
                     <span key={idx} className="block mb-1 last:mb-0">{sentence.trim()}.</span>
                   ))}
                 </div>
                 <div className="text-center">
-                  <button className="group/btn relative px-10 py-4 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm md:text-base rounded-2xl shadow-xl hover:bg-white/60 hover:border-white/80 hover:shadow-2xl hover:scale-105 transition-all duration-400">
+                  <button className="group/btn relative px-10 py-4 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm rounded-2xl shadow-xl hover:bg-white/60 hover:border-white/80 hover:shadow-2xl hover:scale-105 transition-all duration-400">
                     <span className="flex items-center justify-center space-x-2">
                       <span>Learn More</span>
-                      <svg className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </span>
@@ -90,23 +238,26 @@ const Services = () => {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="text-center">
-          <Link to="/services" className="group relative inline-flex items-center px-16 py-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-500 overflow-hidden border border-white/20 backdrop-blur-sm">
-            <span className="relative z-10 flex items-center space-x-3">
-              Explore All Services
-              <svg className="w-6 h-6 group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-          </Link>
+          {/* Pagination Dots for Mobile */}
+          <div className="flex justify-center gap-2 mt-8">
+            {services.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentIndex === idx 
+                    ? 'bg-emerald-600 w-8' 
+                    : 'bg-emerald-300 hover:bg-emerald-400'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* PERFECT SINGLE-ROW MODAL */}
+      {/* Modal - Unchanged */}
       {openModal && currentService && (
         <div 
           className="fixed inset-0 bg-black/85 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 md:p-8"
@@ -116,7 +267,6 @@ const Services = () => {
             className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border-4 border-emerald-200/20 animate-scale-in"
             onClick={e => e.stopPropagation()}
           >
-            {/* HEADER + CLOSE */}
             <div className="p-8 pt-4 pb-6 border-b border-gray-100 flex items-start justify-between">
               <h3 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-xl">
                 {currentService.title}
@@ -129,15 +279,12 @@ const Services = () => {
               </button>
             </div>
 
-            {/* CONTENT - PERFECTLY FILLED */}
             <div className="p-8 flex-1 flex flex-col justify-between">
-              {/* Details */}
               <div className="mb-8">
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-light mb-8">
                   {currentService.details}
                 </p>
                 
-                {/* Features */}
                 <div className="grid grid-cols-2 gap-3">
                   {currentService.features.map((feature, idx) => (
                     <div key={idx} className="flex items-center space-x-3 p-4 bg-emerald-50/80 backdrop-blur-sm rounded-xl border border-emerald-200/50 hover:bg-emerald-100 hover:shadow-md transition-all duration-200">
@@ -149,17 +296,16 @@ const Services = () => {
               </div>
             </div>
 
-            {/* SINGLE ROW BUTTONS - BOTTOM */}
             <div className="px-8 pb-8 pt-6 bg-gradient-to-r from-emerald-50 to-teal-50/50 rounded-b-3xl border-t border-gray-100 flex gap-4">
-              <Link
-                to="/appointment"
+              <a
+                href="/appointment"
                 className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-4 px-6 rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all duration-300 text-center text-lg flex items-center justify-center space-x-2 group"
               >
                 <span>Book {currentService.title}</span>
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </Link>
+              </a>
               <button
                 onClick={() => setOpenModal(null)}
                 className="px-8 py-4 border-2 border-emerald-300/70 bg-white text-emerald-700 font-bold rounded-2xl hover:bg-emerald-50 hover:shadow-lg hover:border-emerald-400 hover:scale-[1.02] transition-all duration-300 text-lg flex items-center justify-center"
@@ -170,6 +316,23 @@ const Services = () => {
           </div>
         </div>
       )}
+
+      <style>{`
+        @keyframes scale-in {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        .animate-scale-in {
+          animation: scale-in 0.3s ease-out;
+        }
+      `}</style>
     </section>
   );
 };
