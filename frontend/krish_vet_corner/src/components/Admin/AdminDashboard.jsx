@@ -308,6 +308,13 @@ const AdminDashboard = () => {
             >
               <span className="hidden sm:inline">Store</span>
             </button>
+
+            <button
+  onClick={() => navigate('/admin/team')}
+  className="flex items-center space-x-2 px-4 py-2 bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition-all shadow-lg"
+>
+  <span className="hidden sm:inline">Team</span>
+</button>
             
             <a 
               href="/"

@@ -83,6 +83,7 @@ app.use('/api/admin', require('./routes/auth.routes'));
 app.use('/api/blogs', require('./routes/blog.routes'));
 app.use('/api/notifications', require('./routes/notification.routes'));
 app.use('/api/products', require('./routes/product.routes.js'));
+app.use('/api/team', require('./routes/teamRoutes'));
 
 // ============= ERROR HANDLING =============
 const multer = require('multer');
@@ -129,4 +130,7 @@ app.listen(PORT, () => {
   console.log('   - POST /api/notifications (Protected)');
   console.log('   - GET  /api/products');
   console.log('   - POST /api/products (Protected)');
+  console.log('   - GET  /api/team');           // ADD THIS LINE
+  console.log('   - POST /api/team (Protected)'); // ADD THIS LINE
+
 });

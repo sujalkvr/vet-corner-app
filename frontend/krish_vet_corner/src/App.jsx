@@ -18,6 +18,7 @@ import SignIn from './components/Admin/SignIn';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminStore from './components/Admin/AdminStore';
 import AdminStoreAuth from './components/Admin/AdminStoreAuth';
+import AdminTeam from './components/Admin/AdminTeam';
 import Store from './components/Store';
 import ProductsByCategory from './components/ProductsByCategory';
 import Payment from './components/Payment';
@@ -113,6 +114,7 @@ function App() {
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/store/auth" element={<AdminStoreAuth />} />
               <Route path="/admin/store" element={<AdminStore />} />
+              <Route path="/admin/team" element={<AdminTeam/>} />
               
               {/* 404 Fallback */}
               <Route path="*" element={
