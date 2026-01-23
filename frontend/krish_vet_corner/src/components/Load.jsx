@@ -26,7 +26,7 @@ const Load = ({ onLoadComplete }) => {
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-black
         bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600
         bg-clip-text text-transparent mb-10 animate-pop">
-        Expert Vet Care - Simplified
+        Krish Vet Corner
       </h1>
 
       {/* Video (UNCHANGED) */}

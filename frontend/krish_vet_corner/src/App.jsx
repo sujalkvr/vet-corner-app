@@ -10,7 +10,7 @@ import ContactForm from './components/ContactForm';
 import Appointment from './components/Appointment';
 import Footer from './components/Footer';
 import About from './components/About';
-import Reviews from './components/Reviews';
+// import Reviews from './components/Reviews';
 import BlogSection from './components/BlogSection';
 import BlogDetail from './components/BlogDetail';
 import AllBlogs from './components/AllBlogs';
@@ -61,7 +61,7 @@ function App() {
                   <Hero />
                   <About />
                   <Services />
-                  <Reviews />
+                  {/* <Reviews /> */}
                   <BlogSection />
                   <Store />
                   <Faq/>
