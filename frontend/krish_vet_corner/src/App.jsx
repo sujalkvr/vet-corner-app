@@ -25,6 +25,7 @@ import Payment from './components/Payment';
 import Animation from './components/Animation';
 import Faq from './components/Faq';
 import More from './components/More';
+import Team from './components/Team';
 import './index.css';
 
 const ScrollToSection = () => {
@@ -62,6 +63,7 @@ function App() {
                   <Hero />
                   <About />
                   <Services />
+                  <Team/>
                   {/* <Reviews /> */}
                   <BlogSection />
                   <Store />
