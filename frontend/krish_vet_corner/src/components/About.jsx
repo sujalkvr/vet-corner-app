@@ -55,56 +55,45 @@ const About = () => {
           {/* LEFT: About Text */}
           <div className="lg:order-1 space-y-8">
             <div className="text-center lg:text-left mb-12 lg:mb-0">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-gray-900 via-emerald-900 to-teal-900 bg-clip-text text-transparent drop-shadow-2xl mb-6 leading-tight">
+                Dr. Krish Banothu
+              </h2>
               <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800 text-sm font-bold rounded-full shadow-lg mb-6">
                 <GraduationCap className="w-4 h-4 mr-2" />
-                DVM | Veterinary Surgeon
+                               DVM | BVSC & AH | DipECC
+
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-gray-900 via-emerald-900 to-teal-900 bg-clip-text text-transparent drop-shadow-2xl mb-6 leading-tight">
-                Krish Nayak
-              </h2>
-              <p className="text-xl md:text-2xl text-gray-700 font-light leading-relaxed max-w-lg mx-auto lg:mx-0">
-                Passionate veterinary surgeon with 8+ years experience in pet healthcare
+               <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-3xl shadow-2xl border border-gray-200/50 hover:shadow-emerald-300/30 transition-all duration-500">
+              <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <Heart className="w-8 h-8 text-red-500 mr-3" />
+                About Krish Vet Corner
+              </h4>
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              A graduate of Madras Veterinary College, one of India’s most renowned veterinary
+institutions, known for its extensive exposure to small animal clinical cases.
+Dr. Krish has specialized experience in small animal medicine and soft tissue surgery
+and is certified in Small Animal Emergency & Critical Care.
+Clinical Experience:
               </p>
             </div>
-
-            {/* Qualifications */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="group p-6 bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl hover:bg-emerald-50/60 hover:scale-[1.02] transition-all duration-500 border border-emerald-100/50 cursor-default">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                    <Award className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl text-gray-900 mb-1">DVM Degree</h4>
-                    <p className="text-emerald-700 font-semibold text-sm">Veterinary Medicine</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed">Bachelor of Veterinary Medicine from Warsaw Veterinary University</p>
-              </div>
-
-              <div className="group p-6 bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl hover:bg-teal-50/60 hover:scale-[1.02] transition-all duration-500 border border-teal-100/50 cursor-default">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300">
-                    <Stethoscope className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xl text-gray-900 mb-1">8+ Years</h4>
-                    <p className="text-teal-700 font-semibold text-sm">Experience</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed">Specializing in small animal surgery, emergency care & preventive medicine</p>
-              </div>
             </div>
 
+           
             {/* Bio */}
             <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-3xl shadow-2xl border border-gray-200/50 hover:shadow-emerald-300/30 transition-all duration-500">
               <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <Heart className="w-8 h-8 text-red-500 mr-3" />
-                About Krish
+                About Krish Vet Corner
               </h4>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Krish Nayak is a dedicated veterinary surgeon with a deep passion for animal welfare. Having treated over 5000 pets, he combines 
-                cutting-edge medical knowledge with genuine compassion for every animal under his care.
+               Krish Vet Corner was founded with a simple but powerful belief: every pet deserves the
+right treatment, and every pet parent deserves clear guidance and expert care —
+irrespective of location or access to veterinary services.
+“I believe continuity of care matters — pet parents shouldn’t have to see a different
+veterinarian at every consultation. My goal isn’t to replace in-person veterinary care, but
+to complement it by providing timely, evidence-based guidance, clear communication,
+and support for informed decisions, especially in stressful or critical moments.”
+— Dr. Krish Banothu
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
                 "Every pet deserves the best care possible" - Krish Nayak
@@ -181,7 +170,7 @@ const About = () => {
     className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
   >
     <Heart className="w-5 h-5 mr-2" />
-    Why Choose Us?
+    Meet Our Team
   </a>
 </div>
 {/* END OF NEW CODE */}

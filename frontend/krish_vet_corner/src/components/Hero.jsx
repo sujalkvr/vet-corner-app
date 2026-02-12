@@ -68,7 +68,7 @@ const Hero = () => {
           
           {/* Badge */}
           <div className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-100/80 backdrop-blur-sm border border-emerald-200 text-emerald-700 font-semibold mb-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-fit">
-            🩺 Trusted Veterinary Care Since 2020
+            🩺 Online Veterinary Care, Made Simple
           </div>
           
           {/* Heading */}
@@ -78,7 +78,8 @@ const Hero = () => {
           
           {/* Subtext */}
           <p className="text-lg sm:text-xl lg:text-2xl text-emerald-800/90 font-light leading-relaxed mb-12 max-w-lg drop-shadow-sm">
-            Expert veterinary care with love & compassion. From routine checkups to emergency treatment.
+            Get reliable guidance for your pet’s health via secure video or teleconsultation — without
+the stress of clinic visits.
           </p>
           
           {/* Buttons */}

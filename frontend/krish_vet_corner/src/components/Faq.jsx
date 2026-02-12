@@ -7,16 +7,16 @@ const Faq = () => {
 
   const faqs = [
     {
-      question: "What services do you offer?",
+      question: "When do I need teleconsultation?",
       answer: "We offer a comprehensive range of services including web development, mobile app development, UI/UX design, and digital marketing solutions tailored to your business needs."
     },
     {
-      question: "How long does a typical project take?",
-      answer: "Project timelines vary based on complexity and scope. A simple website might take 2-4 weeks, while more complex applications can take 2-6 months. We'll provide a detailed timeline during our initial consultation."
+      question: "What is teleconsultation?",
+      answer: "An online consultation allows you to speak with a licensed veterinarian via video or chat from the comfort of your home"
     },
     {
-      question: "What is your pricing structure?",
-      answer: "Our pricing is project-based and depends on your specific requirements. We offer flexible payment plans and provide detailed quotes after understanding your needs. Contact us for a free consultation."
+      question: "Can all pets be treated online?",
+      answer: "Yes, most dogs and cats can receive online guidance. Emergencies or conditions requiring physical examination must be handled at a clinic."
     },
     {
       question: "Do you provide ongoing support?",

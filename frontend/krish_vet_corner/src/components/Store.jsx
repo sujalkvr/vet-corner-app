@@ -7,8 +7,8 @@ const Store = () => {
   const categories = [
     {
       id: 'pet-care',
-      name: 'Pet Care Products',
-      description: 'Premium quality products for your beloved pets',
+      name: 'Book Services',
+      description: 'Your pet deserves the best care. Easily book a consultation at your ease.',
       image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80',
       icon: '🐾',
       gradient: 'from-blue-500 to-cyan-500',
@@ -16,8 +16,8 @@ const Store = () => {
     },
     {
       id: 'courses',
-      name: 'Pet Care Courses',
-      description: 'Learn professional pet care techniques and training',
+      name: 'For Pet Parents',
+      description: 'Access trusted, Vet-Approved pet care guides and products',
       image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&q=80',
       icon: '📚',
       gradient: 'from-purple-500 to-pink-500',
@@ -25,8 +25,8 @@ const Store = () => {
     },
     {
       id: 'others',
-      name: 'Other Products',
-      description: 'Explore our special collection of unique items',
+      name: 'For Students',
+      description: 'Strengthen your clinical skills with structred learning resources',
       image: 'https://images.unsplash.com/photo-1589652717521-10c0d092dea9?w=800&q=80',
       icon: '✨',
       gradient: 'from-orange-500 to-red-500',
@@ -51,7 +51,7 @@ const Store = () => {
             <ShoppingBag className="text-white" size={32} />
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 sm:mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent px-4">
-            Our Store
+             Store
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Discover premium products and courses designed for your pet's health and happiness

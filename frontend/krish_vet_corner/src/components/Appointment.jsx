@@ -91,9 +91,11 @@ const Appointment = () => {
             Book Your Appointment
           </h1>
           <div className="max-w-2xl mx-auto">
-            <p className="text-lg md:text-xl text-gray-700 font-light leading-relaxed">
-              Follow these simple steps: Scan QR → Make Payment → Fill Form → Get Confirmation
-            </p>
+            <h className="text-lg md:text-xl text-gray-700 font-light leading-relaxed">
+              <b>
+              how it works: Book Service Online → Consult with Vet→ Receive Advice/Digital Prescription → Follow-up 
+              </b>
+            </h>
           </div>
         </div>
 
@@ -130,7 +132,7 @@ const Appointment = () => {
               </h4>
               {[
                 '1. Scan QR code using UPI/Google Pay',
-                '2. Complete payment (₹500 consultation fee)',
+                '2. Complete payment based of the fee of your service',
                 '3. Take screenshot of payment confirmation',
                 '4. Fill all details carefully',
                 '5. Upload payment proof & submit',

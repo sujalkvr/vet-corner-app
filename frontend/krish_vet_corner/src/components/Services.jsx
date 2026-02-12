@@ -8,8 +8,8 @@ const Services = () => {
   const services = [
     {
       id: 1,
-      title: 'Consultation',
-      subtitle: 'Expert veterinary consultations for all pet health concerns',
+      title: 'Online Consultation',
+      subtitle: 'Includes 3 days of free follow-up chats for:',
       brief: 'Comprehensive health assessments and diagnostics. Personalized treatment recommendations. Routine checkups and preventive care.',
       bgColor: 'from-emerald-400/80 to-teal-500/80',
       image: 'images/services1.jpeg',
