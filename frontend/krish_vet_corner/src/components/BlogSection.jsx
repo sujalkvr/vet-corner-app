@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight, ArrowRight, Star, FileText, ChevronLeft } from 'lucide-react';
-
+import { API_URL } from '../api';
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [activeSliders, setActiveSliders] = useState({});
@@ -12,7 +12,7 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/blogs');
+        const response = await fetch(`${API_URL}/api/blogs`);
         if (!response.ok) throw new Error('Failed to fetch blogs');
         
         const data = await response.json();
@@ -155,7 +155,7 @@ const BlogSection = () => {
                     {blog.images.map((img, imgIdx) => (
                       <img
                         key={imgIdx}
-                        src={`http://localhost:5000${img}`}
+                        src={`${API_URL}${img}`}
                         alt={blog.title}
                         className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
                           imgIdx === activeSliders[index]
@@ -265,7 +265,7 @@ const BlogSection = () => {
                     {blogs[currentIndex].images.map((img, imgIdx) => (
                       <img
                         key={imgIdx}
-                        src={`http://localhost:5000${img}`}
+                        src={`${API_URL}${img}`}
                         alt={blogs[currentIndex].title}
                         className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
                           imgIdx === activeSliders[currentIndex]

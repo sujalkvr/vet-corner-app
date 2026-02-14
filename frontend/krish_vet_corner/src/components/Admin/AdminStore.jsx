@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Trash2, Edit3, Save, X, Users, UserCheck, Award, Search, Filter, Briefcase } from 'lucide-react';
-
+import { API_URL } from '../../api';
 const AdminTeam = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [filteredMembers, setFilteredMembers] = useState([]);
@@ -32,7 +32,7 @@ const AdminTeam = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/team');
+      const response = await fetch(`${API_URL}/api/team`);
       const data = await response.json();
       if (data.success) {
         setTeamMembers(data.data);
@@ -98,8 +98,8 @@ const AdminTeam = () => {
 
     try {
       const url = editingMember 
-        ? `http://localhost:5000/api/team/${editingMember._id}`
-        : 'http://localhost:5000/api/team';
+        ? `${API_URL}/api/team/${editingMember._id}`
+        : `${API_URL}/api/team`;
       
       const method = editingMember ? 'PUT' : 'POST';
 
@@ -143,7 +143,7 @@ const AdminTeam = () => {
     if (!confirm('⚠️ Are you sure you want to delete this team member?')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/team/${id}`, {
+      const response = await fetch(`${API_URL}/api/team/${id}`, {
         method: 'DELETE'
       });
 
@@ -425,7 +425,7 @@ const AdminTeam = () => {
                     {/* Member Image */}
                     <div className="relative h-56 bg-gradient-to-br from-cyan-100 to-emerald-100">
                       <img
-                        src={`http://localhost:5000${member.image}`}
+                        src={`${API_URL}${member.image}`}
                         alt={member.name}
                         className="w-full h-full object-cover"
                         onError={(e) => {

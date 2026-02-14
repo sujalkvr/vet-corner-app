@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { IndianRupee, ShoppingCart, ArrowLeft, Package, Search } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-
+import { API_URL } from '../api';
 const ProductsByCategory = () => {
   const { category } = useParams();
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const ProductsByCategory = () => {
     try {
       setLoading(true);
       const type = category.replace('-', ' ');
-      const response = await fetch(`http://localhost:5000/api/products/type/${type}`);
+      const response = await fetch(`${API_URL}/api/products/type/${type}`);
       const data = await response.json();
       setProducts(data);
     } catch (error) {
@@ -126,7 +126,7 @@ const ProductsByCategory = () => {
                   {/* Product Image */}
                   <div className="relative h-56 bg-gray-50 overflow-hidden">
                     <img
-                      src={`http://localhost:5000${product.image}`}
+                      src={`${API_URL}${product.image}`}
                       alt={product.name}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                       onError={(e) => {

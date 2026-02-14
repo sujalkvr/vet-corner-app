@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Users, Award, ChevronLeft, ChevronRight, X, Stethoscope } from 'lucide-react';
-
+import { API_URL } from '../api';
 const Team = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const Team = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/team');
+      const response = await fetch(`${API_URL}/api/team`);
       const data = await response.json();
       if (data.success) {
         setTeamMembers(data.data);
@@ -140,7 +140,7 @@ const Team = () => {
                       {/* Image Section */}
                       <div className="relative h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
                         <img
-                          src={`http://localhost:5000${member.image}`}
+                          src={`${API_URL}${member.image}`}
                           alt={member.name}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           onError={(e) => {
@@ -226,7 +226,7 @@ const Team = () => {
                     {/* Image Section */}
                     <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
                       <img
-                        src={`http://localhost:5000${visibleMemberMobile.image}`}
+                        src={`${API_URL}${visibleMemberMobile.image}`}
                         alt={visibleMemberMobile.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
@@ -312,7 +312,7 @@ const Team = () => {
             {/* Modal Header with Image */}
             <div className="relative h-56 sm:h-72 bg-gradient-to-br from-green-100 to-green-50">
               <img
-                src={`http://localhost:5000${selectedMember.image}`}
+                src={`${API_URL}${selectedMember.image}`}
                 alt={selectedMember.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {

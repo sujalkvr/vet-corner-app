@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { API_URL } from "../api";
 const NotificationBanner = () => {
   const [notifications, setNotifications] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
@@ -10,7 +10,7 @@ const NotificationBanner = () => {
 
   const fetchNotifications = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/notifications");
+      const res = await fetch(`${API_URL}/api/notifications`);
       const data = await res.json();
       if (Array.isArray(data)) {
         setNotifications(data);

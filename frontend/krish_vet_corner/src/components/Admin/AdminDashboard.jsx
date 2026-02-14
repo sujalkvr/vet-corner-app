@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Trash2, LogOut, Eye, Star, Calendar, FileText, Bell, Power, PowerOff } from 'lucide-react';
-
+import { API_URL } from '../../api';
 // Blog Card Component - MOVED OUTSIDE
 const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,7 +18,7 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
         <div className="w-full sm:w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
           {blog.images && blog.images.length > 0 ? (
             <img
-              src={`http://localhost:5000${blog.images[0]}`}
+              src={`${API_URL}${blog.images[0]}`}
               alt={blog.title}
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -115,7 +115,7 @@ const AdminDashboard = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/blogs');
+      const response = await fetch(`${API_URL}/api/blogs`);
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('http://localhost:5000/api/notifications/all', {
+      const response = await fetch(`${API_URL}/api/notifications/all`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -152,7 +152,7 @@ const AdminDashboard = () => {
     Array.from(images).forEach(img => formData.append('images', img));
 
     try {
-      const response = await fetch('http://localhost:5000/api/blogs', {
+      const response = await fetch(`${API_URL}/api/blogs`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/blogs/${id}`, {
+      const response = await fetch(`${API_URL}/api/blogs/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -209,7 +209,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
 
     try {
-      const response = await fetch('http://localhost:5000/api/notifications', {
+      const response = await fetch(`${API_URL}/api/notifications`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${token}`,
@@ -239,7 +239,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/notifications/${id}/toggle`, {
+      const response = await fetch(`${API_URL}/api/notifications/${id}/toggle`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -261,7 +261,7 @@ const AdminDashboard = () => {
     const token = localStorage.getItem('adminToken');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/notifications/${id}`, {
+      const response = await fetch(`${API_URL}/api/notifications/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

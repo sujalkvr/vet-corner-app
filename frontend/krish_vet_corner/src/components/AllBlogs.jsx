@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, ChevronRight } from 'lucide-react';
+import { API_URL } from '../api';
 
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,7 +13,7 @@ const AllBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/blogs');
+        const response = await fetch(`${API_URL}/api/blogs`);
         if (!response.ok) throw new Error('Failed to fetch blogs');
         
         const data = await response.json();
@@ -109,7 +110,7 @@ const AllBlogs = () => {
                 <div className="relative h-64 overflow-hidden">
                   {blog.images && blog.images.length > 0 ? (
                     <img
-                      src={`http://localhost:5000${blog.images[0]}`}
+                      src={`${API_URL}/${blog.images[0].replace(/^\/+/, '')}`}
                       alt={blog.title}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                       onError={(e) => {

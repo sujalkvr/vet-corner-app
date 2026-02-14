@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CalendarIcon, CameraIcon, CreditCardIcon, MailIcon, CheckCircleIcon, ChevronRightIcon } from 'lucide-react';
-
+import {API_URL} from '../api';
 const Appointment = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ const Appointment = () => {
   });
 
   try {
-    const res = await fetch('http://localhost:5000/api/appointment/book', {
+    const res = await fetch(`${API_URL}/api/appointment/book`, {
       method: 'POST',
       body: formDataToSend
     });

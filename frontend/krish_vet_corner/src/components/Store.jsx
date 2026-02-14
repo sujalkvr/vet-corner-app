@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { ShoppingBag, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
-
 const Store = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 

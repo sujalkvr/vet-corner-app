@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
-
+import { API_URL } from '../api';
 const BlogDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/blogs');
+        const response = await fetch(`${API_URL}/api/blogs`);
         if (!response.ok) throw new Error('Failed to fetch blog');
         
         const data = await response.json();
@@ -126,7 +126,7 @@ const BlogDetail = () => {
               {blog.images.map((img, idx) => (
                 <img
                   key={idx}
-                  src={`http://localhost:5000${img}`}
+                  src={`${API_URL}/${img.replace(/^\/+/, '')}`}
                   alt={`${blog.title} - Image ${idx + 1}`}
                   className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${
                     idx === currentImageIndex

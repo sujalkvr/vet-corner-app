@@ -132,5 +132,4 @@ app.listen(PORT, () => {
   console.log('   - POST /api/products (Protected)');
   console.log('   - GET  /api/team');           // ADD THIS LINE
   console.log('   - POST /api/team (Protected)'); // ADD THIS LINE
-
 });

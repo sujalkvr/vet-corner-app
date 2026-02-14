@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Upload, Trash2, Edit, Save, X, Users, ArrowLeft, ImageIcon } from 'lucide-react';
-
+import { API_URL } from '../../api';
 const AdminTeam = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const AdminTeam = () => {
 
   const fetchTeamMembers = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/team');
+      const response = await fetch(`${API_URL}/api/team`);
       const data = await response.json();
       if (data.success) {
         setTeamMembers(data.data);
@@ -59,7 +59,7 @@ const AdminTeam = () => {
     form.append('order', formData.order);
 
     try {
-      const response = await fetch('http://localhost:5000/api/team', {
+      const response = await fetch(`${API_URL}/api/team`, {
         method: 'POST',
         body: form
       });
@@ -105,7 +105,7 @@ const AdminTeam = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/team/${id}`, {
+      const response = await fetch(`${API_URL}/api/team/${id}`, {
         method: 'PUT',
         body: form
       });
@@ -131,7 +131,7 @@ const AdminTeam = () => {
     if (!confirm('⚠️ Are you sure you want to delete this team member?')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/team/${id}`, {
+      const response = await fetch(`${API_URL}/api/team/${id}`, {
         method: 'DELETE'
       });
 
@@ -312,7 +312,7 @@ const AdminTeam = () => {
                     <div className="space-y-4">
                       <div className="flex items-center gap-4 mb-4">
                         <img
-                          src={`http://localhost:5000${member.image}`}
+                          src={`${API_URL}${member.image}`}
                           alt={member.name}
                           className="w-20 h-20 rounded-full object-cover border-4 border-teal-200"
                         />
@@ -380,7 +380,7 @@ const AdminTeam = () => {
                     // View Mode
                     <div className="flex gap-4">
                       <img
-                        src={`http://localhost:5000${member.image}`}
+                        src={`${API_URL}${member.image}`}
                         alt={member.name}
                         className="w-24 h-24 rounded-2xl object-cover border-4 border-teal-100 flex-shrink-0"
                         onError={(e) => {

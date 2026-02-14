@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, Camera, Package, CheckCircle, ChevronRight, ShoppingCart, ArrowLeft } from 'lucide-react';
-
+import { API_URL } from '../api';
 const Payment = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ const Payment = () => {
     formDataToSend.append('productId', product._id);
 
     try {
-      const res = await fetch('http://localhost:5000/api/payment/order', {
+      const res = await fetch(`${API_URL}/api/payment/order`, {
         method: 'POST',
         body: formDataToSend
       });
