@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Services = () => {
   const [openModal, setOpenModal] = useState(null);
@@ -295,15 +296,16 @@ const Services = () => {
             </div>
 
             <div className="px-4 sm:px-8 pb-4 sm:pb-8 pt-4 sm:pt-6 bg-gradient-to-r from-emerald-50 to-teal-50/50 rounded-b-2xl sm:rounded-b-3xl border-t border-gray-100 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <a
-                href="/appointment"
-                className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-3 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all duration-300 text-center text-base sm:text-lg flex items-center justify-center space-x-2 group"
-              >
+              <Link
+  to="/appointment"
+  className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black py-3 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-[1.02] transition-all duration-300 text-center text-base sm:text-lg flex items-center justify-center space-x-2 group"
+>
+
                 <span>Book {currentService.title}</span>
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-              </a>
+              </Link>
               <button
                 onClick={() => setOpenModal(null)}
                 className="sm:flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 border-2 border-emerald-300/70 bg-white text-emerald-700 font-bold rounded-xl sm:rounded-2xl hover:bg-emerald-50 hover:shadow-lg hover:border-emerald-400 hover:scale-[1.02] transition-all duration-300 text-base sm:text-lg"
