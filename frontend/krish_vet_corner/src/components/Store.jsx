@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ShoppingBag, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 const Store = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -90,8 +92,9 @@ const Store = () => {
                 </p>
 
                 {/* View Button */}
-                <a
-                  href={category.path}
+                <Link
+                   to={category.path}
+
                   className={`group/btn relative inline-flex items-center justify-center w-full px-6 py-4 bg-gradient-to-r ${category.gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -99,7 +102,7 @@ const Store = () => {
                     <ArrowRight className="transition-transform duration-300 group-hover/btn:translate-x-2" size={20} />
                   </span>
                   <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left" />
-                </a>
+                </Link>
               </div>
 
               {/* Decorative Elements */}
@@ -153,8 +156,8 @@ const Store = () => {
                 </p>
 
                 {/* View Button */}
-                <a
-                  href={categories[currentIndex].path}
+                <Link
+                  to={categories[currentIndex].path}
                   className={`group/btn relative inline-flex items-center justify-center w-full px-5 sm:px-6 py-3 sm:py-4 bg-gradient-to-r ${categories[currentIndex].gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl text-sm sm:text-base`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -162,7 +165,7 @@ const Store = () => {
                     <ArrowRight className="transition-transform duration-300 group-hover/btn:translate-x-2" size={18} />
                   </span>
                   <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left" />
-                </a>
+                </Link>
               </div>
 
               {/* Decorative Elements */}
@@ -191,7 +194,7 @@ const Store = () => {
           <div className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl sm:rounded-2xl shadow-lg">
             <Sparkles className="text-purple-600 flex-shrink-0" size={20} />
             <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
-              Need help choosing? <a href="/appointment" className="text-purple-600 hover:text-purple-800 underline">Book a consultation</a>
+              Need help choosing? <Link to="/appointment" className="text-purple-600 hover:text-purple-800 underline">Book a consultation</Link>
             </p>
           </div>
         </div>

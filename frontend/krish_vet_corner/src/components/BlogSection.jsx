@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronRight, ArrowRight, Star, FileText, ChevronLeft } from 'lucide-react';
 import { API_URL } from '../api';
+import { Link } from 'react-router-dom';
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [activeSliders, setActiveSliders] = useState({});
@@ -225,13 +226,13 @@ const BlogSection = () => {
                   </div>
                 </div>
 
-                <a
-                  href={`/blog/${blog.slug}`}
+                <Link
+                  to={`/blog/${blog.slug}`}
                   className="inline-flex items-center text-emerald-600 font-bold text-lg hover:text-emerald-700 transition-all duration-300 hover:translate-x-2"
                 >
                   Read More
                   <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </a>
+                </Link>
               </div>
             </div>
           ))}
@@ -332,13 +333,13 @@ const BlogSection = () => {
                   </div>
                 </div>
 
-                <a
-                  href={`/blog/${blogs[currentIndex].slug}`}
+                <Link
+                  to={`/blog/${blogs[currentIndex].slug}`}
                   className="inline-flex items-center text-emerald-600 font-bold text-base sm:text-lg hover:text-emerald-700 transition-all duration-300"
                 >
                   Read More
                   <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -361,8 +362,8 @@ const BlogSection = () => {
 
         {/* More Blogs CTA */}
         <div className="text-center">
-          <a
-            href="/blog"
+          <Link
+            to="/blog"
             className="group relative inline-flex items-center px-8 sm:px-12 py-4 sm:py-6 bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-600 text-white font-bold text-base sm:text-xl rounded-2xl sm:rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-500 overflow-hidden"
           >
             <span className="relative z-10 flex items-center space-x-2 sm:space-x-3">
@@ -370,7 +371,7 @@ const BlogSection = () => {
               <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition-transform duration-300" />
             </span>
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-400 to-blue-400 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 blur-sm" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>
