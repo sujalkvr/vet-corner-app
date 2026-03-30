@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const Blog = require('../models/Blog');
+const cloudinary = require('../config/cloudinary');
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, '../uploads');
@@ -57,6 +58,15 @@ const verifyToken = (req, res, next) => {
 };
 
 // ============= BLOG ROUTES =============
+
+const uploadToCloudinary = async (filePath) => {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: 'blogs'
+  });
+  return result.secure_url;
+};
+
+
 
 // 1. Get All Blogs (Public)
 router.get('/', async (req, res) => {
@@ -119,7 +129,16 @@ router.post('/', verifyToken, blogUpload.array('images', 3), async (req, res) =>
     const existingBlog = await Blog.findOne({ slug });
     const finalSlug = existingBlog ? `${slug}-${Date.now()}` : slug;
     
-    const images = req.files.map(file => `/uploads/${file.filename}`);
+    // const images = req.files.map(file => `/uploads/${file.filename}`);
+    const images = [];
+
+for (const file of req.files) {
+  const imageUrl = await uploadToCloudinary(file.path);
+  images.push(imageUrl);
+
+  // Optional: delete local file after upload
+  fs.unlinkSync(file.path);
+}
     
     const blog = new Blog({ 
       title, 
@@ -159,13 +178,13 @@ router.delete('/:id', verifyToken, async (req, res) => {
       });
     }
     
-    // Delete associated images
-    blog.images.forEach(imgPath => {
-      const filePath = path.join(__dirname, '..', imgPath);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    });
+    // // Delete associated images
+    // blog.images.forEach(imgPath => {
+    //   const filePath = path.join(__dirname, '..', imgPath);
+    //   if (fs.existsSync(filePath)) {
+    //     fs.unlinkSync(filePath);
+    //   }
+    // });
     
     console.log('🗑️ Blog deleted:', blog.title);
     

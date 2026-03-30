@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
-import { ChevronRight, ArrowRight, Star, FileText, ChevronLeft } from 'lucide-react';
-import { API_URL } from '../api';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import {
+  ChevronRight,
+  ArrowRight,
+  Star,
+  FileText,
+  ChevronLeft,
+} from "lucide-react";
+import { API_URL } from "../api";
+import { Link } from "react-router-dom";
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [activeSliders, setActiveSliders] = useState({});
@@ -14,24 +20,24 @@ const BlogSection = () => {
     const fetchBlogs = async () => {
       try {
         const response = await fetch(`${API_URL}/api/blogs`);
-        if (!response.ok) throw new Error('Failed to fetch blogs');
-        
+        if (!response.ok) throw new Error("Failed to fetch blogs");
+
         const data = await response.json();
-        
+
         // Take only the 3 most recent blogs
         const recentBlogs = data.slice(0, 3);
         setBlogs(recentBlogs);
-        
+
         // Initialize sliders for each blog
         const initialSliders = {};
         recentBlogs.forEach((_, index) => {
           initialSliders[index] = 0;
         });
         setActiveSliders(initialSliders);
-        
+
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching blogs:', err);
+        console.error("Error fetching blogs:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -46,9 +52,9 @@ const BlogSection = () => {
 
     const intervals = blogs.map((_, index) => {
       return setInterval(() => {
-        setActiveSliders(prev => ({
+        setActiveSliders((prev) => ({
           ...prev,
-          [index]: (prev[index] + 1) % 3
+          [index]: (prev[index] + 1) % blogs[index].images.length,
         }));
       }, 3000);
     });
@@ -67,7 +73,10 @@ const BlogSection = () => {
   // Loading state
   if (loading) {
     return (
-      <section id="blog" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30">
+      <section
+        id="blog"
+        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-20">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-2xl mb-4 sm:mb-6 px-4">
@@ -79,7 +88,9 @@ const BlogSection = () => {
           </div>
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-t-4 border-b-4 border-emerald-500"></div>
-            <p className="mt-4 text-gray-600 text-base sm:text-lg">Loading blogs...</p>
+            <p className="mt-4 text-gray-600 text-base sm:text-lg">
+              Loading blogs...
+            </p>
           </div>
         </div>
       </section>
@@ -89,7 +100,10 @@ const BlogSection = () => {
   // Error state
   if (error) {
     return (
-      <section id="blog" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30">
+      <section
+        id="blog"
+        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-20">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-2xl mb-4 sm:mb-6 px-4">
@@ -98,8 +112,12 @@ const BlogSection = () => {
           </div>
           <div className="text-center py-12">
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 sm:px-6 py-4 rounded-xl inline-block">
-              <p className="font-semibold text-sm sm:text-base">Unable to load blogs</p>
-              <p className="text-xs sm:text-sm mt-2">Please check if the server is running</p>
+              <p className="font-semibold text-sm sm:text-base">
+                Unable to load blogs
+              </p>
+              <p className="text-xs sm:text-sm mt-2">
+                Please check if the server is running
+              </p>
             </div>
           </div>
         </div>
@@ -110,7 +128,10 @@ const BlogSection = () => {
   // No blogs state
   if (blogs.length === 0) {
     return (
-      <section id="blog" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30">
+      <section
+        id="blog"
+        className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-20">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-2xl mb-4 sm:mb-6 px-4">
@@ -122,8 +143,12 @@ const BlogSection = () => {
           </div>
           <div className="text-center py-12">
             <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 sm:px-6 py-4 rounded-xl inline-block">
-              <p className="font-semibold text-sm sm:text-base">No blogs available yet</p>
-              <p className="text-xs sm:text-sm mt-2">Check back soon for new content!</p>
+              <p className="font-semibold text-sm sm:text-base">
+                No blogs available yet
+              </p>
+              <p className="text-xs sm:text-sm mt-2">
+                Check back soon for new content!
+              </p>
             </div>
           </div>
         </div>
@@ -132,7 +157,10 @@ const BlogSection = () => {
   }
 
   return (
-    <section id="blog" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30">
+    <section
+      id="blog"
+      className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-slate-50/30"
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-20">
@@ -147,8 +175,10 @@ const BlogSection = () => {
         {/* Desktop View - 3 Cards Grid */}
         <div className="hidden lg:grid lg:grid-cols-3 gap-8 lg:gap-12 mb-12 sm:mb-20">
           {blogs.map((blog, index) => (
-            <div key={blog._id} className="group relative bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-3xl hover:shadow-emerald-400/40 overflow-hidden border border-emerald-200/50 hover:-translate-y-4 transition-all duration-700 hover:scale-[1.02]">
-              
+            <div
+              key={blog._id}
+              className="group relative bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-3xl hover:shadow-emerald-400/40 overflow-hidden border border-emerald-200/50 hover:-translate-y-4 transition-all duration-700 hover:scale-[1.02]"
+            >
               {/* Image Slider */}
               <div className="relative h-80 overflow-hidden rounded-t-3xl">
                 {blog.images && blog.images.length > 0 ? (
@@ -156,30 +186,37 @@ const BlogSection = () => {
                     {blog.images.map((img, imgIdx) => (
                       <img
                         key={imgIdx}
-                        src={`${API_URL}${img}`}
+                        // src={`${API_URL}${img}`}
+                        src={img}
                         alt={blog.title}
                         className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
                           imgIdx === activeSliders[index]
-                            ? 'opacity-100 scale-100 shadow-2xl'
-                            : 'opacity-0 scale-110 blur-sm'
+                            ? "opacity-100 scale-100 shadow-2xl"
+                            : "opacity-0 scale-110 blur-sm"
                         }`}
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x300?text=Blog+Image';
+                          e.target.src =
+                            "https://placehold.co/400x300?text=Blog+Image";
                         }}
                       />
                     ))}
-                    
+
                     {/* Slider Dots */}
                     {blog.images.length > 1 && (
                       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 backdrop-blur-xl py-2 px-4 rounded-2xl">
                         {blog.images.map((_, imgIdx) => (
                           <button
                             key={imgIdx}
-                            onClick={() => setActiveSliders(prev => ({ ...prev, [index]: imgIdx }))}
+                            onClick={() =>
+                              setActiveSliders((prev) => ({
+                                ...prev,
+                                [index]: imgIdx,
+                              }))
+                            }
                             className={`w-3 h-3 rounded-full transition-all duration-300 ${
                               imgIdx === activeSliders[index]
-                                ? 'bg-emerald-400 scale-125 shadow-md'
-                                : 'bg-white/70 hover:bg-emerald-300 hover:scale-110'
+                                ? "bg-emerald-400 scale-125 shadow-md"
+                                : "bg-white/70 hover:bg-emerald-300 hover:scale-110"
                             }`}
                           />
                         ))}
@@ -201,11 +238,11 @@ const BlogSection = () => {
                 <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 leading-tight line-clamp-2 group-hover:text-emerald-600 transition-colors duration-500">
                   {blog.title}
                 </h3>
-                
+
                 <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
                   {blog.content}
                 </p>
-                
+
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center space-x-1 text-amber-400">
                     <Star className="w-5 h-5 fill-current" />
@@ -213,14 +250,16 @@ const BlogSection = () => {
                     <Star className="w-5 h-5 fill-current" />
                     <Star className="w-5 h-5 fill-current" />
                     <Star className="w-5 h-5 fill-current" />
-                    <span className="ml-2 font-semibold text-sm text-gray-700">(5.0)</span>
+                    <span className="ml-2 font-semibold text-sm text-gray-700">
+                      (5.0)
+                    </span>
                   </div>
                   <div className="flex items-center space-x-1 text-emerald-600 text-sm font-semibold">
                     <FileText className="w-4 h-4" />
                     <span>
-                      {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric' 
+                      {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
                       })}
                     </span>
                   </div>
@@ -247,7 +286,7 @@ const BlogSection = () => {
           >
             <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
-          
+
           <button
             onClick={handleNextMobile}
             className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-emerald-500 hover:text-white text-emerald-600"
@@ -258,38 +297,45 @@ const BlogSection = () => {
           {/* Single Card Display */}
           <div className="px-12 sm:px-16">
             <div className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-emerald-200/50">
-              
               {/* Image Slider */}
               <div className="relative h-64 sm:h-72 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
-                {blogs[currentIndex].images && blogs[currentIndex].images.length > 0 ? (
+                {blogs[currentIndex].images &&
+                blogs[currentIndex].images.length > 0 ? (
                   <>
                     {blogs[currentIndex].images.map((img, imgIdx) => (
                       <img
                         key={imgIdx}
-                        src={`${API_URL}${img}`}
+                        // src={`${API_URL}${img}`}
+                        src={img}
                         alt={blogs[currentIndex].title}
                         className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
                           imgIdx === activeSliders[currentIndex]
-                            ? 'opacity-100 scale-100'
-                            : 'opacity-0 scale-110'
+                            ? "opacity-100 scale-100"
+                            : "opacity-0 scale-110"
                         }`}
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x300?text=Blog+Image';
+                          e.target.src =
+                            "https://placehold.co/400x300?text=Blog+Image";
                         }}
                       />
                     ))}
-                    
+
                     {/* Slider Dots */}
                     {blogs[currentIndex].images.length > 1 && (
                       <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 backdrop-blur-xl py-1.5 px-3 rounded-xl">
                         {blogs[currentIndex].images.map((_, imgIdx) => (
                           <button
                             key={imgIdx}
-                            onClick={() => setActiveSliders(prev => ({ ...prev, [currentIndex]: imgIdx }))}
+                            onClick={() =>
+                              setActiveSliders((prev) => ({
+                                ...prev,
+                                [currentIndex]: imgIdx,
+                              }))
+                            }
                             className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
                               imgIdx === activeSliders[currentIndex]
-                                ? 'bg-emerald-400 scale-125'
-                                : 'bg-white/70'
+                                ? "bg-emerald-400 scale-125"
+                                : "bg-white/70"
                             }`}
                           />
                         ))}
@@ -308,11 +354,11 @@ const BlogSection = () => {
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight line-clamp-2">
                   {blogs[currentIndex].title}
                 </h3>
-                
+
                 <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 line-clamp-3 leading-relaxed">
                   {blogs[currentIndex].content}
                 </p>
-                
+
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <div className="flex items-center space-x-0.5 sm:space-x-1 text-amber-400">
                     <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
@@ -320,14 +366,18 @@ const BlogSection = () => {
                     <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                     <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                     <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <span className="ml-1 sm:ml-2 font-semibold text-xs sm:text-sm text-gray-700">(5.0)</span>
+                    <span className="ml-1 sm:ml-2 font-semibold text-xs sm:text-sm text-gray-700">
+                      (5.0)
+                    </span>
                   </div>
                   <div className="flex items-center space-x-1 text-emerald-600 text-xs sm:text-sm font-semibold">
                     <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>
-                      {new Date(blogs[currentIndex].createdAt).toLocaleDateString('en-US', { 
-                        month: 'short', 
-                        day: 'numeric' 
+                      {new Date(
+                        blogs[currentIndex].createdAt,
+                      ).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
                       })}
                     </span>
                   </div>
@@ -351,9 +401,9 @@ const BlogSection = () => {
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
-                  currentIndex === idx 
-                    ? 'bg-emerald-600 w-6 sm:w-8' 
-                    : 'w-2 sm:w-2.5 bg-emerald-300 hover:bg-emerald-400'
+                  currentIndex === idx
+                    ? "bg-emerald-600 w-6 sm:w-8"
+                    : "w-2 sm:w-2.5 bg-emerald-300 hover:bg-emerald-400"
                 }`}
               />
             ))}

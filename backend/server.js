@@ -11,7 +11,8 @@ const app = express();
 // ============= MIDDLEWARE =============
 app.use(cors({
   origin: [
-    "https://krishvetcorner.onrender.com"
+    "https://krishvetcorner.onrender.com",
+    "http://localhost:5173"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true

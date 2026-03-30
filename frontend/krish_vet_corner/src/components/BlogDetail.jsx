@@ -1,8 +1,8 @@
 // src/components/BlogDetail.jsx
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
-import { API_URL } from '../api';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { API_URL } from "../api";
 const BlogDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -15,19 +15,19 @@ const BlogDetail = () => {
     const fetchBlog = async () => {
       try {
         const response = await fetch(`${API_URL}/api/blogs`);
-        if (!response.ok) throw new Error('Failed to fetch blog');
-        
+        if (!response.ok) throw new Error("Failed to fetch blog");
+
         const data = await response.json();
-        const foundBlog = data.find(b => b.slug === slug);
-        
+        const foundBlog = data.find((b) => b.slug === slug);
+
         if (!foundBlog) {
-          setError('Blog not found');
+          setError("Blog not found");
         } else {
           setBlog(foundBlog);
         }
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching blog:', err);
+        console.error("Error fetching blog:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -41,7 +41,7 @@ const BlogDetail = () => {
     if (!blog || !blog.images || blog.images.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImageIndex(prev => (prev + 1) % blog.images.length);
+      setCurrentImageIndex((prev) => (prev + 1) % blog.images.length);
     }, 4000);
 
     return () => clearInterval(interval);
@@ -65,7 +65,7 @@ const BlogDetail = () => {
           <h1 className="text-6xl font-black text-gray-900 mb-4">404</h1>
           <p className="text-2xl text-gray-600 mb-8">Blog not found</p>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
@@ -82,7 +82,7 @@ const BlogDetail = () => {
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-lg">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-all duration-300 hover:translate-x-[-4px]"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
@@ -97,15 +97,15 @@ const BlogDetail = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
             {blog.title}
           </h1>
-          
+
           <div className="flex flex-wrap items-center gap-6 text-gray-600">
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5 text-emerald-600" />
               <span className="font-medium">
-                {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                  year: 'numeric',
-                  month: 'long', 
-                  day: 'numeric' 
+                {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
                 })}
               </span>
             </div>
@@ -126,19 +126,20 @@ const BlogDetail = () => {
               {blog.images.map((img, idx) => (
                 <img
                   key={idx}
-                  src={`${API_URL}/${img.replace(/^\/+/, '')}`}
+                  // src={`${API_URL}/${img.replace(/^\/+/, '')}`}
+                  src={img}
                   alt={`${blog.title} - Image ${idx + 1}`}
                   className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out ${
                     idx === currentImageIndex
-                      ? 'opacity-100 scale-100'
-                      : 'opacity-0 scale-105'
+                      ? "opacity-100 scale-100"
+                      : "opacity-0 scale-105"
                   }`}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/1200x600?text=Blog+Image';
+                    e.target.src = "https://placehold.co/400x300?text=Image";
                   }}
                 />
               ))}
-              
+
               {/* Image Navigation Dots */}
               {blog.images.length > 1 && (
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3 bg-black/60 backdrop-blur-xl py-3 px-5 rounded-full">
@@ -148,8 +149,8 @@ const BlogDetail = () => {
                       onClick={() => setCurrentImageIndex(idx)}
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
                         idx === currentImageIndex
-                          ? 'bg-emerald-400 scale-125 shadow-lg'
-                          : 'bg-white/70 hover:bg-emerald-300 hover:scale-110'
+                          ? "bg-emerald-400 scale-125 shadow-lg"
+                          : "bg-white/70 hover:bg-emerald-300 hover:scale-110"
                       }`}
                       aria-label={`Go to image ${idx + 1}`}
                     />
@@ -175,7 +176,7 @@ const BlogDetail = () => {
         {/* Back to Blogs Button */}
         <div className="mt-12 text-center">
           <button
-            onClick={() => navigate('/#blog')}
+            onClick={() => navigate("/#blog")}
             className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
