@@ -4,9 +4,12 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const path = require('path');
 const fs = require('fs');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 // ============= MIDDLEWARE =============
 app.use(cors({
