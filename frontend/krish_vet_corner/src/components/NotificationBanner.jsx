@@ -7,6 +7,12 @@ const NotificationBanner = ({ show, setShow }) => {
   useEffect(() => {
     fetchNotifications();
   }, []);
+  useEffect(() => {
+    if (notifications.length === 0 && show) {
+      setShow(false);
+    }
+  }, [notifications, show]);
+  if (notifications.length === 0 || !show) return null;
 
   const fetchNotifications = async () => {
     try {
@@ -26,8 +32,6 @@ const NotificationBanner = ({ show, setShow }) => {
       ]);
     }
   };
-
-  if (notifications.length === 0 || !show) return null;
 
   // Create many duplicates for truly infinite scroll
   const infiniteNotifications = Array(10).fill(notifications).flat();
