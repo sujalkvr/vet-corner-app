@@ -29,3 +29,4 @@ backend/.env
 frontend/.env
 uploads/
 backend/uploads/
+frontend/krish_vet_corner/dist/
