@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ showBanner }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
@@ -19,7 +19,9 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="bg-white/80 backdrop-blur-xl shadow-xl sticky top-[28px] z-40 border-b border-gray-100">
+      <nav className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-40 border-b border-gray-100 transition-all duration-300 ${
+  showBanner ? 'top-[28px]' : 'top-0'
+}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -71,7 +73,9 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed top-[44px] left-0 right-0 z-30">
+        <div className={`lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed left-0 right-0 z-30 transition-all duration-300 ${
+  showBanner ? 'top-[72px]' : 'top-[44px]'
+}`}>
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
             {navLinks.map((link) => (
               <Link
