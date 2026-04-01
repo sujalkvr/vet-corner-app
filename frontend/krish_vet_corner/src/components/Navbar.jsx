@@ -1,37 +1,63 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+
 
 const Navbar = ({ showBanner }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const [activeSection, setActiveSection] = useState("/");
+  useEffect(() => {
+    const sections = ["services", "about", "store", "blog", "contact"];
+
+    const handleScroll = () => {
+      let current = "/";
+
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom >= 120) {
+            current = `#${id}`;
+          }
+        }
+      });
+
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '#services' },
-    { name: 'About', path: '#about' },
-    { name: 'Store', path: '#store' },
-    { name: 'Blog', path: '#blog' },
-    { name: 'Contact', path: '#contact' },
-    { name: 'Appointment', path: '/appointment' },
-    { name: 'Admin', path: '/admin' }
+    { name: "Home", path: "/" },
+    { name: "Services", path: "#services" },
+    { name: "About", path: "#about" },
+    { name: "Store", path: "#store" },
+    { name: "Blog", path: "#blog" },
+    { name: "Contact", path: "#contact" },
+    { name: "Appointment", path: "/appointment" },
+    { name: "Admin", path: "/admin" },
   ];
 
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-40 border-b border-gray-100 transition-all duration-300 ${
-  showBanner ? 'top-[28px]' : 'top-0'
-}`}>
+      <nav
+        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-40 border-b border-gray-100 transition-all duration-300 ${
+          showBanner ? "top-[28px]" : "top-0"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center space-x-3 group cursor-pointer"
             >
-              <img 
-                src="images/logo.png" 
-                alt="Krish Vet Corner" 
+              <img
+                src="images/logo.png"
+                alt="Krish Vet Corner"
                 className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 rounded-lg shadow-md hover:shadow-lg"
               />
               <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -46,9 +72,13 @@ const Navbar = ({ showBanner }) => {
                   key={link.name}
                   to={link.path}
                   className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    location.pathname === link.path 
-                      ? 'text-blue-600 font-semibold shadow-md shadow-blue-100' 
-                      : 'text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50'
+                    (link.path === "/"
+  ? activeSection === "/"
+  : activeSection === link.path ||
+    location.hash === link.path ||
+    location.pathname === link.path)
+                      ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
+                      : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
                   }`}
                 >
                   {link.name}
@@ -63,8 +93,10 @@ const Navbar = ({ showBanner }) => {
               className="lg:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-all duration-200 flex items-center justify-center"
               aria-label="Toggle mobile menu"
             >
-              <span className={`text-xl font-bold transition-transform duration-200 ${mobileOpen ? 'rotate-90 scale-110' : ''}`}>
-                {mobileOpen ? '✕' : '≡'}
+              <span
+                className={`text-xl font-bold transition-transform duration-200 ${mobileOpen ? "rotate-90 scale-110" : ""}`}
+              >
+                {mobileOpen ? "✕" : "≡"}
               </span>
             </button>
           </div>
@@ -73,9 +105,11 @@ const Navbar = ({ showBanner }) => {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className={`lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed left-0 right-0 z-30 transition-all duration-300 ${
-  showBanner ? 'top-[72px]' : 'top-[44px]'
-}`}>
+        <div
+          className={`lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed left-0 right-0 z-30 transition-all duration-300 ${
+            showBanner ? "top-[72px]" : "top-[44px]"
+          }`}
+        >
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
             {navLinks.map((link) => (
               <Link
@@ -83,9 +117,13 @@ const Navbar = ({ showBanner }) => {
                 to={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`block w-full px-6 py-3 rounded-2xl text-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 ${
-                  location.pathname === link.path
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl shadow-blue-200/50'
-                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-md'
+                  (link.path === "/"
+  ? activeSection === "/"
+  : activeSection === link.path ||
+    location.hash === link.path ||
+    location.pathname === link.path)
+                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl shadow-blue-200/50"
+                    : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-md"
                 }`}
               >
                 {link.name}
