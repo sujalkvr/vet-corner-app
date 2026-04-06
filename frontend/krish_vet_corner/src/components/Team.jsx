@@ -77,7 +77,9 @@ const Team = () => {
     currentIndex,
     currentIndex + 3,
   );
-  const visibleMemberMobile = teamMembers[currentIndex];
+  // const visibleMemberMobile = teamMembers[currentIndex];
+  const visibleMemberMobile =
+    teamMembers.length > 0 ? teamMembers[currentIndex] : null;
   const canGoPreviousDesktop = currentIndex > 0;
   const canGoNextDesktop = currentIndex < teamMembers.length - 3;
 
@@ -243,19 +245,20 @@ const Team = () => {
                 </button>
 
                 {/* Single Card Display */}
-                <div className="px-12 sm:px-16">
+                {visibleMemberMobile && (
+                  <div className="px-12 sm:px-16">
                   <div className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl transition-all duration-500 border-2 border-green-100">
                     {/* Image Section */}
                     <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
                       <img
                         // src={`${API_URL}${visibleMemberMobile.image}`}
-                        src={visibleMemberMobile.image}
-                        alt={visibleMemberMobile.name}
+                        src={visibleMemberMobile?.image}
+                        alt={visibleMemberMobile?.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
-                          e.target.src =
-                            "https://via.placeholder.com/400x500?text=Team+Member";
-                        }}
+  e.target.onerror = null;
+  e.target.src = "/default-user.png";
+}}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-60" />
 
@@ -290,6 +293,7 @@ const Team = () => {
                     </div>
                   </div>
                 </div>
+                )}
 
                 {/* Pagination Dots */}
                 <div className="flex justify-center gap-2 mt-6 sm:mt-8">
