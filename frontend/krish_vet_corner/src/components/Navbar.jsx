@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-
 const Navbar = ({ showBanner }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -56,7 +55,7 @@ const Navbar = ({ showBanner }) => {
               className="flex items-center space-x-3 group cursor-pointer"
             >
               <img
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="Krish Vet Corner"
                 className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 rounded-lg shadow-md hover:shadow-lg"
               />
@@ -72,11 +71,13 @@ const Navbar = ({ showBanner }) => {
                   key={link.name}
                   to={link.path}
                   className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    (link.path === "/"
-  ? activeSection === "/"
-  : activeSection === link.path ||
-    location.hash === link.path ||
-    location.pathname === link.path)
+                    (
+                      link.path === "/"
+                        ? activeSection === "/"
+                        : activeSection === link.path ||
+                          location.hash === link.path ||
+                          location.pathname === link.path
+                    )
                       ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
                       : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
                   }`}
@@ -117,11 +118,13 @@ const Navbar = ({ showBanner }) => {
                 to={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`block w-full px-6 py-3 rounded-2xl text-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 ${
-                  (link.path === "/"
-  ? activeSection === "/"
-  : activeSection === link.path ||
-    location.hash === link.path ||
-    location.pathname === link.path)
+                  (
+                    link.path === "/"
+                      ? activeSection === "/"
+                      : activeSection === link.path ||
+                        location.hash === link.path ||
+                        location.pathname === link.path
+                  )
                     ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl shadow-blue-200/50"
                     : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-md"
                 }`}
