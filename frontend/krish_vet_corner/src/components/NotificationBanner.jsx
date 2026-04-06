@@ -4,8 +4,6 @@ const NotificationBanner = ({ show, setShow }) => {
   const [notifications, setNotifications] = useState([]);
   // const [isVisible, setIsVisible] = useState(true);
 
-
-
   const fetchNotifications = async () => {
     try {
       const res = await fetch(`${API_URL}/api/notifications`);
@@ -24,7 +22,7 @@ const NotificationBanner = ({ show, setShow }) => {
       ]);
     }
   };
-  
+
   useEffect(() => {
     fetchNotifications();
   }, []);
@@ -34,8 +32,6 @@ const NotificationBanner = ({ show, setShow }) => {
     }
   }, [notifications, show]);
   if (notifications.length === 0 || !show) return null;
-
-
 
   // Create many duplicates for truly infinite scroll
   const infiniteNotifications = Array(10).fill(notifications).flat();
@@ -52,7 +48,7 @@ const NotificationBanner = ({ show, setShow }) => {
         top: 0,
         left: 0,
         width: "100%",
-        zIndex: 9999,
+        zIndex: 10000,
       }}
     >
       <div
