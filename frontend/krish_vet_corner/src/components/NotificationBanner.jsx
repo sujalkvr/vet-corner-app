@@ -9,7 +9,8 @@ const NotificationBanner = ({ show, setShow }) => {
       const res = await fetch(`${API_URL}/api/notifications`);
       const data = await res.json();
       if (Array.isArray(data)) {
-        setNotifications(data);
+        const activeNotifications = data.filter((n) => n.isActive);
+        setNotifications(activeNotifications);
       }
     } catch (err) {
       console.error("Failed to fetch notifications", err);
@@ -27,9 +28,7 @@ const NotificationBanner = ({ show, setShow }) => {
     fetchNotifications();
   }, []);
   useEffect(() => {
-    if (notifications.length === 0 && show) {
-      setShow(false);
-    }
+    if (notifications.length === 0) return;
   }, [notifications, show]);
   if (notifications.length === 0 || !show) return null;
 
