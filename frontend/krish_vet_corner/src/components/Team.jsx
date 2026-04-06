@@ -248,7 +248,8 @@ const Team = () => {
                     {/* Image Section */}
                     <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
                       <img
-                        src={`${API_URL}${visibleMemberMobile.image}`}
+                        // src={`${API_URL}${visibleMemberMobile.image}`}
+                        src={visibleMemberMobile.image}
                         alt={visibleMemberMobile.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
@@ -341,7 +342,8 @@ const Team = () => {
             {/* Modal Header with Image */}
             <div className="relative h-56 sm:h-72 bg-gradient-to-br from-green-100 to-green-50">
               <img
-                src={`${API_URL}${selectedMember.image}`}
+                // src={`${API_URL}${selectedMember.image}`}
+                src={selectedMember.image}
                 alt={selectedMember.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
