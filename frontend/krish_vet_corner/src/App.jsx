@@ -58,128 +58,135 @@ function App() {
         <Load onLoadComplete={() => setIsLoading(false)} />
       ) : (
         <Router>
-          <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-white">
-            <ScrollToSection />
-            <Routes>
-              {/* HOME - COMPLETE SINGLE PAGE */}
-              <Route
-                path="/"
-                element={
-                  <>
-                    <NotificationBanner
-                      show={showBanner}
-                      setShow={setShowBanner}
-                    />
-                    <Navbar showBanner={showBanner} />
-                    <Hero />
-                    <About />
-                    <Services />
-                    <Team />
-                    {/* <Reviews /> */}
-                    <BlogSection />
-                    <Store />
-                    <Faq />
-                    <ContactForm />
-                    <Footer />
-                  </>
-                }
-              />
+          <>
+            <NotificationBanner show={showBanner} setShow={setShowBanner} />
 
-              {/* INDIVIDUAL PAGES (with Navbar & Footer) */}
-              <Route
-                path="/services"
-                element={
-                  <>
-                    <NotificationBanner
-                      show={showBanner}
-                      setShow={setShowBanner}
-                    />
-                    <Navbar showBanner={showBanner} />
-                    <Services />
-                    <Footer />
-                  </>
-                }
-              />
+            <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-white">
+              <ScrollToSection />
+              <Routes>
+                {/* HOME - COMPLETE SINGLE PAGE */}
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <NotificationBanner
+                        show={showBanner}
+                        setShow={setShowBanner}
+                      />
+                      <Navbar showBanner={showBanner} />
+                      <Hero />
+                      <About />
+                      <Services />
+                      <Team />
+                      {/* <Reviews /> */}
+                      <BlogSection />
+                      <Store />
+                      <Faq />
+                      <ContactForm />
+                      <Footer />
+                    </>
+                  }
+                />
 
-              <Route
-                path="/appointment"
-                element={
-                  <>
-                    <NotificationBanner
-                      show={showBanner}
-                      setShow={setShowBanner}
-                    />
-                    <Navbar showBanner={showBanner} />
-                    <Appointment />
-                    <Footer />
-                  </>
-                }
-              />
+                {/* INDIVIDUAL PAGES (with Navbar & Footer) */}
+                <Route
+                  path="/services"
+                  element={
+                    <>
+                      <NotificationBanner
+                        show={showBanner}
+                        setShow={setShowBanner}
+                      />
+                      <Navbar showBanner={showBanner} />
+                      <Services />
+                      <Footer />
+                    </>
+                  }
+                />
 
-              <Route
-                path="/more"
-                element={
-                  <>
-                    <NotificationBanner
-                      show={showBanner}
-                      setShow={setShowBanner}
-                    />
-                    <Navbar showBanner={showBanner} />
-                    <More />
-                    <Footer />
-                  </>
-                }
-              />
+                <Route
+                  path="/appointment"
+                  element={
+                    <>
+                      <NotificationBanner
+                        show={showBanner}
+                        setShow={setShowBanner}
+                      />
+                      <Navbar showBanner={showBanner} />
+                      <Appointment />
+                      <Footer />
+                    </>
+                  }
+                />
 
-              {/* ALL BLOGS PAGE */}
-              <Route path="/blog" element={<AllBlogs />} />
+                <Route
+                  path="/more"
+                  element={
+                    <>
+                      <NotificationBanner
+                        show={showBanner}
+                        setShow={setShowBanner}
+                      />
+                      <Navbar showBanner={showBanner} />
+                      <More />
+                      <Footer />
+                    </>
+                  }
+                />
 
-              {/* BLOG DETAIL PAGE */}
-              <Route path="/blog/:slug" element={<BlogDetail />} />
+                {/* ALL BLOGS PAGE */}
+                <Route path="/blog" element={<AllBlogs />} />
 
-              {/* STORE & PAYMENT ROUTES */}
-              <Route path="/store/:category" element={<ProductsByCategory />} />
-              <Route path="/payment" element={<Payment />} />
+                {/* BLOG DETAIL PAGE */}
+                <Route path="/blog/:slug" element={<BlogDetail />} />
 
-              {/* ADMIN ROUTES (No Navbar/Footer) */}
-              <Route path="/admin" element={<SignIn />} />
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/store/auth" element={<AdminStoreAuth />} />
-              <Route path="/admin/store" element={<AdminStore />} />
-              <Route path="/admin/team" element={<AdminTeam />} />
+                {/* STORE & PAYMENT ROUTES */}
+                <Route
+                  path="/store/:category"
+                  element={<ProductsByCategory />}
+                />
+                <Route path="/payment" element={<Payment />} />
 
-              {/* 404 Fallback */}
-              <Route
-                path="*"
-                element={
-                  <>
-                    <NotificationBanner
-                      show={showBanner}
-                      setShow={setShowBanner}
-                    />
-                    <Navbar showBanner={showBanner} />
-                    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
-                      <div className="text-center p-12 max-w-md mx-auto">
-                        <h1 className="text-6xl font-black text-gray-900 mb-6">
-                          404
-                        </h1>
-                        <p className="text-2xl text-gray-600 mb-8">
-                          Page not found
-                        </p>
-                        <a
-                          href="/"
-                          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
-                        >
-                          ← Back to Home
-                        </a>
+                {/* ADMIN ROUTES (No Navbar/Footer) */}
+                <Route path="/admin" element={<SignIn />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/store/auth" element={<AdminStoreAuth />} />
+                <Route path="/admin/store" element={<AdminStore />} />
+                <Route path="/admin/team" element={<AdminTeam />} />
+
+                {/* 404 Fallback */}
+                <Route
+                  path="*"
+                  element={
+                    <>
+                      <NotificationBanner
+                        show={showBanner}
+                        setShow={setShowBanner}
+                      />
+                      <Navbar showBanner={showBanner} />
+                      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
+                        <div className="text-center p-12 max-w-md mx-auto">
+                          <h1 className="text-6xl font-black text-gray-900 mb-6">
+                            404
+                          </h1>
+                          <p className="text-2xl text-gray-600 mb-8">
+                            Page not found
+                          </p>
+                          <a
+                            href="/"
+                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-xl rounded-3xl shadow-2xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
+                          >
+                            ← Back to Home
+                          </a>
+                        </div>
                       </div>
-                    </div>
-                    <Footer />
-                  </>
-                }
-              />
-            </Routes>
-          </div>
+                      <Footer />
+                    </>
+                  }
+                />
+              </Routes>
+            </div>
+          </>
         </Router>
       )}
     </>
