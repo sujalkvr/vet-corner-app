@@ -43,7 +43,7 @@ const Navbar = ({ showBanner }) => {
     <>
       {/* Desktop Navbar */}
       <nav
-        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-40 border-b border-gray-100 transition-all duration-300 ${
+        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-10 border-b border-gray-100 transition-all duration-300 ${
           showBanner ? "top-[28px]" : "top-0"
         }`}
       >
