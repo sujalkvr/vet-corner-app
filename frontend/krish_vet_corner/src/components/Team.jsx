@@ -1,6 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Users, Award, ChevronLeft, ChevronRight, X, Stethoscope } from 'lucide-react';
-import { API_URL } from '../api';
+import { useState, useEffect } from "react";
+import {
+  Users,
+  Award,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Stethoscope,
+} from "lucide-react";
+import { API_URL } from "../api";
 const Team = () => {
   const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +26,7 @@ const Team = () => {
         setTeamMembers(data.data);
       }
     } catch (error) {
-      console.error('Error fetching team members:', error);
+      console.error("Error fetching team members:", error);
     } finally {
       setLoading(false);
     }
@@ -27,7 +34,9 @@ const Team = () => {
 
   // Desktop navigation (3 cards at a time)
   const handlePreviousDesktop = () => {
-    setCurrentIndex((prev) => (prev === 0 ? Math.max(0, teamMembers.length - 3) : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? Math.max(0, teamMembers.length - 3) : prev - 1,
+    );
   };
 
   const handleNextDesktop = () => {
@@ -45,12 +54,12 @@ const Team = () => {
 
   const openModal = (member) => {
     setSelectedMember(member);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setSelectedMember(null);
-    document.body.style.overflow = 'unset';
+    document.body.style.overflow = "unset";
   };
 
   if (loading) {
@@ -64,18 +73,24 @@ const Team = () => {
     );
   }
 
-  const visibleMembersDesktop = teamMembers.slice(currentIndex, currentIndex + 3);
+  const visibleMembersDesktop = teamMembers.slice(
+    currentIndex,
+    currentIndex + 3,
+  );
   const visibleMemberMobile = teamMembers[currentIndex];
   const canGoPreviousDesktop = currentIndex > 0;
   const canGoNextDesktop = currentIndex < teamMembers.length - 3;
 
   return (
     <>
-      <section id="team" className="py-16 sm:py-20 bg-gradient-to-br from-green-50 via-white to-green-100 relative overflow-hidden">
+      <section
+        id="team"
+        className="py-16 sm:py-20 bg-gradient-to-br from-green-50 via-white to-green-100 relative overflow-hidden"
+      >
         {/* Decorative Background Elements */}
         <div className="absolute top-10 left-10 w-64 h-64 bg-green-200/20 rounded-full blur-3xl" />
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-green-300/10 rounded-full blur-3xl" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Header */}
           <div className="text-center mb-12 sm:mb-16">
@@ -86,7 +101,8 @@ const Team = () => {
               Meet Our Expert Team
             </h2>
             <p className="text-lg sm:text-xl text-green-600 max-w-2xl mx-auto px-4">
-              Dedicated professionals committed to providing the best care for your beloved pets
+              Dedicated professionals committed to providing the best care for
+              your beloved pets
             </p>
           </div>
 
@@ -94,7 +110,9 @@ const Team = () => {
           {teamMembers.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-3xl shadow-xl">
               <Users className="w-24 h-24 mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-600 text-xl">Our team information is coming soon!</p>
+              <p className="text-gray-600 text-xl">
+                Our team information is coming soon!
+              </p>
             </div>
           ) : (
             <>
@@ -107,21 +125,21 @@ const Team = () => {
                       onClick={handlePreviousDesktop}
                       disabled={!canGoPreviousDesktop}
                       className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-14 h-14 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
-                        canGoPreviousDesktop 
-                          ? 'hover:bg-green-500 hover:text-white hover:scale-110 text-green-600' 
-                          : 'opacity-30 cursor-not-allowed text-gray-400'
+                        canGoPreviousDesktop
+                          ? "hover:bg-green-500 hover:text-white hover:scale-110 text-green-600"
+                          : "opacity-30 cursor-not-allowed text-gray-400"
                       }`}
                     >
                       <ChevronLeft size={28} />
                     </button>
-                    
+
                     <button
                       onClick={handleNextDesktop}
                       disabled={!canGoNextDesktop}
                       className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-14 h-14 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 ${
-                        canGoNextDesktop 
-                          ? 'hover:bg-green-500 hover:text-white hover:scale-110 text-green-600' 
-                          : 'opacity-30 cursor-not-allowed text-gray-400'
+                        canGoNextDesktop
+                          ? "hover:bg-green-500 hover:text-white hover:scale-110 text-green-600"
+                          : "opacity-30 cursor-not-allowed text-gray-400"
                       }`}
                     >
                       <ChevronRight size={28} />
@@ -140,15 +158,17 @@ const Team = () => {
                       {/* Image Section */}
                       <div className="relative h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
                         <img
-                          src={`${API_URL}${member.image}`}
+                          //src={`${API_URL}${member.image}`}
+                          src={member.image}
                           alt={member.name}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                           onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/400x500?text=Team+Member';
+                            e.target.src =
+                              "https://via.placeholder.com/400x500?text=Team+Member";
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-                        
+
                         {/* Floating Badge */}
                         <div className="absolute top-4 right-4 w-14 h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform duration-300">
                           <Stethoscope className="text-green-600" size={26} />
@@ -188,14 +208,16 @@ const Team = () => {
                 {/* Pagination Dots */}
                 {teamMembers.length > 3 && (
                   <div className="flex justify-center gap-2">
-                    {Array.from({ length: Math.ceil(teamMembers.length / 3) }).map((_, idx) => (
+                    {Array.from({
+                      length: Math.ceil(teamMembers.length / 3),
+                    }).map((_, idx) => (
                       <button
                         key={idx}
                         onClick={() => setCurrentIndex(idx * 3)}
                         className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          Math.floor(currentIndex / 3) === idx 
-                            ? 'bg-green-600 w-8' 
-                            : 'bg-green-300 hover:bg-green-400'
+                          Math.floor(currentIndex / 3) === idx
+                            ? "bg-green-600 w-8"
+                            : "bg-green-300 hover:bg-green-400"
                         }`}
                       />
                     ))}
@@ -212,7 +234,7 @@ const Team = () => {
                 >
                   <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
                 </button>
-                
+
                 <button
                   onClick={handleNextMobile}
                   className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-green-500 hover:text-white text-green-600"
@@ -230,11 +252,12 @@ const Team = () => {
                         alt={visibleMemberMobile.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/400x500?text=Team+Member';
+                          e.target.src =
+                            "https://via.placeholder.com/400x500?text=Team+Member";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-60" />
-                      
+
                       {/* Floating Badge */}
                       <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-12 h-12 sm:w-14 sm:h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
                         <Stethoscope className="text-green-600" size={22} />
@@ -274,9 +297,9 @@ const Team = () => {
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
                       className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
-                        currentIndex === idx 
-                          ? 'bg-green-600 w-6 sm:w-8' 
-                          : 'w-2 sm:w-2.5 bg-green-300 hover:bg-green-400'
+                        currentIndex === idx
+                          ? "bg-green-600 w-6 sm:w-8"
+                          : "w-2 sm:w-2.5 bg-green-300 hover:bg-green-400"
                       }`}
                     />
                   ))}
@@ -292,7 +315,13 @@ const Team = () => {
                 <Users className="text-green-600" size={18} />
               </div>
               <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
-                Want to join our team? <a href="#contact" className="text-green-600 hover:text-green-800 underline transition-colors">Get in touch</a>
+                Want to join our team?{" "}
+                <a
+                  href="#contact"
+                  className="text-green-600 hover:text-green-800 underline transition-colors"
+                >
+                  Get in touch
+                </a>
               </p>
             </div>
           </div>
@@ -301,11 +330,11 @@ const Team = () => {
 
       {/* Modal Popup */}
       {selectedMember && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn"
           onClick={closeModal}
         >
-          <div 
+          <div
             className="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp"
             onClick={(e) => e.stopPropagation()}
           >
@@ -316,17 +345,21 @@ const Team = () => {
                 alt={selectedMember.name}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/800x400?text=Team+Member';
+                  e.target.src =
+                    "https://via.placeholder.com/800x400?text=Team+Member";
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/40 to-transparent" />
-              
+
               {/* Close Button */}
               <button
                 onClick={closeModal}
                 className="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300 shadow-lg group"
               >
-                <X className="text-green-600 group-hover:text-green-700" size={20} />
+                <X
+                  className="text-green-600 group-hover:text-green-700"
+                  size={20}
+                />
               </button>
 
               {/* Name and Degree Overlay */}
