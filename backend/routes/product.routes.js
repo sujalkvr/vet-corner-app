@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const Product = require('../models/Product');
+const cloudinary = require('../config/cloudinary');
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, '../uploads');
@@ -12,31 +13,33 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // ============= MULTER CONFIGURATION FOR PRODUCTS =============
-const productStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
-    cb(null, 'product-' + uniqueName);
-  }
-});
+// const productStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, uploadsDir);
+//   },
+//   filename: (req, file, cb) => {
+//     const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
+//     cb(null, 'product-' + uniqueName);
+//   }
+// });
 
-const productUpload = multer({ 
-  storage: productStorage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif|webp/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
+const productUpload = multer({ dest: 'uploads/' });
+
+// const productUpload = multer({ 
+//   storage: productStorage,
+//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+//   fileFilter: (req, file, cb) => {
+//     const allowedTypes = /jpeg|jpg|png|gif|webp/;
+//     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+//     const mimetype = allowedTypes.test(file.mimetype);
     
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error('Only image files are allowed!'));
-    }
-  }
-});
+//     if (mimetype && extname) {
+//       return cb(null, true);
+//     } else {
+//       cb(new Error('Only image files are allowed!'));
+//     }
+//   }
+// });
 
 // ============= AUTH MIDDLEWARE =============
 const verifyToken = (req, res, next) => {
@@ -133,13 +136,30 @@ router.post('/', verifyToken, productUpload.single('image'), async (req, res) =>
       });
     }
 
-    const product = new Product({
-      name,
-      image: '/uploads/' + req.file.filename,
-      type,
-      description,
-      price: parseFloat(price)
-    });
+    // const product = new Product({
+    //   name,
+    //   image: '/uploads/' + req.file.filename,
+    //   type,
+    //   description,
+    //   price: parseFloat(price)
+    // });
+
+
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+  folder: 'products'
+});
+
+// delete temp file
+fs.unlinkSync(req.file.path);
+
+const product = new Product({
+  name,
+  image: result.secure_url,
+  type,
+  description,
+  price: parseFloat(price)
+});
 
     await product.save();
 
@@ -186,14 +206,24 @@ router.put('/:id', verifyToken, productUpload.single('image'), async (req, res) 
     if (description) product.description = description;
     if (price) product.price = parseFloat(price);
     
+    // if (req.file) {
+    //   // Delete old image
+    //   const oldImagePath = path.join(__dirname, '..', product.image);
+    //   if (fs.existsSync(oldImagePath)) {
+    //     fs.unlinkSync(oldImagePath);
+    //   }
+    //   product.image = '/uploads/' + req.file.filename;
+    // }
+    
     if (req.file) {
-      // Delete old image
-      const oldImagePath = path.join(__dirname, '..', product.image);
-      if (fs.existsSync(oldImagePath)) {
-        fs.unlinkSync(oldImagePath);
-      }
-      product.image = '/uploads/' + req.file.filename;
-    }
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    folder: 'products'
+  });
+
+  product.image = result.secure_url;
+
+  fs.unlinkSync(req.file.path);
+}
 
     // Regenerate slug if name changed
     if (name) {
