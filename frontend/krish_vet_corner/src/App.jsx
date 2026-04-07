@@ -62,7 +62,11 @@ function App() {
             <NotificationBanner show={showBanner} setShow={setShowBanner} />
             <Navbar showBanner={showBanner} />
 
-            <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-white">
+            <div
+              className={`min-h-screen bg-gradient-to-br from-emerald-50 to-white ${
+                showBanner ? "pt-[120px]" : "pt-16"
+              }`}
+            >
               <ScrollToSection />
 
               <Routes>
