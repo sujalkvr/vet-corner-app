@@ -143,7 +143,7 @@ const ProductsByCategory = () => {
                   {/* Product Image */}
                   <div className="relative h-56 bg-gray-50 overflow-hidden">
                     <img
-                      src={`${API_URL}${product.image}`}
+                      src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                       onError={(e) => {
