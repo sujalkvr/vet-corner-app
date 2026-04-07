@@ -42,7 +42,11 @@ const Navbar = ({ showBanner }) => {
   return (
     <>
       {/* Desktop Navbar */}
-      <nav className="bg-white/80 backdrop-blur-xl shadow-xl sticky top-0 z-50 border-b border-gray-100 transition-all duration-300">
+      <nav
+        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
+          showBanner ? "top-[28px]" : "top-0"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
