@@ -68,7 +68,7 @@ function App() {
 
             <div
               className={`min-h-screen bg-gradient-to-br from-emerald-50 to-white ${
-                showBanner ? "pt-[92px]" : "pt-0"
+                showBanner ? "pt-[28px]" : "pt-0"
               }`}
             >
               <ScrollToSection />
