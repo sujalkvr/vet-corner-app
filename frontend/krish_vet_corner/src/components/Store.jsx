@@ -8,8 +8,8 @@ const Store = () => {
   const categories = [
     {
       id: 'pet-care',
-      name: 'Book Services',
-      description: 'Your pet deserves the best care. Easily book a consultation at your ease.',
+      name: 'Book Our Services',
+      description: 'Browse and select one of our services and proceed to payment.',
       image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80',
       icon: '🐾',
       gradient: 'from-blue-500 to-cyan-500',
@@ -55,7 +55,7 @@ const Store = () => {
              Store
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
-            Discover premium products and courses designed for your pet's health and happiness
+            Discover premium products and courses designed for Petparents and Future veterinarians
           </p>
         </div>
 
