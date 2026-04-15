@@ -1,8 +1,8 @@
 // src/components/AllBlogs.jsx
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, ChevronRight } from 'lucide-react';
-import { API_URL } from '../api';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Calendar, ChevronRight } from "lucide-react";
+import { API_URL } from "../api";
 
 const AllBlogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -14,13 +14,13 @@ const AllBlogs = () => {
     const fetchBlogs = async () => {
       try {
         const response = await fetch(`${API_URL}/api/blogs`);
-        if (!response.ok) throw new Error('Failed to fetch blogs');
-        
+        if (!response.ok) throw new Error("Failed to fetch blogs");
+
         const data = await response.json();
         setBlogs(data);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching blogs:', err);
+        console.error("Error fetching blogs:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -46,10 +46,12 @@ const AllBlogs = () => {
         <div className="text-center">
           <div className="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-xl inline-block">
             <p className="font-semibold">Unable to load blogs</p>
-            <p className="text-sm mt-2">Please check if the server is running</p>
+            <p className="text-sm mt-2">
+              Please check if the server is running
+            </p>
           </div>
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="mt-6 inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
@@ -66,7 +68,7 @@ const AllBlogs = () => {
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="inline-flex items-center text-emerald-600 font-semibold hover:text-emerald-700 transition-all duration-300 hover:translate-x-[-4px]"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
@@ -86,7 +88,7 @@ const AllBlogs = () => {
             Expert pet care advice and tips from Dr. Krish Nayak
           </p>
           <div className="mt-6 inline-block px-6 py-2 bg-emerald-100 text-emerald-700 rounded-full font-semibold">
-            {blogs.length} {blogs.length === 1 ? 'Article' : 'Articles'}
+            {blogs.length} {blogs.length === 1 ? "Article" : "Articles"}
           </div>
         </div>
 
@@ -110,11 +112,12 @@ const AllBlogs = () => {
                 <div className="relative h-64 overflow-hidden">
                   {blog.images && blog.images.length > 0 ? (
                     <img
-                      src={`${API_URL}/${blog.images[0].replace(/^\/+/, '')}`}
+                      src={blog.images[0]}
                       alt={blog.title}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x300?text=Blog+Image';
+                        e.target.src =
+                          "https://via.placeholder.com/400x300?text=Blog+Image";
                       }}
                     />
                   ) : (
@@ -122,7 +125,7 @@ const AllBlogs = () => {
                       <span className="text-white text-6xl">🐾</span>
                     </div>
                   )}
-                  
+
                   {/* Overlay on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end justify-center pb-6">
                     <div className="flex items-center space-x-2 text-white font-bold text-lg">
@@ -136,10 +139,10 @@ const AllBlogs = () => {
                     <div className="flex items-center space-x-2 text-sm">
                       <Calendar className="w-4 h-4 text-emerald-600" />
                       <span className="font-semibold text-gray-700">
-                        {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                          month: 'short', 
-                          day: 'numeric',
-                          year: 'numeric'
+                        {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
                         })}
                       </span>
                     </div>
@@ -151,7 +154,7 @@ const AllBlogs = () => {
                   <h2 className="text-2xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2 group-hover:text-emerald-600 transition-colors duration-300">
                     {blog.title}
                   </h2>
-                  
+
                   <p className="text-gray-600 line-clamp-3 leading-relaxed mb-4">
                     {blog.content}
                   </p>
@@ -170,7 +173,7 @@ const AllBlogs = () => {
         {/* Back Button at Bottom */}
         <div className="mt-16 text-center">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
             className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-emerald-500/50 hover:scale-105 transition-all duration-300"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
