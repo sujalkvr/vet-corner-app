@@ -37,7 +37,11 @@ const ScrollToSection = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.hash) {
+    // Always go to top on route change
+    window.scrollTo(0, 0);
+
+    // Only handle hash scrolling on home page
+    if (location.pathname === "/" && location.hash) {
       const element = document.querySelector(location.hash);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
