@@ -457,10 +457,10 @@ const AdminTeam = () => {
                         src={member.image}
                         alt={member.name}
                         className="w-24 h-24 rounded-2xl object-cover border-4 border-teal-100 flex-shrink-0"
-                        onError={(e) => {
-                          e.target.src =
-                            "https://via.placeholder.com/150?text=Team";
-                        }}
+                        // onError={(e) => {
+                        //   e.target.src =
+                        //     "https://via.placeholder.com/150?text=Team";
+                        // }}
                       />
 
                       <div className="flex-1 min-w-0">
