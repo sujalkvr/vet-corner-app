@@ -534,7 +534,7 @@ const AdminStore = () => {
                     {/* Product Image */}
                     <div className="relative h-48 bg-gradient-to-br from-violet-100 to-pink-100">
                       <img
-                        src={product.image}
+                        src={`${API_URL}${product.image}`}
                         alt={product.name}
                         className="w-full h-full object-cover"
                         onError={(e) => {
