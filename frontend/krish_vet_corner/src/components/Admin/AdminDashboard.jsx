@@ -1,28 +1,41 @@
 // src/components/Admin/AdminDashboard.jsx - COMPLETE FIXED VERSION
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Upload, Trash2, LogOut, Eye, Star, Calendar, FileText, Bell, Power, PowerOff } from 'lucide-react';
-import { API_URL } from '../../api';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Upload,
+  Trash2,
+  LogOut,
+  Eye,
+  Star,
+  Calendar,
+  FileText,
+  Bell,
+  Power,
+  PowerOff,
+} from "lucide-react";
+import { API_URL } from "../../api";
 // Blog Card Component - MOVED OUTSIDE
 const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className={`border-2 rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
-      isFeatured 
-        ? 'border-emerald-300 bg-white hover:border-emerald-400 hover:shadow-lg' 
-        : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg'
-    }`}>
+    <div
+      className={`border-2 rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
+        isFeatured
+          ? "border-emerald-300 bg-white hover:border-emerald-400 hover:shadow-lg"
+          : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg"
+      }`}
+    >
       <div className="flex flex-col sm:flex-row gap-4">
         {/* Blog Image */}
         <div className="w-full sm:w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
           {blog.images && blog.images.length > 0 ? (
             <img
-              src={`${API_URL}${blog.images[0]}`}
+              src={blog.images[0]}
               alt={blog.title}
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.target.src = 'https://via.placeholder.com/150?text=Blog';
+                e.target.src = "https://via.placeholder.com/150?text=Blog";
               }}
             />
           ) : (
@@ -44,10 +57,10 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
                   </span>
                 )}
                 <span className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                  {new Date(blog.createdAt).toLocaleDateString('en-US', { 
-                    month: 'short', 
-                    day: 'numeric',
-                    year: 'numeric'
+                  {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
                   })}
                 </span>
               </div>
@@ -60,13 +73,18 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
               className="p-2 sm:p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all flex-shrink-0 group"
               title="Delete blog"
             >
-              <Trash2 size={20} className="group-hover:scale-110 transition-transform" />
+              <Trash2
+                size={20}
+                className="group-hover:scale-110 transition-transform"
+              />
             </button>
           </div>
 
-          <p className={`text-gray-600 text-sm leading-relaxed mb-3 ${
-            isExpanded ? '' : 'line-clamp-2'
-          }`}>
+          <p
+            className={`text-gray-600 text-sm leading-relaxed mb-3 ${
+              isExpanded ? "" : "line-clamp-2"
+            }`}
+          >
             {blog.content}
           </p>
 
@@ -75,10 +93,10 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
               onClick={() => setIsExpanded(!isExpanded)}
               className="text-blue-600 hover:text-blue-700 font-semibold text-sm"
             >
-              {isExpanded ? '▲ Show Less' : '▼ Read More'}
+              {isExpanded ? "▲ Show Less" : "▼ Read More"}
             </button>
-            
-            <a 
+
+            <a
               href={`/blog/${blog.slug}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -97,18 +115,18 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
 const AdminDashboard = () => {
   const [blogs, setBlogs] = useState([]);
   const [notifications, setNotifications] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
-  const [notificationContent, setNotificationContent] = useState('');
+  const [notificationContent, setNotificationContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [notificationLoading, setNotificationLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('create');
+  const [activeTab, setActiveTab] = useState("create");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('adminToken');
-    if (!token) navigate('/admin');
+    const token = localStorage.getItem("adminToken");
+    if (!token) navigate("/admin");
     fetchBlogs();
     fetchNotifications();
   }, []);
@@ -119,60 +137,60 @@ const AdminDashboard = () => {
       const data = await response.json();
       setBlogs(data);
     } catch (error) {
-      console.error('Error fetching blogs:', error);
+      console.error("Error fetching blogs:", error);
     }
   };
 
   const fetchNotifications = async () => {
     try {
-      const token = localStorage.getItem('adminToken');
+      const token = localStorage.getItem("adminToken");
       const response = await fetch(`${API_URL}/api/notifications/all`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       setNotifications(data);
     } catch (error) {
-      console.error('Error fetching notifications:', error);
+      console.error("Error fetching notifications:", error);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (images.length !== 3) {
-      alert('Please upload exactly 3 images');
+      alert("Please upload exactly 3 images");
       return;
     }
 
     setLoading(true);
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    Array.from(images).forEach(img => formData.append('images', img));
+    formData.append("title", title);
+    formData.append("content", content);
+    Array.from(images).forEach((img) => formData.append("images", img));
 
     try {
       const response = await fetch(`${API_URL}/api/blogs`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
       });
 
       const data = await response.json();
 
       if (data.success) {
-        alert('✅ Blog created successfully!');
-        setTitle('');
-        setContent('');
+        alert("✅ Blog created successfully!");
+        setTitle("");
+        setContent("");
         setImages([]);
-        document.getElementById('fileInput').value = '';
+        document.getElementById("fileInput").value = "";
         fetchBlogs();
-        setActiveTab('manage');
+        setActiveTab("manage");
       } else {
-        alert(data.message || 'Error creating blog');
+        alert(data.message || "Error creating blog");
       }
     } catch (err) {
-      alert('Error creating blog. Check console for details.');
+      alert("Error creating blog. Check console for details.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -180,24 +198,29 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('⚠️ Are you sure you want to delete this blog? This action cannot be undone.')) return;
-    
-    const token = localStorage.getItem('adminToken');
+    if (
+      !confirm(
+        "⚠️ Are you sure you want to delete this blog? This action cannot be undone.",
+      )
+    )
+      return;
+
+    const token = localStorage.getItem("adminToken");
 
     try {
       const response = await fetch(`${API_URL}/api/blogs/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
-        alert('✅ Blog deleted successfully!');
+        alert("✅ Blog deleted successfully!");
         fetchBlogs();
       }
     } catch (error) {
-      alert('❌ Error deleting blog');
+      alert("❌ Error deleting blog");
       console.error(error);
     }
   };
@@ -206,29 +229,29 @@ const AdminDashboard = () => {
     e.preventDefault();
 
     setNotificationLoading(true);
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
 
     try {
       const response = await fetch(`${API_URL}/api/notifications`, {
-        method: 'POST',
-        headers: { 
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content: notificationContent })
+        body: JSON.stringify({ content: notificationContent }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        alert('✅ Notification created successfully!');
-        setNotificationContent('');
+        alert("✅ Notification created successfully!");
+        setNotificationContent("");
         fetchNotifications();
       } else {
-        alert(data.message || 'Error creating notification');
+        alert(data.message || "Error creating notification");
       }
     } catch (err) {
-      alert('Error creating notification. Check console for details.');
+      alert("Error creating notification. Check console for details.");
       console.error(err);
     } finally {
       setNotificationLoading(false);
@@ -236,56 +259,60 @@ const AdminDashboard = () => {
   };
 
   const handleToggleNotification = async (id) => {
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
 
     try {
-      const response = await fetch(`${API_URL}/api/notifications/${id}/toggle`, {
-        method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const response = await fetch(
+        `${API_URL}/api/notifications/${id}/toggle`,
+        {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
 
       const data = await response.json();
-      
+
       if (data.success) {
         fetchNotifications();
       }
     } catch (error) {
-      alert('❌ Error toggling notification');
+      alert("❌ Error toggling notification");
       console.error(error);
     }
   };
 
   const handleDeleteNotification = async (id) => {
-    if (!confirm('⚠️ Are you sure you want to delete this notification?')) return;
-    
-    const token = localStorage.getItem('adminToken');
+    if (!confirm("⚠️ Are you sure you want to delete this notification?"))
+      return;
+
+    const token = localStorage.getItem("adminToken");
 
     try {
       const response = await fetch(`${API_URL}/api/notifications/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
-        alert('✅ Notification deleted successfully!');
+        alert("✅ Notification deleted successfully!");
         fetchNotifications();
       }
     } catch (error) {
-      alert('❌ Error deleting notification');
+      alert("❌ Error deleting notification");
       console.error(error);
     }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    navigate('/admin');
+    localStorage.removeItem("adminToken");
+    navigate("/admin");
   };
 
   const featuredBlogs = blogs.slice(0, 3);
   const otherBlogs = blogs.slice(3);
-  const activeNotifications = notifications.filter(n => n.isActive);
+  const activeNotifications = notifications.filter((n) => n.isActive);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 sm:p-8">
@@ -301,8 +328,8 @@ const AdminDashboard = () => {
           <div className="flex gap-3">
             <button
               onClick={() => {
-                localStorage.removeItem('storeAuthToken');
-                navigate('/admin/store/auth');
+                localStorage.removeItem("storeAuthToken");
+                navigate("/admin/store/auth");
               }}
               className="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-all shadow-lg"
             >
@@ -310,13 +337,13 @@ const AdminDashboard = () => {
             </button>
 
             <button
-  onClick={() => navigate('/admin/team')}
-  className="flex items-center space-x-2 px-4 py-2 bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition-all shadow-lg"
->
-  <span className="hidden sm:inline">Team</span>
-</button>
-            
-            <a 
+              onClick={() => navigate("/admin/team")}
+              className="flex items-center space-x-2 px-4 py-2 bg-teal-500 text-white rounded-xl hover:bg-teal-600 transition-all shadow-lg"
+            >
+              <span className="hidden sm:inline">Team</span>
+            </button>
+
+            <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
@@ -346,22 +373,30 @@ const AdminDashboard = () => {
               <FileText className="w-12 h-12 text-blue-200" />
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white rounded-2xl p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-emerald-100 text-sm font-medium">Featured on Home</p>
-                <p className="text-4xl font-bold mt-2">{Math.min(blogs.length, 3)}</p>
+                <p className="text-emerald-100 text-sm font-medium">
+                  Featured on Home
+                </p>
+                <p className="text-4xl font-bold mt-2">
+                  {Math.min(blogs.length, 3)}
+                </p>
               </div>
               <Star className="w-12 h-12 text-emerald-200 fill-current" />
             </div>
           </div>
-          
+
           <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-2xl p-6 shadow-xl">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-purple-100 text-sm font-medium">Active Notifications</p>
-                <p className="text-4xl font-bold mt-2">{activeNotifications.length}</p>
+                <p className="text-purple-100 text-sm font-medium">
+                  Active Notifications
+                </p>
+                <p className="text-4xl font-bold mt-2">
+                  {activeNotifications.length}
+                </p>
               </div>
               <Bell className="w-12 h-12 text-purple-200" />
             </div>
@@ -371,31 +406,31 @@ const AdminDashboard = () => {
         {/* Tab Navigation */}
         <div className="bg-white rounded-2xl shadow-lg p-2 mb-8 flex gap-2">
           <button
-            onClick={() => setActiveTab('create')}
+            onClick={() => setActiveTab("create")}
             className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${
-              activeTab === 'create'
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                : 'text-gray-600 hover:bg-gray-100'
+              activeTab === "create"
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
             ✏️ Create Blog
           </button>
           <button
-            onClick={() => setActiveTab('manage')}
+            onClick={() => setActiveTab("manage")}
             className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${
-              activeTab === 'manage'
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                : 'text-gray-600 hover:bg-gray-100'
+              activeTab === "manage"
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
             📚 Manage Blogs
           </button>
           <button
-            onClick={() => setActiveTab('notifications')}
+            onClick={() => setActiveTab("notifications")}
             className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${
-              activeTab === 'notifications'
-                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                : 'text-gray-600 hover:bg-gray-100'
+              activeTab === "notifications"
+                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
             🔔 Notifications
@@ -403,7 +438,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Create Blog Tab */}
-        {activeTab === 'create' && (
+        {activeTab === "create" && (
           <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 animate-fadeIn">
             <h2 className="text-2xl font-bold mb-6 flex items-center">
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -412,7 +447,9 @@ const AdminDashboard = () => {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block font-semibold mb-2 text-gray-700">Blog Title *</label>
+                <label className="block font-semibold mb-2 text-gray-700">
+                  Blog Title *
+                </label>
                 <input
                   type="text"
                   value={title}
@@ -425,7 +462,9 @@ const AdminDashboard = () => {
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-gray-700">Content *</label>
+                <label className="block font-semibold mb-2 text-gray-700">
+                  Content *
+                </label>
                 <textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
@@ -435,12 +474,16 @@ const AdminDashboard = () => {
                   disabled={loading}
                 />
                 <p className="text-sm text-gray-500 mt-2">
-                  {content.length} characters • {Math.ceil(content.split(' ').filter(w => w).length / 200)} min read
+                  {content.length} characters •{" "}
+                  {Math.ceil(content.split(" ").filter((w) => w).length / 200)}{" "}
+                  min read
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-gray-700">Upload 3 Images *</label>
+                <label className="block font-semibold mb-2 text-gray-700">
+                  Upload 3 Images *
+                </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-all bg-gray-50">
                   <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                   <input
@@ -465,11 +508,13 @@ const AdminDashboard = () => {
                         ✓ {images.length} file(s) selected
                       </span>
                     ) : (
-                      'Select exactly 3 images (JPG, PNG, GIF, WebP)'
+                      "Select exactly 3 images (JPG, PNG, GIF, WebP)"
                     )}
                   </p>
                   {images.length > 0 && images.length !== 3 && (
-                    <p className="text-red-600 text-sm mt-2">⚠️ Please select exactly 3 images</p>
+                    <p className="text-red-600 text-sm mt-2">
+                      ⚠️ Please select exactly 3 images
+                    </p>
                   )}
                 </div>
               </div>
@@ -480,14 +525,14 @@ const AdminDashboard = () => {
                 className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-4 rounded-xl hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Upload size={20} />
-                <span>{loading ? 'Publishing...' : '🚀 Publish Blog'}</span>
+                <span>{loading ? "Publishing..." : "🚀 Publish Blog"}</span>
               </button>
             </form>
           </div>
         )}
 
         {/* Manage Blogs Tab */}
-        {activeTab === 'manage' && (
+        {activeTab === "manage" && (
           <div className="space-y-6 animate-fadeIn">
             {/* Featured Blogs Section */}
             {featuredBlogs.length > 0 && (
@@ -502,15 +547,16 @@ const AdminDashboard = () => {
                   </span>
                 </div>
                 <p className="text-emerald-700 mb-6 bg-white/60 p-4 rounded-xl">
-                  ℹ️ <strong>The first 3 blogs</strong> (newest to oldest) are automatically displayed on the homepage. 
-                  Reorder by deleting and recreating blogs.
+                  ℹ️ <strong>The first 3 blogs</strong> (newest to oldest) are
+                  automatically displayed on the homepage. Reorder by deleting
+                  and recreating blogs.
                 </p>
                 <div className="space-y-4">
                   {featuredBlogs.map((blog, index) => (
-                    <BlogCard 
-                      key={blog._id} 
-                      blog={blog} 
-                      index={index} 
+                    <BlogCard
+                      key={blog._id}
+                      blog={blog}
+                      index={index}
                       onDelete={handleDelete}
                       isFeatured={true}
                     />
@@ -532,14 +578,15 @@ const AdminDashboard = () => {
                   </span>
                 </div>
                 <p className="text-gray-600 mb-6 bg-gray-50 p-4 rounded-xl">
-                  These blogs are visible on the "All Blogs" page but not featured on the homepage.
+                  These blogs are visible on the "All Blogs" page but not
+                  featured on the homepage.
                 </p>
                 <div className="space-y-4">
                   {otherBlogs.map((blog, index) => (
-                    <BlogCard 
-                      key={blog._id} 
-                      blog={blog} 
-                      index={index + 3} 
+                    <BlogCard
+                      key={blog._id}
+                      blog={blog}
+                      index={index + 3}
                       onDelete={handleDelete}
                       isFeatured={false}
                     />
@@ -552,10 +599,14 @@ const AdminDashboard = () => {
             {blogs.length === 0 && (
               <div className="bg-white rounded-3xl shadow-xl p-12 text-center">
                 <div className="text-6xl mb-4">📝</div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">No blogs yet</h3>
-                <p className="text-gray-600 mb-6">Create your first blog post to get started!</p>
+                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                  No blogs yet
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Create your first blog post to get started!
+                </p>
                 <button
-                  onClick={() => setActiveTab('create')}
+                  onClick={() => setActiveTab("create")}
                   className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-xl hover:shadow-xl hover:scale-105 transition-all"
                 >
                   <Upload size={20} className="mr-2" />
@@ -567,7 +618,7 @@ const AdminDashboard = () => {
         )}
 
         {/* Notifications Tab */}
-        {activeTab === 'notifications' && (
+        {activeTab === "notifications" && (
           <div className="space-y-6 animate-fadeIn">
             {/* Create Notification Form */}
             <div className="bg-white rounded-3xl shadow-xl p-6 sm:p-8">
@@ -577,10 +628,12 @@ const AdminDashboard = () => {
                   Create Notification
                 </span>
               </h2>
-              
+
               <form onSubmit={handleNotificationSubmit} className="space-y-6">
                 <div>
-                  <label className="block font-semibold mb-2 text-gray-700">Notification Text *</label>
+                  <label className="block font-semibold mb-2 text-gray-700">
+                    Notification Text *
+                  </label>
                   <textarea
                     value={notificationContent}
                     onChange={(e) => setNotificationContent(e.target.value)}
@@ -591,7 +644,8 @@ const AdminDashboard = () => {
                     maxLength={200}
                   />
                   <p className="text-sm text-gray-500 mt-2">
-                    Keep it short and catchy! {notificationContent.length}/200 characters
+                    Keep it short and catchy! {notificationContent.length}/200
+                    characters
                   </p>
                 </div>
 
@@ -601,7 +655,11 @@ const AdminDashboard = () => {
                   className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold py-4 rounded-xl hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Bell size={20} />
-                  <span>{notificationLoading ? 'Creating...' : '📢 Create Notification'}</span>
+                  <span>
+                    {notificationLoading
+                      ? "Creating..."
+                      : "📢 Create Notification"}
+                  </span>
                 </button>
               </form>
             </div>
@@ -614,14 +672,17 @@ const AdminDashboard = () => {
                   All Notifications
                 </span>
                 <span className="text-sm font-normal text-gray-600">
-                  {notifications.length} total • {activeNotifications.length} active
+                  {notifications.length} total • {activeNotifications.length}{" "}
+                  active
                 </span>
               </h2>
 
               {notifications.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🔔</div>
-                  <p className="text-gray-600">No notifications yet. Create your first one above!</p>
+                  <p className="text-gray-600">
+                    No notifications yet. Create your first one above!
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -630,8 +691,8 @@ const AdminDashboard = () => {
                       key={notification._id}
                       className={`border-2 rounded-2xl p-4 sm:p-6 transition-all ${
                         notification.isActive
-                          ? 'border-green-300 bg-green-50'
-                          : 'border-gray-200 bg-gray-50'
+                          ? "border-green-300 bg-green-50"
+                          : "border-gray-200 bg-gray-50"
                       }`}
                     >
                       <div className="flex items-center gap-4">
@@ -646,12 +707,14 @@ const AdminDashboard = () => {
                             {notification.content}
                           </p>
                           <p className="text-sm text-gray-500 mt-1">
-                            {new Date(notification.createdAt).toLocaleDateString('en-US', {
-                              month: 'short',
-                              day: 'numeric',
-                              year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
+                            {new Date(
+                              notification.createdAt,
+                            ).toLocaleDateString("en-US", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
                             })}
                           </p>
                         </div>
@@ -659,18 +722,30 @@ const AdminDashboard = () => {
                         {/* Actions */}
                         <div className="flex gap-2 flex-shrink-0">
                           <button
-                            onClick={() => handleToggleNotification(notification._id)}
+                            onClick={() =>
+                              handleToggleNotification(notification._id)
+                            }
                             className={`p-3 rounded-xl transition-all ${
                               notification.isActive
-                                ? 'bg-green-500 text-white hover:bg-green-600'
-                                : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
+                                ? "bg-green-500 text-white hover:bg-green-600"
+                                : "bg-gray-300 text-gray-600 hover:bg-gray-400"
                             }`}
-                            title={notification.isActive ? 'Active - Click to deactivate' : 'Inactive - Click to activate'}
+                            title={
+                              notification.isActive
+                                ? "Active - Click to deactivate"
+                                : "Inactive - Click to activate"
+                            }
                           >
-                            {notification.isActive ? <Power size={20} /> : <PowerOff size={20} />}
+                            {notification.isActive ? (
+                              <Power size={20} />
+                            ) : (
+                              <PowerOff size={20} />
+                            )}
                           </button>
                           <button
-                            onClick={() => handleDeleteNotification(notification._id)}
+                            onClick={() =>
+                              handleDeleteNotification(notification._id)
+                            }
                             className="p-3 bg-red-100 text-red-600 rounded-xl hover:bg-red-200 transition-all"
                             title="Delete notification"
                           >
