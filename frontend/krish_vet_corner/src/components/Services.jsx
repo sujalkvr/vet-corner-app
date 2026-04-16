@@ -10,8 +10,8 @@ const Services = () => {
     {
       id: 1,
       title: 'Online Consultation',
-      subtitle: 'Includes 3 days of free follow-up chats for:',
-      brief: 'Comprehensive health assessments and diagnostics. Personalized treatment recommendations. Routine checkups and preventive care.',
+      subtitle: 'Fee:Rs 299/-',
+      brief: 'Includes 3 days free followup chats for Comprehensive health assessments and diagnostics. Personalized treatment recommendations.',
       bgColor: 'from-emerald-400/80 to-teal-500/80',
       image: 'images/services1.jpeg',
       details: 'Our expert veterinarians provide thorough consultations to diagnose and treat your pet\'s health issues. From routine checkups to complex medical conditions, we create personalized treatment plans tailored to your pet\'s specific needs and lifestyle.',
@@ -19,23 +19,23 @@ const Services = () => {
     },
     {
       id: 2,
-      title: 'Vaccination',
-      subtitle: 'Complete vaccination schedules for optimal protection',
-      brief: 'Full puppy/kitten vaccination series available. Adult booster shots and rabies vaccines. Customized schedules based on lifestyle.',
+      title: 'Home Visit',
+      subtitle: 'Fee:Rs 1499/-',
+      brief: 'We provide convenient, in-home veterinary services, reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.',
       bgColor: 'from-blue-400/80 to-emerald-500/80',
       image: 'images/services2.jpg',
       details: 'We follow the latest veterinary guidelines with complete vaccination schedules customized for puppies, kittens, and adult pets. Our vaccination programs protect against deadly diseases with regular boosters to maintain lifelong immunity.',
-      features: ['Puppy/Kitten series', 'Adult boosters', 'Rabies vaccination', 'Lifestyle vaccines']
+      features: ['Puppy/Kitten series', 'Adult boosters', 'General consults', 'Blood Diagnotic Tests']
     },
     {
       id: 3,
-      title: 'Nutrition',
-      subtitle: 'Personalized nutrition plans for pet wellness',
-      brief: 'Custom diet plans for all life stages. Weight management programs. Special medical diets and supplements.',
+      title: 'Vet Student Support',
+      subtitle: 'Fee: Rs 299/-',
+      brief: 'Dedicated guidance and support for young veterinarians in Carrer support & Job refferals.',
       bgColor: 'from-purple-400/80 to-pink-500/80',
       image: 'images/services3.jpg',
-      details: 'Nutrition consultations with specialized diets for all life stages, medical conditions, and weight management. We recommend premium foods and create feeding plans based on your pet\'s age, breed, activity level, and health requirements.',
-      features: ['Dietary assessments', 'Weight management', 'Special needs diets', 'Supplement guidance']
+      details: 'We provides remote guidance to recent graduates, assisting with case diagnostics, treatment plans, and client communication using live video/chat. These experts help bridge the gap between education and clinical practice, enhancing decision-making and boosting confidence in a supportive, virtual environment.',
+      features: ['Career& Overseas guidance-NAVLE/MRCVS/AVE', 'Spay & Neuter Training', 'Client Communication', 'Handling Emergency cases']
     }
   ];
 
