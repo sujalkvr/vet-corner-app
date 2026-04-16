@@ -85,7 +85,7 @@ const About = () => {
                 <Heart className="w-8 h-8 text-red-500 mr-3" />
                 About Krish Vet Corner
               </h4>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              <div className="text-lg text-gray-700 leading-relaxed mb-6">
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   Krish Vet Corner was founded with a simple but powerful
                   belief: every pet deserves the right treatment, and every pet
@@ -98,7 +98,7 @@ const About = () => {
                   communication, and support for informed decisions, especially
                   in stressful or critical moments.”
                 </p>
-              </p>
+              </div>
               <p className="text-lg text-gray-700 leading-relaxed">
                 "Every pet deserves the best care possible" - Dr. Krish
               </p>
