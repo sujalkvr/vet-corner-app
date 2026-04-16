@@ -47,7 +47,7 @@ const NotificationBanner = ({ show, setShow }) => {
         top: 0,
         left: 0,
         width: "100%",
-        zIndex: 50,
+        zIndex: 10000,
       }}
     >
       <div
