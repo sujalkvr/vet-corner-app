@@ -7,8 +7,8 @@ const Faq = () => {
 
   const faqs = [
     {
-      question: "When do I need teleconsultation?",
-      answer: "We offer a comprehensive range of services including web development, mobile app development, UI/UX design, and digital marketing solutions tailored to your business needs."
+      question: "Do you have home vet visit facility?",
+      answer: "Yes, we do provide home visit consultation, Only in specific locations, please check the scrolling bar for current available locations."
     },
     {
       question: "What is teleconsultation?",
@@ -19,34 +19,34 @@ const Faq = () => {
       answer: "Yes, most dogs and cats can receive online guidance. Emergencies or conditions requiring physical examination must be handled at a clinic."
     },
     {
-      question: "Do you provide ongoing support?",
-      answer: "Yes! We offer various maintenance and support packages to ensure your product continues to perform optimally. This includes updates, bug fixes, and feature enhancements."
+      question: "How should I prepare?",
+      answer: "Keep your pet calm and in view of the camera. Have medical records ready. Note down your questions."
     },
     {
-      question: "What technologies do you work with?",
-      answer: "We work with modern technologies including React, Node.js, Python, Three.js, and various databases. Our team stays updated with the latest industry trends and best practices."
+      question: "Will I get prescriptions?",
+      answer: "Yes, digital prescriptions are provided where appropriate."
     },
     {
-      question: "Can you work with our existing team?",
-      answer: "Absolutely! We're experienced in collaborating with in-house teams and can integrate seamlessly into your existing workflow and development processes."
+      question: "When do I need teleconsultation? ",
+      answer: "Sudden changes in appetite, digestive issues, skin concerns, mobility problems, respiratory signs,preventive care. No matter the reason, ourteam is committed to identify the cause and improving your pets quality of life."
     },
     {
-      question: "How do we get started?",
-      answer: "Simply reach out through our contact form or email. We'll schedule a free consultation to discuss your project, understand your goals, and provide recommendations on the best approach."
+      question: "Refund Policy",
+      answer: "Full refund: ≥24 hours before consultation. Partial refund: <24 hours. No refund once consultation has started."
     }
   ];
 
   const reviews = [
-    { name: 'rohan K.', rating: 5, text: 'Dr. Krish saved my puppy! His expertise and care were exceptional.' },
-    { name: 'mukul N.', rating: 5, text: 'Best vet in Warsaw. My cat recovered quickly from surgery.' },
-    { name: 'surya Z.', rating: 5, text: 'Smooth vaccination process. Great service and friendly staff.' },
-    { name: 'thalapathy vijay', rating: 5, text: 'Emergency care was perfect - truly a lifesaver for my dog!' },
-    { name: 'samantha L.', rating: 5, text: 'Perfect dental surgery. My pet is happy and healthy now.' },
-    { name: 'vijay s.', rating: 5, text: 'My lab lost 10kg with their diet plan. Excellent guidance!' },
-    { name: 'anuska S.', rating: 5, text: 'Grooming plus checkup combo was perfect and affordable.' },
-    { name: 'Michał J.', rating: 5, text: 'Puppy vaccines done right. Very professional service.' },
-    { name: 'Monika W.', rating: 5, text: 'Painless dental extraction. My cat didn\'t even notice!' },
-    { name: 'Robert M.', rating: 5, text: '8 years of excellent care. We trust Dr. Krish completely.' }
+    { name: 'Keerthana P.', rating: 5, text: 'Dr. Krish saved my puppy! His expertise and care were exceptional.' },
+    { name: 'Yash.', rating: 5, text: 'Cant thank enough. My cat recovered quickly from surgery,Thanks to Dr. Krish.' },
+    { name: 'Gayathri Reddy.', rating: 5, text: 'Smooth vaccination process. Great service by Dr. krish Nayak and staff.' },
+    { name: 'Vijay Pal', rating: 5, text: 'Emergency care was perfect - truly a lifesaver for my dog. Kudos Dr. Krish Sir!' },
+    { name: 'Arora.', rating: 5, text: 'Consulting Dr. Krish from last 1 year. Always guides well.' },
+    { name: 'Revathi.', rating: 5, text: 'My lab lost 10kg with their diet plan. Excellent guidance!' },
+    { name: 'Famida.', rating: 5, text: 'My cat spay surgery Performed by Dr. krish . Recovered well, Highly reccommend him.' },
+    { name: 'Rohit Korada.', rating: 5, text: 'Puppy vaccines done right. Very professional service.' },
+    { name: 'Monika SN.', rating: 5, text: 'Painless Vaccination. My cat didn\'t even notice!' },
+    { name: 'Teja Sri.', rating: 5, text: '3 years of excellent care. We trust Dr. Krish completely.' }
   ];
 
   // Triple the reviews for seamless loop
@@ -140,7 +140,7 @@ const Faq = () => {
                 Happy Pet Parents
               </h2>
               <p className="text-lg text-gray-700">
-                Trusted by thousands across Warsaw
+                When compassion meets trust
               </p>
             </div>
 
