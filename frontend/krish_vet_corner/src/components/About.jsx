@@ -66,14 +66,13 @@ const About = () => {
                <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-3xl shadow-2xl border border-gray-200/50 hover:shadow-emerald-300/30 transition-all duration-500">
               <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <Heart className="w-8 h-8 text-red-500 mr-3" />
-                About Krish Vet Corner
+                About Dr. Krish 
               </h4>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
               A graduate of Madras Veterinary College, one of India’s most renowned veterinary
-institutions, known for its extensive exposure to small animal clinical cases.
-Dr. Krish has specialized experience in small animal medicine and soft tissue surgery
-and is certified in Small Animal Emergency & Critical Care.
-Clinical Experience:
+institutions, known for its extensive exposure to small animal practice.
+Dr. Krish has specialized experience in small animal internal medicine,Emergency & Critical Care and soft tissue surgery.
+                
               </p>
             </div>
             </div>
@@ -92,11 +91,25 @@ irrespective of location or access to veterinary services.
 “I believe continuity of care matters — pet parents shouldn’t have to see a different
 veterinarian at every consultation. My goal isn’t to replace in-person veterinary care, but
 to complement it by providing timely, evidence-based guidance, clear communication,
-and support for informed decisions, especially in stressful or critical moments.”
-— Dr. Krish Banothu
+and support for informed decisions, especially in stressful or critical moments.” 
+                During my years in busy veterinary hospitals, I noticed a recurring challengeconsultations often felt rushed, leaving pet parents with unanswered questions.
+I started Krish Vet Corner to bridge this gap. My mission is to bring my expertise directly
+to you through teleconsultation, ensuring continuity of care, clear communication, and
+personalized guidance.
+Beyond treatment, I aim to educate pet parents — helping you understand medications,
+preventive care, and best practices for your pet’s health. Through teleconsultation, many
+of these outcomes can be achieved remotely, giving you confidence while minimizing
+stress for both you and your pet.
+I strongly believe that many complications arise from miscommunication or incomplete
+understanding. Timely, evidence-based advice — delivered with patience, transparency,
+and education — can prevent unnecessary stress, improve outcomes, and empower pet
+parents.
+Through Krish Vet Corner, my goal is to make veterinary care clearer, calmer, and more
+accessible for all pets, while always respecting the importance of in-person examinations
+and emergency care when required
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                "Every pet deserves the best care possible" - Krish Nayak
+                "Every pet deserves the best care possible" - Dr. Krish
               </p>
             </div>
           </div>
@@ -136,10 +149,10 @@ and support for informed decisions, especially in stressful or critical moments.
                 <div className={`absolute bottom-0 left-0 right-0 opacity-0 group-hover:opacity-100 transition-all duration-700 p-6`}>
                   <div className="text-center">
                     <h3 className="text-xl md:text-2xl font-bold text-white drop-shadow-lg mb-1">
-                      Dr. Krish Nayak
+                      Krish Vet Corner
                     </h3>
                     <p className="text-emerald-200 text-xs md:text-sm font-medium uppercase tracking-wide">
-                      Veterinary Surgeon
+                      Expert Vet Care- Simplified
                     </p>
                   </div>
                 </div>
