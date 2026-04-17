@@ -65,9 +65,7 @@ const About = () => {
                 DVM | BVSC & AH | DipECC
               </span>
               <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-3xl shadow-2xl border border-gray-200/50 hover:shadow-emerald-300/30 transition-all duration-500">
-                <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <Heart className="w-8 h-8 text-red-500 mr-3" />
-                </h4>
+                <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center"></h4>
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   A graduate of Madras Veterinary College, one of India’s most
                   renowned veterinary institutions, known for its extensive
