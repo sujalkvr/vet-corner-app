@@ -31,6 +31,7 @@ const Navbar = ({ showBanner }) => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Services", path: "#services" },
+    { name: "Our Expertise", path: "#expertise" },
     { name: "About", path: "#about" },
     { name: "Store", path: "#store" },
     { name: "Blog", path: "#blog" },
@@ -66,26 +67,37 @@ const Navbar = ({ showBanner }) => {
 
             {/* Desktop Links */}
             <div className="hidden lg:flex items-center space-x-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    (
-                      link.path === "/"
-                        ? activeSection === "/"
-                        : activeSection === link.path ||
-                          location.hash === link.path ||
-                          location.pathname === link.path
-                    )
-                      ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
-                      : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
-                  }`}
-                >
-                  {link.name}
-                  <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl -z-10 scale-0 group-hover:scale-100 origin-center transition-all duration-300 blur-sm" />
-                </Link>
-              ))}
+              {navLinks.map((link) =>
+                link.name === "Our Expertise" ? (
+                  <button
+                    key={link.name}
+                    onClick={() =>
+                      window.dispatchEvent(new Event("openExpertise"))
+                    }
+                    className="group relative px-3 py-2 rounded-lg font-medium text-gray-700 hover:text-blue-600 hover:shadow-md transition-all duration-300"
+                  >
+                    {link.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                      (
+                        link.path === "/"
+                          ? activeSection === "/"
+                          : activeSection === link.path ||
+                            location.hash === link.path ||
+                            location.pathname === link.path
+                      )
+                        ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
+                        : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ),
+              )}
             </div>
 
             {/* Mobile Button */}
@@ -112,26 +124,37 @@ const Navbar = ({ showBanner }) => {
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                onClick={() => setMobileOpen(false)}
-                className={`block w-full px-6 py-3 rounded-2xl text-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-100 ${
-                  (
-                    link.path === "/"
-                      ? activeSection === "/"
-                      : activeSection === link.path ||
-                        location.hash === link.path ||
-                        location.pathname === link.path
-                  )
-                    ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-xl shadow-blue-200/50"
-                    : "text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 hover:shadow-md"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.name === "Our Expertise" ? (
+                <button
+                  key={link.name}
+                  onClick={() =>
+                    window.dispatchEvent(new Event("openExpertise"))
+                  }
+                  className="group relative px-3 py-2 rounded-lg font-medium text-gray-700 hover:text-blue-600 hover:shadow-md transition-all duration-300"
+                >
+                  {link.name}
+                </button>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                    (
+                      link.path === "/"
+                        ? activeSection === "/"
+                        : activeSection === link.path ||
+                          location.hash === link.path ||
+                          location.pathname === link.path
+                    )
+                      ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
+                      : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ),
+            )}
           </div>
         </div>
       )}
