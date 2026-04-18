@@ -8,8 +8,8 @@ const Store = () => {
   const categories = [
     {
       id: 'pet-care',
-      name: 'Book Our Services',
-      description: 'Browse and select one of our services and proceed to payment.',
+      name: 'Pet Store & Products',
+      description: 'Browse medicines, pet care products and proceed to payment.',
       image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&q=80',
       icon: '🐾',
       gradient: 'from-blue-500 to-cyan-500',
@@ -17,7 +17,7 @@ const Store = () => {
     },
     {
       id: 'courses',
-      name: 'For Pet Parents',
+      name: 'Courses For Pet Parents',
       description: 'Access trusted, Vet-Approved pet care guides and products',
       image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&q=80',
       icon: '📚',
@@ -26,7 +26,7 @@ const Store = () => {
     },
     {
       id: 'others',
-      name: 'For Students',
+      name: 'Courses For Students',
       description: 'Strengthen your clinical skills with structred learning resources',
       image: 'https://images.unsplash.com/photo-1589652717521-10c0d092dea9?w=800&q=80',
       icon: '✨',
@@ -161,7 +161,7 @@ const Store = () => {
                   className={`group/btn relative inline-flex items-center justify-center w-full px-5 sm:px-6 py-3 sm:py-4 bg-gradient-to-r ${categories[currentIndex].gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl text-sm sm:text-base`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    View Products
+                    View All
                     <ArrowRight className="transition-transform duration-300 group-hover/btn:translate-x-2" size={18} />
                   </span>
                   <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left" />
