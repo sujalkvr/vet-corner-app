@@ -30,11 +30,13 @@ const Navbar = ({ showBanner }) => {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "About", path: "#about" },
     { name: "Services", path: "#services" },
     { name: "Our Expertise", path: "#expertise" },
-    { name: "About", path: "#about" },
-    { name: "Store", path: "#store" },
     { name: "Blog", path: "#blog" },
+
+    { name: "Store", path: "#store" },
+
     { name: "Contact", path: "#contact" },
     { name: "Appointment", path: "/appointment" },
     { name: "Admin", path: "/admin" },
