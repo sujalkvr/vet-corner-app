@@ -23,7 +23,7 @@ const Services = () => {
       bgColor: "from-emerald-400/80 to-teal-500/80",
       image: "images/services1.jpeg",
       details:
-        "Our expert veterinarians provide thorough consultations to diagnose and treat your pet's health issues. From routine checkups to complex medical conditions, we create personalized treatment plans tailored to your pet's specific needs and lifestyle.",
+        "For Rs 299/-. Our expert veterinarians provide thorough consultations to diagnose and treat your pet's health issues. From routine checkups to complex medical conditions, we create personalized treatment plans tailored to your pet's specific needs and lifestyle.",
       features: [
         "Routine health checkups",
         "Diagnostic examinations",
@@ -36,11 +36,15 @@ const Services = () => {
       title: "Home Visit",
       subtitle: "Fee:Rs 1499/-",
       brief:
+
         "We provide convenient,in-home veterinary services,reducing stress for pets while providing high-quality care for non-emergency issues like check-ups,vaccinations,and chronic care management.",
+
+        " reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
+
       bgColor: "from-blue-400/80 to-emerald-500/80",
       image: "images/services2.jpg",
       details:
-        "We follow the latest veterinary guidelines with complete vaccination schedules customized for puppies, kittens, and adult pets. Our vaccination programs protect against deadly diseases with regular boosters to maintain lifelong immunity.",
+        "For Rs 1499/- We provide convenient, in-home veterinary services,vaccination for puppies, kittens, and adult. (NOTE: VACCINES, INJECTIONS NAD MEDICINES ARE SEPEARTELY CHARGEBLE) ",
       features: [
         "Puppy/Kitten series",
         "Adult boosters",
@@ -289,7 +293,7 @@ const Services = () => {
                 <div className="text-center px-4">
                   <button className="group/btn relative px-6 sm:px-8 py-3 sm:py-3.5 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl transition-all duration-400">
                     <span className="flex items-center justify-center space-x-2">
-                      <span>Learn More</span>
+                      <span>Read More</span>
                       <svg
                         className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
                         fill="none"
