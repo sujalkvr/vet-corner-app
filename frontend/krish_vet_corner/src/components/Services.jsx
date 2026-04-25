@@ -59,7 +59,7 @@ const Services = () => {
       bgColor: "from-purple-400/80 to-pink-500/80",
       image: "images/services3.jpg",
       details:
-        "We provides remote guidance to recent graduates, assisting with case diagnostics, treatment plans, and client communication using live video/chat. These experts help bridge the gap between education and clinical practice, enhancing decision-making and boosting confidence in a supportive, virtual environment.",
+        "For Rs 299/- We provides remote guidance to recent graduates, assisting with case diagnostics, treatment plans, and client communication using live video/chat. These experts help bridge the gap between education and clinical practice, enhancing decision-making and boosting confidence in a supportive, virtual environment.",
       features: [
         "Career& Overseas guidance-NAVLE/MRCVS/AVE",
         "Spay & Neuter Training",
