@@ -3,6 +3,7 @@ import { Award, Heart, GraduationCap, Stethoscope } from "lucide-react";
 
 const About = () => {
   const [imageHover, setImageHover] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <section
@@ -82,25 +83,55 @@ const About = () => {
                 <Heart className="w-8 h-8 text-red-500 mr-3" />
                 About Krish Vet Corner
               </h4>
-              <div className="text-lg text-gray-700 leading-relaxed mb-6">
-                <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  Krish Vet Corner was founded on a simple belief: every pet deserves the right treatment, and every pet parent deserves clear guidance and expert care.
-
-Our goal isn’t to replace in-person veterinary care, but to complement it with timely, evidence-based guidance, clear communication, and support for informed decisions — especially in stressful or critical moments.
-
-During years in busy veterinary hospitals, we noticed consultations often felt rushed, leaving pet parents with unanswered questions. Krish Vet Corner was started to bridge this gap through teleconsultation, offering clear and personalized guidance, making veterinary care more accessible, while respecting the importance of in-person examinations and emergency care when required.
-
-We offer teleconsultations for:
-• Second opinions and treatment clarification
-• Vaccination, deworming, nutrition, and medication guidance
-• Reproductive health, breeding advice, pregnancy care, and birth-control options
-• Zoonotic disease awareness, especially dog bites (rabies) and preventive care
-• Guidance on identifying urgent situations and when a clinic visit is essential
-                </p>
-              </div>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                
+              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                {showMore ? (
+                  <>
+                    Krish Vet Corner was founded on a simple belief: every pet
+                    deserves the right treatment, and every pet parent deserves
+                    clear guidance and expert care. Our goal isn’t to replace
+                    in-person veterinary care, but to complement it with timely,
+                    evidence-based guidance, clear communication, and support
+                    for informed decisions — especially in stressful or critical
+                    moments. During years in busy veterinary hospitals, we
+                    noticed consultations often felt rushed, leaving pet parents
+                    with unanswered questions. Krish Vet Corner was started to
+                    bridge this gap through teleconsultation, offering clear and
+                    personalized guidance, making veterinary care more
+                    accessible, while respecting the importance of in-person
+                    examinations and emergency care when required. We offer
+                    teleconsultations for: • Second opinions and treatment
+                    clarification • Vaccination, deworming, nutrition, and
+                    medication guidance • Reproductive health, breeding advice,
+                    pregnancy care, and birth-control options • Zoonotic disease
+                    awareness, especially dog bites (rabies) and preventive care
+                    • Guidance on identifying urgent situations and when a
+                    clinic visit is essential{" "}
+                    <button
+                      onClick={() => setShowMore(false)}
+                      className="text-emerald-600 font-semibold ml-1 hover:underline"
+                    >
+                      Read Less
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    Krish Vet Corner was founded on a simple belief: every pet
+                    deserves the right treatment, and every pet parent deserves
+                    clear guidance and expert care Our goal isn’t to replace
+                    in-person veterinary care, but to complement it with timely,
+                    evidence-based guidance, clear communication, and support
+                    for informed decisions — especially in stressful or critical
+                    moments.
+                    <button
+                      onClick={() => setShowMore(true)}
+                      className="text-emerald-600 font-semibold ml-1 hover:underline"
+                    >
+                      Read More
+                    </button>
+                  </>
+                )}
               </p>
+              <p className="text-lg text-gray-700 leading-relaxed"></p>
             </div>
           </div>
 
