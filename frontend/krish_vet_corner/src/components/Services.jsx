@@ -249,15 +249,21 @@ const Services = () => {
 
               <div className="absolute inset-0 p-4 flex flex-col justify-center text-white text-center">
                 <h3 className="text-2xl font-bold">{service.title}</h3>
+
                 <p className="text-sm mt-2">{service.subtitle}</p>
 
-                <div className="text-xs mt-3">
+                <div className="text-xs mt-3 mb-4">
                   {Array.isArray(service.brief)
                     ? service.brief.map((line, i) => <div key={i}>{line}</div>)
                     : service.brief
                         .split(". ")
                         .map((line, i) => <div key={i}>{line}.</div>)}
                 </div>
+
+                {/* 🔥 BUTTON IS BACK */}
+                <button className="mx-auto px-6 py-2 bg-white/30 backdrop-blur-md border border-white/60 rounded-xl text-sm font-bold hover:bg-white/60 transition">
+                  Learn More
+                </button>
               </div>
             </div>
           ))}
