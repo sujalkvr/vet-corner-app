@@ -19,7 +19,7 @@ const Services = () => {
       title: "Online Consultation",
       subtitle: "Fee:Rs 299/-",
       brief:
-        "Includes 3 days free followup chats for Comprehensive health assessments and diagnostics. Personalized treatment recommendations.",
+        "Includes 3 days free followup chats for Comprehensive health assessments and diagnostics.Personalized treatment recommendations.",
       bgColor: "from-emerald-400/80 to-teal-500/80",
       image: "images/services1.jpeg",
       details:
@@ -36,7 +36,7 @@ const Services = () => {
       title: "Home Visit",
       subtitle: "Fee:Rs 1499/-",
       brief:
-        "We provide convenient, in-home veterinary services, reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
+        "We provide convenient,in-home veterinary services,reducing stress for pets while providing high-quality care for non-emergency issues like check-ups,vaccinations,and chronic care management.",
       bgColor: "from-blue-400/80 to-emerald-500/80",
       image: "images/services2.jpg",
       details:
@@ -161,7 +161,7 @@ const Services = () => {
                   className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                   style={{ backgroundImage: `url(${service.image})` }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
                 <div
                   className={`absolute inset-0 ${service.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-700 backdrop-blur-sm`}
                 />
@@ -263,7 +263,7 @@ const Services = () => {
                   backgroundImage: `url(${visibleServiceMobile.image})`,
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/45 to-black/25" />
               <div
                 className={`absolute inset-0 ${visibleServiceMobile.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-700 backdrop-blur-sm`}
               />
