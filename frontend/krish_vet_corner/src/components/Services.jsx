@@ -35,12 +35,10 @@ const Services = () => {
       id: 2,
       title: "Home Visit",
       subtitle: "Fee:Rs 1499/-",
-      brief:
-
+      brief: [
         "We provide convenient,in-home veterinary services,reducing stress for pets while providing high-quality care for non-emergency issues like check-ups,vaccinations,and chronic care management.",
-
-        " reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
-
+        "reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
+      ],
       bgColor: "from-blue-400/80 to-emerald-500/80",
       image: "images/services2.jpg",
       details:
