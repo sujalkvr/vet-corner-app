@@ -37,7 +37,7 @@ const Services = () => {
       subtitle: "Fee:Rs 1499/-",
       brief: [
         "We provide convenient,in-home veterinary services,reducing stress for pets while providing high-quality care for non-emergency issues like check-ups,vaccinations,and chronic care management.",
-        "reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
+        // "reducing stress for pets while providing high-quality care for non-emergency issues like check-ups, vaccinations, and chronic care management.",
       ],
       bgColor: "from-blue-400/80 to-emerald-500/80",
       image: "images/services2.jpg",
@@ -178,11 +178,17 @@ const Services = () => {
                     </div>
                   </div>
                   <div className="brief text-sm md:text-base text-white/90 font-normal leading-relaxed max-w-md mx-auto drop-shadow-lg mb-8 px-2 text-center">
-                    {service.brief.split(". ").map((sentence, idx) => (
-                      <span key={idx} className="block mb-1 last:mb-0">
-                        {sentence.trim()}.
-                      </span>
-                    ))}
+                    {Array.isArray(service.brief)
+                      ? service.brief.map((sentence, idx) => (
+                          <span key={idx} className="block mb-1 last:mb-0">
+                            {sentence}
+                          </span>
+                        ))
+                      : service.brief.split(". ").map((sentence, idx) => (
+                          <span key={idx} className="block mb-1 last:mb-0">
+                            {sentence.trim()}.
+                          </span>
+                        ))}
                   </div>
                   <div className="text-center">
                     <button className="group/btn relative px-10 py-4 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm md:text-base rounded-2xl shadow-xl hover:bg-white/60 hover:border-white/80 hover:shadow-2xl hover:scale-105 transition-all duration-400">
