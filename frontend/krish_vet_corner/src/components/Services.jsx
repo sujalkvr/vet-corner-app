@@ -286,13 +286,19 @@ const Services = () => {
                   </div>
                 </div>
                 <div className="brief text-xs sm:text-sm text-white/90 font-normal leading-relaxed max-w-md mx-auto drop-shadow-lg mb-6 sm:mb-8 px-4 text-center">
-                  {visibleServiceMobile.brief
-                    .split(". ")
-                    .map((sentence, idx) => (
-                      <span key={idx} className="block mb-1.5 last:mb-0">
-                        {sentence.trim()}.
-                      </span>
-                    ))}
+                  {Array.isArray(visibleServiceMobile.brief)
+                    ? visibleServiceMobile.brief.map((sentence, idx) => (
+                        <span key={idx} className="block mb-1.5 last:mb-0">
+                          {sentence}
+                        </span>
+                      ))
+                    : visibleServiceMobile.brief
+                        .split(". ")
+                        .map((sentence, idx) => (
+                          <span key={idx} className="block mb-1.5 last:mb-0">
+                            {sentence.trim()}.
+                          </span>
+                        ))}
                 </div>
                 <div className="text-center px-4">
                   <button className="group/btn relative px-6 sm:px-8 py-3 sm:py-3.5 bg-white/30 backdrop-blur-xl border-2 border-white/60 text-white font-bold text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl transition-all duration-400">
