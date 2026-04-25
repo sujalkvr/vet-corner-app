@@ -14,9 +14,9 @@ const Store = () => {
   const categories = [
     {
       id: "pet-care",
-      name: "Book Our Services",
+      name: "Pet Store & Products",
       description:
-        "Browse and select one of our services and proceed to payment.",
+        "Browse Medicines,Pet Care Products Then proceed to payment.",
       image: "/images/pet-care.jpg",
       icon: "🐾",
       gradient: "from-blue-500 to-cyan-500",
@@ -24,7 +24,7 @@ const Store = () => {
     },
     {
       id: "courses",
-      name: "For Pet Parents",
+      name: "Cources For Pet Parents",
       description: "Access trusted, Vet-Approved pet care guides and products",
       image: "/images/for-pet-parents.jpg",
       icon: "📚",
@@ -33,7 +33,7 @@ const Store = () => {
     },
     {
       id: "others",
-      name: "For Students",
+      name: "Courses For Students",
       description:
         "Strengthen your clinical skills with structred learning resources",
       image: "/images/for-students.jpg",
@@ -111,7 +111,7 @@ const Store = () => {
                   className={`group/btn relative inline-flex items-center justify-center w-full px-6 py-4 bg-gradient-to-r ${category.gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-105`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    View Products
+                    Browse All
                     <ArrowRight
                       className="transition-transform duration-300 group-hover/btn:translate-x-2"
                       size={20}
@@ -179,7 +179,7 @@ const Store = () => {
                   className={`group/btn relative inline-flex items-center justify-center w-full px-5 sm:px-6 py-3 sm:py-4 bg-gradient-to-r ${categories[currentIndex].gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl text-sm sm:text-base`}
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    View Products
+                    Browse All
                     <ArrowRight
                       className="transition-transform duration-300 group-hover/btn:translate-x-2"
                       size={18}
