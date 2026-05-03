@@ -25,10 +25,10 @@ const Services = () => {
       details:
         "For Rs 299/-. Our expert veterinarians provide thorough consultations to diagnose and treat your pet's health issues. From routine checkups to complex medical conditions, we create personalized treatment plans tailored to your pet's specific needs and lifestyle.",
       features: [
-        "Routine health checkups",
-        "Diagnostic examinations",
-        "Treatment planning",
-        "Health counseling",
+        "Second opinions and treatment clarification ",
+        "Vaccination, deworming, nutrition, and medication guidance",
+        "Reproductive health, breeding advice, pregnancy care, and birth-control options",
+        "Zoonotic disease awareness, especially dog bites (rabies) and preventive care",
       ],
     },
     {
