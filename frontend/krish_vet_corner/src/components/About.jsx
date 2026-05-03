@@ -86,26 +86,41 @@ const About = () => {
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
                 {showMore ? (
                   <>
-                    Krish Vet Corner was founded on a simple belief: every pet
-                    deserves the right treatment, and every pet parent deserves
-                    clear guidance and expert care. Our goal isn’t to replace
-                    in-person veterinary care, but to complement it with timely,
-                    evidence-based guidance, clear communication, and support
-                    for informed decisions — especially in stressful or critical
-                    moments. During years in busy veterinary hospitals, we
-                    noticed consultations often felt rushed, leaving pet parents
-                    with unanswered questions. Krish Vet Corner was started to
-                    bridge this gap through teleconsultation, offering clear and
-                    personalized guidance, making veterinary care more
-                    accessible, while respecting the importance of in-person
-                    examinations and emergency care when required. We offer
-                    teleconsultations for: • Second opinions and treatment
-                    clarification • Vaccination, deworming, nutrition, and
-                    medication guidance • Reproductive health, breeding advice,
-                    pregnancy care, and birth-control options • Zoonotic disease
-                    awareness, especially dog bites (rabies) and preventive care
-                    • Guidance on identifying urgent situations and when a
-                    clinic visit is essential{" "}
+                    <p>
+                      Krish Vet Corner was founded on a simple belief: every pet
+                      deserves the right treatment, and every pet parent
+                      deserves clear guidance and expert care. Our goal isn’t to
+                      replace in-person veterinary care, but to complement it
+                      with timely, evidence-based guidance, clear communication,
+                      and support for informed decisions — especially in
+                      stressful or critical moments. During years in busy
+                      veterinary hospitals, we noticed consultations often felt
+                      rushed, leaving pet parents with unanswered questions.
+                      Krish Vet Corner was started to bridge this gap through
+                      teleconsultation, offering clear and personalized
+                      guidance, making veterinary care more accessible, while
+                      respecting the importance of in-person examinations and
+                      emergency care when required. We offer teleconsultations
+                      for:
+                    </p>
+                    <li> Second opinions and treatment clarification</li>
+                    <li>
+                      Vaccination, deworming, nutrition, and medication
+                      guidance{" "}
+                    </li>
+                    <li>
+                       Reproductive health, breeding advice, pregnancy care,
+                      and birth-control options
+                    </li>
+                    <li>
+                       Zoonotic disease awareness, especially dog bites
+                      (rabies) and preventive care{" "}
+                    </li>
+                    <li>
+                      {" "}
+                      Guidance on identifying urgent situations and when a
+                      clinic visit is essential{" "}
+                    </li>
                     <button
                       onClick={() => setShowMore(false)}
                       className="text-emerald-600 font-semibold ml-1 hover:underline"
