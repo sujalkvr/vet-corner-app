@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   CalendarIcon,
   CameraIcon,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 import { API_URL } from "../api";
 const Appointment = () => {
+  const navigate = useNavigate();
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +31,7 @@ const Appointment = () => {
   const serviceTypes = [
     " Online Consultation",
     "Home visit ",
-    'Vet Student Support',
+    "Vet Student Support",
     "Vaccination",
     "Consultation",
     "Surgery",
@@ -382,7 +384,15 @@ const Appointment = () => {
                   <span>CONFIRM & BOOK APPOINTMENT</span>
                   <ChevronRightIcon className="w-5 h-5 group-hover:translate-x-2 transition-all duration-500" />
                 </span>
+
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-400 to-blue-400 scale-[1.15] blur-xl -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="w-full mt-3 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-2xl transition-all duration-300"
+              >
+                ← Back
               </button>
             </form>
           </div>
