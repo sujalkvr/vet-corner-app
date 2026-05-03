@@ -44,7 +44,7 @@ const Services = () => {
       details:
         "For Rs 1499/- We provide convenient, in-home veterinary services,vaccination for puppies, kittens, and adult. (NOTE: VACCINES, INJECTIONS NAD MEDICINES ARE SEPEARTELY CHARGEBLE) ",
       features: [
-        "Puppy/Kitten series",
+        "Puppy / Kitten Primary Vaccination",
         "Adult boosters",
         "General consults",
         "Blood Diagnotic Tests",
