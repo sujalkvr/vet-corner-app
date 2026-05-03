@@ -1,26 +1,43 @@
-import { useState } from 'react';
-import { CalendarIcon, CameraIcon, CreditCardIcon, MailIcon, CheckCircleIcon, ChevronRightIcon } from 'lucide-react';
-import {API_URL} from '../api';
+import { useState } from "react";
+import {
+  CalendarIcon,
+  CameraIcon,
+  CreditCardIcon,
+  MailIcon,
+  CheckCircleIcon,
+  ChevronRightIcon,
+} from "lucide-react";
+import { API_URL } from "../api";
 const Appointment = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    personName: '',
-    petName: '',
-    email: '',
-    phone: '',
-    serviceType: '',
-    description: '',
-    date: '',
-    altDate: '',
-    paymentId: '',
-    screenshot: null
+    personName: "",
+    petName: "",
+    email: "",
+    phone: "",
+    serviceType: "",
+    description: "",
+    date: "",
+    altDate: "",
+    paymentId: "",
+    screenshot: null,
   });
-  const [preview, setPreview] = useState('');
+  const [preview, setPreview] = useState("");
 
   const serviceTypes = [
-    'Vaccination', 'Consultation', 'Surgery', 'Grooming', 'Emergency', 'Checkup', 'Dental', 'Nutrition'
+    " Online Consultation",
+    "Home visit ",
+    'Vet Student Support',
+    "Vaccination",
+    "Consultation",
+    "Surgery",
+    "Grooming",
+    "Emergency",
+    "Checkup",
+    "Dental",
+    "Nutrition",
   ];
 
   const handleInputChange = (e) => {
@@ -39,44 +56,50 @@ const Appointment = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  const formDataToSend = new FormData();
-  Object.keys(formData).forEach(key => {
-    if (key === 'screenshot' && formData[key]) {
-      formDataToSend.append(key, formData[key]);
-    } else if (formData[key]) {
-      formDataToSend.append(key, formData[key]);
-    }
-  });
-
-  try {
-    const res = await fetch(`${API_URL}/api/appointment/book`, {
-      method: 'POST',
-      body: formDataToSend
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "screenshot" && formData[key]) {
+        formDataToSend.append(key, formData[key]);
+      } else if (formData[key]) {
+        formDataToSend.append(key, formData[key]);
+      }
     });
 
-    const data = await res.json();
-    
-    if (data.success) {
-      setShowSuccess(true);
-      setFormData({
-        personName: '', petName: '', email: '', phone: '',
-        serviceType: '', description: '', date: '', altDate: '',
-        paymentId: '', screenshot: null
+    try {
+      const res = await fetch(`${API_URL}/api/appointment/book`, {
+        method: "POST",
+        body: formDataToSend,
       });
-      setPreview('');
-    } else {
-      alert(data.message);
-    }
-  } catch (error) {
-    alert('Network error. Please try again.');
-  } finally {
-    setLoading(false);
-  }
-};
 
+      const data = await res.json();
+
+      if (data.success) {
+        setShowSuccess(true);
+        setFormData({
+          personName: "",
+          petName: "",
+          email: "",
+          phone: "",
+          serviceType: "",
+          description: "",
+          date: "",
+          altDate: "",
+          paymentId: "",
+          screenshot: null,
+        });
+        setPreview("");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50 via-white to-blue-50/30 relative overflow-hidden">
@@ -93,7 +116,8 @@ const Appointment = () => {
           <div className="max-w-2xl mx-auto">
             <h className="text-lg md:text-xl text-gray-700 font-light leading-relaxed">
               <b>
-              how it works: Book Service Online → Consult with Vet→ Receive Advice/Digital Prescription → Follow-up 
+                how it works: Book Service Online → Consult with Vet→ Receive
+                Advice/Digital Prescription → Follow-up
               </b>
             </h>
           </div>
@@ -101,7 +125,6 @@ const Appointment = () => {
 
         {/* Main Layout: LEFT QR + RIGHT FORM */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          
           {/* LEFT: QR + Instructions */}
           <div className="lg:sticky lg:top-20 space-y-6">
             {/* QR Section */}
@@ -110,15 +133,19 @@ const Appointment = () => {
                 <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-xl hover:scale-110 transition-all duration-300">
                   <CreditCardIcon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Scan QR Code</h3>
-                <p className="text-base text-emerald-700 font-semibold">Make payment & take screenshot</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Scan QR Code
+                </h3>
+                <p className="text-base text-emerald-700 font-semibold">
+                  Make payment & take screenshot
+                </p>
               </div>
-              
+
               {/* QR Image */}
               <div className="group relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 shadow-lg border-4 border-dashed border-emerald-300/50 hover:border-emerald-400/70 transition-all duration-400 overflow-hidden">
-                <img 
-                  src="/images/qr.jpg" 
-                  alt="Payment QR Code" 
+                <img
+                  src="/images/qr.jpg"
+                  alt="Payment QR Code"
                   className="w-48 h-48 mx-auto rounded-xl shadow-xl group-hover:scale-105 transition-transform duration-300 object-cover border-4 border-white/50"
                 />
                 <div className="absolute -top-8 -right-8 w-20 h-20 bg-emerald-400/20 rounded-2xl blur-xl group-hover:scale-110 transition-all duration-500" />
@@ -131,19 +158,24 @@ const Appointment = () => {
                 📋 How to Book
               </h4>
               {[
-                '1. Scan QR code using UPI/Google Pay',
-                '2. Complete payment based of the fee of your service',
-                '3. Take screenshot of payment confirmation',
-                '4. Fill all details carefully',
-                '5. Upload payment proof & submit',
-                '6. Receive email confirmation within 24 hours'
+                "1. Scan QR code using UPI/Google Pay",
+                "2. Complete payment based of the fee of your service",
+                "3. Take screenshot of payment confirmation",
+                "4. Fill all details carefully",
+                "5. Upload payment proof & submit",
+                "6. Receive email confirmation within 24 hours",
               ].map((step, idx) => (
-                <div key={idx} className="group flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl hover:bg-emerald-50/60 hover:scale-[1.01] transition-all duration-400 border border-emerald-100/50 cursor-default">
+                <div
+                  key={idx}
+                  className="group flex items-center space-x-3 p-4 bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg hover:shadow-xl hover:bg-emerald-50/60 hover:scale-[1.01] transition-all duration-400 border border-emerald-100/50 cursor-default"
+                >
                   <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md font-bold text-white text-base group-hover:scale-110 transition-all duration-300">
                     {idx + 1}
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-gray-800 leading-snug">{step}</p>
+                    <p className="text-sm font-semibold text-gray-800 leading-snug">
+                      {step}
+                    </p>
                   </div>
                   <ChevronRightIcon className="w-5 h-5 text-emerald-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
                 </div>
@@ -153,12 +185,16 @@ const Appointment = () => {
 
           {/* RIGHT: Booking Form */}
           <div className="space-y-6">
-            <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 lg:p-8 border border-emerald-200/70 space-y-5">
-              
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl p-6 lg:p-8 border border-emerald-200/70 space-y-5"
+            >
               {/* Row 1: Names */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">👤 Your Full Name *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    👤 Your Full Name *
+                  </label>
                   <input
                     type="text"
                     name="personName"
@@ -170,7 +206,9 @@ const Appointment = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">🐕 Pet Name *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    🐕 Pet Name *
+                  </label>
                   <input
                     type="text"
                     name="petName"
@@ -186,7 +224,9 @@ const Appointment = () => {
               {/* Row 2: Contact */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">📧 Email Address *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    📧 Email Address *
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -198,7 +238,9 @@ const Appointment = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">📱 Phone Number *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    📱 Phone Number *
+                  </label>
                   <input
                     type="tel"
                     name="phone"
@@ -214,7 +256,9 @@ const Appointment = () => {
               {/* Row 3: Service + Date */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">🩺 Service Type *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    🩺 Service Type *
+                  </label>
                   <select
                     name="serviceType"
                     value={formData.serviceType}
@@ -223,13 +267,17 @@ const Appointment = () => {
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-emerald-300/40 hover:border-emerald-400 appearance-none cursor-pointer"
                   >
                     <option value="">Choose Service</option>
-                    {serviceTypes.map(type => (
-                      <option key={type} value={type}>{type}</option>
+                    {serviceTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">📅 Preferred Date *</label>
+                  <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                    📅 Preferred Date *
+                  </label>
                   <input
                     type="date"
                     name="date"
@@ -243,7 +291,9 @@ const Appointment = () => {
 
               {/* Row 4: Alt Date */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">🔄 Alternate Date</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                  🔄 Alternate Date
+                </label>
                 <input
                   type="date"
                   name="altDate"
@@ -255,7 +305,9 @@ const Appointment = () => {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">📝 Pet Condition *</label>
+                <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                  📝 Pet Condition *
+                </label>
                 <textarea
                   name="description"
                   rows="3"
@@ -269,11 +321,15 @@ const Appointment = () => {
 
               {/* Payment Section */}
               <div className="space-y-4 p-5 bg-gradient-to-r from-emerald-50/80 to-teal-50/80 rounded-2xl border-2 border-emerald-200/50">
-                <h4 className="text-lg font-bold text-emerald-800 text-center mb-3">💳 Payment Verification</h4>
-                
+                <h4 className="text-lg font-bold text-emerald-800 text-center mb-3">
+                  💳 Payment Verification
+                </h4>
+
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">Transaction ID *</label>
+                    <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                      Transaction ID *
+                    </label>
                     <input
                       type="text"
                       name="paymentId"
@@ -284,9 +340,11 @@ const Appointment = () => {
                       placeholder="TXN123456789"
                     />
                   </div>
-                  
+
                   <div>
-                    <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">📸 Payment Screenshot *</label>
+                    <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
+                      📸 Payment Screenshot *
+                    </label>
                     <input
                       type="file"
                       name="screenshot"
@@ -304,17 +362,21 @@ const Appointment = () => {
                       <CameraIcon className="w-4 h-4 mr-2" />
                       Screenshot Preview ✓
                     </p>
-                    <img src={preview} alt="Payment proof" className="w-full max-h-32 object-cover rounded-xl shadow-lg border-2 border-orange-100" />
+                    <img
+                      src={preview}
+                      alt="Payment proof"
+                      className="w-full max-h-32 object-cover rounded-xl shadow-lg border-2 border-orange-100"
+                    />
                   </div>
                 )}
               </div>
 
               {/* BOOK BUTTON */}
               <button
-  type="submit"
-  disabled={loading}
-  className="w-full group relative px-8 py-4 disabled:opacity-70 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-[0_15px_30px_-10px_rgba(34,197,94,0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-500 overflow-hidden transform-gpu disabled:shadow-md disabled:scale-100"
->
+                type="submit"
+                disabled={loading}
+                className="w-full group relative px-8 py-4 disabled:opacity-70 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 hover:from-emerald-600 hover:via-teal-600 hover:to-blue-600 text-white font-bold text-lg rounded-2xl shadow-xl hover:shadow-[0_15px_30px_-10px_rgba(34,197,94,0.5)] hover:scale-[1.02] active:scale-[0.99] transition-all duration-500 overflow-hidden transform-gpu disabled:shadow-md disabled:scale-100"
+              >
                 <span className="relative z-10 flex items-center justify-center space-x-3">
                   <CalendarIcon className="w-6 h-6 group-hover:rotate-12 transition-all duration-500" />
                   <span>CONFIRM & BOOK APPOINTMENT</span>
@@ -342,8 +404,12 @@ const Appointment = () => {
                 📅 Your appointment is secured!
               </p>
               <p className="text-base text-gray-700 mb-8 leading-relaxed max-w-sm mx-auto">
-                Confirmation email sent. Check your inbox (and spam) within 24 hours. 
-                <br/><strong className="text-emerald-700 block mt-2">Keep payment proof safe!</strong>
+                Confirmation email sent. Check your inbox (and spam) within 24
+                hours.
+                <br />
+                <strong className="text-emerald-700 block mt-2">
+                  Keep payment proof safe!
+                </strong>
               </p>
               <button
                 onClick={() => setShowSuccess(false)}
@@ -358,10 +424,30 @@ const Appointment = () => {
       )}
 
       <style jsx>{`
-        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scale-in { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .animate-fade-in { animation: fade-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        .animate-scale-in { animation: scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes scale-in {
+          from {
+            transform: scale(0.7);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .animate-fade-in {
+          animation: fade-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .animate-scale-in {
+          animation: scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
       `}</style>
     </section>
   );
