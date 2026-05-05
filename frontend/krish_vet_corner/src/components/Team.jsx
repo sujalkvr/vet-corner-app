@@ -44,13 +44,13 @@ const Team = () => {
   };
 
   // Mobile navigation (1 card at a time)
-  const handlePreviousMobile = () => {
-    setCurrentIndex((prev) => (prev === 0 ? teamMembers.length - 1 : prev - 1));
-  };
+  // const handlePreviousMobile = () => {
+  //   setCurrentIndex((prev) => (prev === 0 ? teamMembers.length - 1 : prev - 1));
+  // };
 
-  const handleNextMobile = () => {
-    setCurrentIndex((prev) => (prev === teamMembers.length - 1 ? 0 : prev + 1));
-  };
+  // const handleNextMobile = () => {
+  //   setCurrentIndex((prev) => (prev === teamMembers.length - 1 ? 0 : prev + 1));
+  // };
 
   const openModal = (member) => {
     setSelectedMember(member);
@@ -77,9 +77,9 @@ const Team = () => {
     currentIndex,
     currentIndex + 3,
   );
-  // const visibleMemberMobile = teamMembers[currentIndex];
-  const visibleMemberMobile =
-    teamMembers.length > 0 ? teamMembers[currentIndex] : null;
+  // // const visibleMemberMobile = teamMembers[currentIndex];
+  // const visibleMemberMobile =
+  //   teamMembers.length > 0 ? teamMembers[currentIndex] : null;
   const canGoPreviousDesktop = currentIndex > 0;
   const canGoNextDesktop = currentIndex < teamMembers.length - 3;
 
@@ -226,89 +226,47 @@ const Team = () => {
                   </div>
                 )}
               </div>
+              {/* Mobile Scroll View */}
+              <div className="lg:hidden mb-12 overflow-x-auto flex gap-4 px-4 snap-x snap-mandatory">
+                {teamMembers.map((member) => (
+                  <div
+                    key={member._id}
+                    className="min-w-[90%] snap-center bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 border-2 border-green-100"
+                  >
+                    {/* Image */}
+                    <div className="relative h-72 bg-gradient-to-br from-green-100 to-green-50">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/default-user.png";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent" />
 
-              {/* Mobile/Tablet View - 1 Card Carousel */}
-              <div className="lg:hidden relative mb-12">
-                {/* Navigation Buttons */}
-                {/* <button
-                  onClick={handlePreviousMobile}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-green-500 hover:text-white text-green-600"
-                >
-                  <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
-                </button> */}
-
-                {/* <button
-                  onClick={handleNextMobile}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-green-500 hover:text-white text-green-600"
-                >
-                  <ChevronRight size={20} className="sm:w-6 sm:h-6" />
-                </button> */}
-
-                {/* Single Card Display */}
-                {visibleMemberMobile && (
-                  <div className="px-12 sm:px-16">
-                    <div className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl transition-all duration-500 border-2 border-green-100">
-                      {/* Image Section */}
-                      <div className="relative h-72 sm:h-80 overflow-hidden bg-gradient-to-br from-green-100 to-green-50">
-                        <img
-                          // src={`${API_URL}${visibleMemberMobile.image}`}
-                          src={visibleMemberMobile?.image}
-                          alt={visibleMemberMobile?.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "/default-user.png";
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-green-900/70 via-green-900/20 to-transparent opacity-60" />
-
-                        {/* Floating Badge */}
-                        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-12 h-12 sm:w-14 sm:h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                          <Stethoscope className="text-green-600" size={22} />
-                        </div>
-
-                        {/* Name Overlay */}
-                        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-                          <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">
-                            {visibleMemberMobile.name}
-                          </h3>
-                          <div className="flex items-center gap-2">
-                            <Award className="text-green-300" size={18} />
-                            <p className="text-green-100 font-semibold text-sm sm:text-base">
-                              {visibleMemberMobile.degree}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Read More Button */}
-                      <div className="p-4 sm:p-6 bg-white">
-                        <button
-                          onClick={() => openModal(visibleMemberMobile)}
-                          className="w-full py-3 px-5 sm:px-6 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
-                        >
-                          <span>Read More</span>
-                          <span className="text-lg">→</span>
-                        </button>
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-xl font-bold text-white">
+                          {member.name}
+                        </h3>
+                        <p className="text-green-100 text-sm">
+                          {member.degree}
+                        </p>
                       </div>
                     </div>
-                  </div>
-                )}
 
-                {/* Pagination Dots */}
-                <div className="flex justify-center gap-2 mt-6 sm:mt-8">
-                  {teamMembers.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentIndex(idx)}
-                      className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
-                        currentIndex === idx
-                          ? "bg-green-600 w-6 sm:w-8"
-                          : "w-2 sm:w-2.5 bg-green-300 hover:bg-green-400"
-                      }`}
-                    />
-                  ))}
-                </div>
+                    {/* Button */}
+                    <div className="p-4">
+                      <button
+                        onClick={() => openModal(member)}
+                        className="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl"
+                      >
+                        Read More
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </>
           )}
