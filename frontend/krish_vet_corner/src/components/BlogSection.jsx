@@ -282,9 +282,9 @@ const BlogSection = () => {
           <div className="flex gap-4">
             {blogs.map((blog, index) => (
               <div key={blog._id} className="min-w-[95%] snap-center">
-                <div className="group relative h-[420px] bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-emerald-200/50">
+                <div className="group relative h-[420px] rounded-2xl overflow-hidden shadow-2xl border border-emerald-200/50 bg-white/90 backdrop-blur-xl flex flex-col">
                   {/* Image */}
-                  <div className="relative h-[340px] overflow-hidden rounded-t-2xl">
+                  <div className="relative h-64 overflow-hidden rounded-t-2xl flex-shrink-0">
                     {blog.images && blog.images.length > 0 ? (
                       <img
                         src={blog.images[0]}
@@ -299,7 +299,7 @@ const BlogSection = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-5">
+                  <div className="p-5 flex-1 flex flex-col justify-between">
                     <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
                       {blog.title}
                     </h3>
