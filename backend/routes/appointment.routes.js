@@ -56,6 +56,7 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
       email, 
       phone, 
       serviceType, 
+      others,
       description, 
       date, 
       altDate, 
@@ -104,9 +105,6 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
                   <td style="padding: 12px 0; color: #1f2937;">${phone}</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #d1fae5;">
-                  <td style="padding: 12px 0; font-weight: bold; color: #047857;">Service:</td>
-                  <td style="padding: 12px 0; color: #1f2937;"><strong>${serviceType}</strong></td>
-                </tr>
                 <tr style="border-bottom: 1px solid #d1fae5;">
                   <td style="padding: 12px 0; font-weight: bold; color: #047857;">Preferred Date:</td>
                   <td style="padding: 12px 0; color: #1f2937;">${date}</td>
@@ -178,7 +176,11 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
             <div style="background: #f0fdf4; padding: 25px; border-radius: 12px; border-left: 5px solid #10b981; margin-bottom: 25px;">
               <h3 style="color: #065f46; margin-top: 0; margin-bottom: 15px;">📋 Your Appointment Details:</h3>
               <ul style="color: #047857; font-size: 16px; line-height: 2; padding-left: 20px;">
-                <li><strong>Service:</strong> ${serviceType}</li>
+                <li>
+  <strong>Service:</strong> 
+  ${serviceType}
+  ${serviceType === 'Others' && others ? ` (${others})` : ''}
+</li>
                 <li><strong>Preferred Date:</strong> ${date}</li>
                 ${altDate ? `<li><strong>Alternate Date:</strong> ${altDate}</li>` : ''}
                 <li><strong>Pet:</strong> ${petName}</li>
@@ -243,6 +245,7 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
         petName,
         date,
         serviceType,
+        others,
         screenshot: screenshotPath
       }
     });
