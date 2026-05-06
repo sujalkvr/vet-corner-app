@@ -105,10 +105,17 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
                   <td style="padding: 12px 0; color: #1f2937;">${phone}</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #d1fae5;">
-                <tr style="border-bottom: 1px solid #d1fae5;">
-                  <td style="padding: 12px 0; font-weight: bold; color: #047857;">Preferred Date:</td>
-                  <td style="padding: 12px 0; color: #1f2937;">${date}</td>
-                </tr>
+  <td style="padding: 12px 0; font-weight: bold; color: #047857;">Service:</td>
+  <td style="padding: 12px 0; color: #1f2937;">
+    <strong>${serviceType}</strong>
+    ${serviceType === 'Others' && others ? `<br/><span style="color:#6b7280;">(${others})</span>` : ''}
+  </td>
+</tr>
+
+<tr style="border-bottom: 1px solid #d1fae5;">
+  <td style="padding: 12px 0; font-weight: bold; color: #047857;">Preferred Date:</td>
+  <td style="padding: 12px 0; color: #1f2937;">${date}</td>
+</tr>
                 ${altDate ? `
                 <tr style="border-bottom: 1px solid #d1fae5;">
                   <td style="padding: 12px 0; font-weight: bold; color: #047857;">Alternate Date:</td>
