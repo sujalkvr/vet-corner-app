@@ -281,10 +281,10 @@ const BlogSection = () => {
         <div className="lg:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth px-4 mb-12">
           <div className="flex gap-4">
             {blogs.map((blog, index) => (
-              <div key={blog._id} className="min-w-[85%] snap-center">
-                <div className="group relative bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-emerald-200/50">
+              <div key={blog._id} className="min-w-[95%] snap-center">
+                <div className="group relative h-[420px] bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-emerald-200/50">
                   {/* Image */}
-                  <div className="relative h-64 overflow-hidden rounded-t-2xl">
+                  <div className="relative h-[340px] overflow-hidden rounded-t-2xl">
                     {blog.images && blog.images.length > 0 ? (
                       <img
                         src={blog.images[0]}
