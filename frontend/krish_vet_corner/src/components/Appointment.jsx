@@ -20,6 +20,7 @@ const Appointment = () => {
     email: "",
     phone: "",
     serviceType: "",
+    others: "",
     description: "",
     date: "",
     altDate: "",
@@ -40,6 +41,7 @@ const Appointment = () => {
     "Checkup",
     "Dental",
     "Nutrition",
+    "Others",
   ];
 
   const handleInputChange = (e) => {
@@ -86,6 +88,7 @@ const Appointment = () => {
           email: "",
           phone: "",
           serviceType: "",
+          others: "",
           description: "",
           date: "",
           altDate: "",
@@ -275,6 +278,17 @@ const Appointment = () => {
                       </option>
                     ))}
                   </select>
+
+                  {formData.serviceType === "Others" && (
+                    <input
+                      type="text"
+                      name="others"
+                      value={formData.others}
+                      onChange={handleInputChange}
+                      placeholder="Please specify service"
+                      className="w-full mt-3 px-4 py-3 border-2 border-gray-200 rounded-2xl focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200/70 focus:outline-none transition-all duration-300 text-base bg-white/80 backdrop-blur-sm shadow-md hover:shadow-emerald-300/40 hover:border-emerald-400"
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-800 mb-2 ml-1">
