@@ -134,10 +134,10 @@ const Store = () => {
             {categories.map((category) => (
               <div
                 key={category.id}
-                className="min-w-[85%] snap-center group relative bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0"
+                className="min-w-[95%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0"
               >
                 {/* Image */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-[340px] overflow-hidden">
                   <img
                     src={category.image}
                     alt={category.name}
