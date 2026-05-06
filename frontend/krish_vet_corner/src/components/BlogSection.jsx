@@ -278,7 +278,7 @@ const BlogSection = () => {
         </div>
 
         {/* Mobile/Tablet View - Swipe Slider */}
-        <div className="lg:hidden overflow-x-auto snap-x snap-mandatory scroll-smooth px-4 mb-12">
+        <div className="lg:hidden overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth px-4 mb-12">
           <div className="flex gap-4">
             {blogs.map((blog, index) => (
               <div key={blog._id} className="min-w-[85%] snap-center">
