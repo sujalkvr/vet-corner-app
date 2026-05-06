@@ -233,7 +233,7 @@ const Services = () => {
         </div>
 
         {/* Mobile Slider */}
-        <div className="lg:hidden mb-12 sm:mb-20 overflow-x-auto flex gap-4 px-4 snap-x snap-mandatory">
+        <div className="lg:hidden mb-12 sm:mb-20 overflow-x-auto no-scrollbar flex gap-4 px-4 snap-x snap-mandatory">
           {services.map((service) => (
             <div
               key={service.id}
