@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [activeSliders, setActiveSliders] = useState({});
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -62,13 +62,13 @@ const BlogSection = () => {
     return () => intervals.forEach(clearInterval);
   }, [blogs]);
 
-  const handlePreviousMobile = () => {
-    setCurrentIndex((prev) => (prev === 0 ? blogs.length - 1 : prev - 1));
-  };
+  // const handlePreviousMobile = () => {
+  //   setCurrentIndex((prev) => (prev === 0 ? blogs.length - 1 : prev - 1));
+  // };
 
-  const handleNextMobile = () => {
-    setCurrentIndex((prev) => (prev === blogs.length - 1 ? 0 : prev + 1));
-  };
+  // const handleNextMobile = () => {
+  //   setCurrentIndex((prev) => (prev === blogs.length - 1 ? 0 : prev + 1));
+  // };
 
   // Loading state
   if (loading) {
@@ -277,135 +277,47 @@ const BlogSection = () => {
           ))}
         </div>
 
-        {/* Mobile/Tablet View - 1 Card Carousel */}
-        <div className="lg:hidden relative mb-12">
-          {/* Navigation Buttons */}
-          <button
-            onClick={handlePreviousMobile}
-            className="absolute left-0 top-1/2 -translate-y-1/2 translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-emerald-500 hover:text-white text-emerald-600"
-          >
-            <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
-          </button>
-
-          <button
-            onClick={handleNextMobile}
-            className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-1 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-2xl flex items-center justify-center transition-all duration-300 hover:bg-emerald-500 hover:text-white text-emerald-600"
-          >
-            <ChevronRight size={20} className="sm:w-6 sm:h-6" />
-          </button>
-
-          {/* Single Card Display */}
-          <div className="px-12 sm:px-16">
-            <div className="group relative bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden border border-emerald-200/50">
-              {/* Image Slider */}
-              <div className="relative h-64 sm:h-72 overflow-hidden rounded-t-2xl sm:rounded-t-3xl">
-                {blogs[currentIndex].images &&
-                blogs[currentIndex].images.length > 0 ? (
-                  <>
-                    {blogs[currentIndex].images.map((img, imgIdx) => (
+        {/* Mobile/Tablet View - Swipe Slider */}
+        <div className="lg:hidden overflow-x-auto snap-x snap-mandatory scroll-smooth px-4 mb-12">
+          <div className="flex gap-4">
+            {blogs.map((blog, index) => (
+              <div key={blog._id} className="min-w-[85%] snap-center">
+                <div className="group relative bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden border border-emerald-200/50">
+                  {/* Image */}
+                  <div className="relative h-64 overflow-hidden rounded-t-2xl">
+                    {blog.images && blog.images.length > 0 ? (
                       <img
-                        key={imgIdx}
-                        // src={`${API_URL}${img}`}
-                        src={img}
-                        alt={blogs[currentIndex].title}
-                        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${
-                          imgIdx === activeSliders[currentIndex]
-                            ? "opacity-100 scale-100"
-                            : "opacity-0 scale-110"
-                        }`}
-                        onError={(e) => {
-                          e.target.src =
-                            "https://placehold.co/400x300?text=Blog+Image";
-                        }}
+                        src={blog.images[0]}
+                        alt={blog.title}
+                        className="w-full h-full object-cover"
                       />
-                    ))}
-
-                    {/* Slider Dots */}
-                    {blogs[currentIndex].images.length > 1 && (
-                      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 bg-black/60 backdrop-blur-xl py-1.5 px-3 rounded-xl">
-                        {blogs[currentIndex].images.map((_, imgIdx) => (
-                          <button
-                            key={imgIdx}
-                            onClick={() =>
-                              setActiveSliders((prev) => ({
-                                ...prev,
-                                [currentIndex]: imgIdx,
-                              }))
-                            }
-                            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${
-                              imgIdx === activeSliders[currentIndex]
-                                ? "bg-emerald-400 scale-125"
-                                : "bg-white/70"
-                            }`}
-                          />
-                        ))}
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
+                        <span className="text-white text-5xl">🐾</span>
                       </div>
                     )}
-                  </>
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center">
-                    <span className="text-white text-5xl sm:text-6xl">🐾</span>
                   </div>
-                )}
-              </div>
 
-              {/* Content */}
-              <div className="p-5 sm:p-6">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight line-clamp-2">
-                  {blogs[currentIndex].title}
-                </h3>
+                  {/* Content */}
+                  <div className="p-5">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                      {blog.title}
+                    </h3>
 
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6 line-clamp-3 leading-relaxed">
-                  {blogs[currentIndex].content}
-                </p>
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                      {blog.content}
+                    </p>
 
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <div className="flex items-center space-x-0.5 sm:space-x-1 text-amber-400">
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-                    <span className="ml-1 sm:ml-2 font-semibold text-xs sm:text-sm text-gray-700">
-                      (5.0)
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-1 text-emerald-600 text-xs sm:text-sm font-semibold">
-                    <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span>
-                      {new Date(
-                        blogs[currentIndex].createdAt,
-                      ).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </span>
+                    <Link
+                      to={`/blog/${blog.slug}`}
+                      className="inline-flex items-center text-emerald-600 font-bold text-base"
+                    >
+                      Read More
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Link>
                   </div>
                 </div>
-
-                <Link
-                  to={`/blog/${blogs[currentIndex].slug}`}
-                  className="inline-flex items-center text-emerald-600 font-bold text-base sm:text-lg hover:text-emerald-700 transition-all duration-300"
-                >
-                  Read More
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 ml-1 sm:ml-2" />
-                </Link>
               </div>
-            </div>
-          </div>
-
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-2 mt-6 sm:mt-8">
-            {blogs.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-2 sm:h-2.5 rounded-full transition-all duration-300 ${
-                  currentIndex === idx
-                    ? "bg-emerald-600 w-6 sm:w-8"
-                    : "w-2 sm:w-2.5 bg-emerald-300 hover:bg-emerald-400"
-                }`}
-              />
             ))}
           </div>
         </div>
