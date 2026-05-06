@@ -127,17 +127,16 @@ const Store = () => {
           ))}
         </div>
 
-        
         {/* Mobile/Tablet View */}
         <div className="md:hidden mb-12 overflow-x-auto no-scrollbar">
           <div className="flex gap-4 px-4 snap-x snap-mandatory">
             {categories.map((category) => (
               <div
                 key={category.id}
-                className="min-w-[95%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0"
+                className="min-w-[95%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 flex flex-col"
               >
                 {/* Image */}
-                <div className="relative h-[340px] overflow-hidden">
+                <div className="relative h-64 overflow-hidden flex-shrink-0">
                   <img
                     src={category.image}
                     alt={category.name}
@@ -151,7 +150,7 @@ const Store = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
+                <div className="p-5 flex-1 flex flex-col justify-between">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
                     {category.name}
                   </h3>
@@ -196,7 +195,6 @@ const Store = () => {
       </div>
     </section>
   );
-  
 };
 
 export default Store;
