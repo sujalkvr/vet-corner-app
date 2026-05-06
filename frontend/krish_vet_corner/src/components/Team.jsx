@@ -227,7 +227,7 @@ const Team = () => {
                 )}
               </div>
               {/* Mobile Scroll View */}
-              <div className="lg:hidden mb-12 overflow-x-auto flex gap-4 px-4 snap-x snap-mandatory">
+              <div className="lg:hidden mb-12 overflow-x-auto no-scrollbar flex gap-4 px-4 snap-x snap-mandatory">
                 {teamMembers.map((member) => (
                   <div
                     key={member._id}
