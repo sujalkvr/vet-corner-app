@@ -231,10 +231,10 @@ const Team = () => {
                 {teamMembers.map((member) => (
                   <div
                     key={member._id}
-                    className="min-w-[90%] snap-center bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 border-2 border-green-100"
+                    className="min-w-[95%] snap-center relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border-2 border-green-100"
                   >
                     {/* Image */}
-                    <div className="relative h-72 bg-gradient-to-br from-green-100 to-green-50">
+                    <div className="relative h-[340px] bg-gradient-to-br from-green-100 to-green-50">
                       <img
                         src={member.image}
                         alt={member.name}
