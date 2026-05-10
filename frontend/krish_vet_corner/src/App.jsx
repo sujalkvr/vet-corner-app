@@ -32,7 +32,7 @@ import Faq from "./components/Faq";
 import More from "./components/More";
 import Team from "./components/Team";
 import "./index.css";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, ChevronUp } from "lucide-react";
 
 const ScrollToSection = () => {
   const location = useLocation();
@@ -56,6 +56,28 @@ const ScrollToSection = () => {
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showBanner, setShowBanner] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
@@ -176,6 +198,20 @@ function App() {
                 </div>
               </div>
             </a>
+            {showScrollTop && (
+              <button
+                onClick={scrollToTop}
+                className="fixed bottom-24 right-6 z-[9999] group"
+              >
+                <div className="relative">
+                  <span className="absolute inset-0 rounded-full bg-blue-400 opacity-50 blur-md"></span>
+
+                  <div className="relative bg-gradient-to-r from-blue-500 to-indigo-500 p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-blue-500/50">
+                    <ChevronUp className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+              </button>
+            )}
           </>
         </Router>
       )}
