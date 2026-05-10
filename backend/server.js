@@ -61,6 +61,11 @@ let transporter;
 
 function initializeTransporter() {
   try {
+
+    console.log("BREVO EMAIL:", process.env.BREVO_EMAIL);
+console.log("BREVO KEY EXISTS:", !!process.env.BREVO_SMTP_KEY);
+
+
     transporter = nodemailer.createTransport({
   host: "smtp-relay.brevo.com",
   port: 587,
@@ -150,7 +155,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📁 Upload directory: ${uploadsDir}`);
-  console.log(`📧 Email: ${process.env.EMAIL_USER || 'Not configured'}`);
+  // console.log(`📧 Email: ${process.env.EMAIL_USER || 'Not configured'}`);
+  console.log(`📧 Brevo Email: ${process.env.BREVO_EMAIL || 'Not configured'}`);
   console.log(`📊 API Docs: http://localhost:${PORT}/api/health`);
   console.log('\n📋 Available Routes:');
   console.log('   - POST /api/appointment/book');
