@@ -34,29 +34,51 @@ app.use('/uploads', express.static(uploadsDir));
 // ============= EMAIL CONFIGURATION =============
 let transporter;
 
-async function initializeTransporter() {
+// async function initializeTransporter() {
+//   try {
+//     transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS
+//   }
+// });
+// console.log("EMAIL USER:", process.env.EMAIL_USER);
+// console.log("Initializing transporter...");
+
+//     await transporter.verify();
+//     console.log('✅ Email server is ready to send messages');
+//     console.log("Transporter initialized successfully");
+    
+//     // Make transporter available to all routes
+//     app.locals.transporter = transporter;
+//   } catch (error) {
+//     console.error('❌ Email configuration error:', error.message);
+//     console.log('⚠️  Server will continue but emails will not work');
+//   }
+// }
+
+
+function initializeTransporter() {
   try {
     transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-console.log("EMAIL USER:", process.env.EMAIL_USER);
-console.log("Initializing transporter...");
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
 
-    await transporter.verify();
-    console.log('✅ Email server is ready to send messages');
-    console.log("Transporter initialized successfully");
-    
-    // Make transporter available to all routes
     app.locals.transporter = transporter;
+
+    console.log('✅ Transporter initialized');
   } catch (error) {
     console.error('❌ Email configuration error:', error.message);
-    console.log('⚠️  Server will continue but emails will not work');
   }
 }
+
+
+
 
 initializeTransporter();
 
