@@ -62,8 +62,8 @@ let transporter;
 function initializeTransporter() {
   try {
 
-    console.log("BREVO EMAIL:", process.env.BREVO_EMAIL);
-console.log("BREVO KEY EXISTS:", !!process.env.BREVO_SMTP_KEY);
+//     console.log("BREVO EMAIL:", process.env.BREVO_EMAIL);
+// console.log("BREVO KEY EXISTS:", !!process.env.BREVO_SMTP_KEY);
 
 
     transporter = nodemailer.createTransport({
