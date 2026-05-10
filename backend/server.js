@@ -43,9 +43,12 @@ async function initializeTransporter() {
     pass: process.env.EMAIL_PASS
   }
 });
+console.log("EMAIL USER:", process.env.EMAIL_USER);
+console.log("Initializing transporter...");
 
     await transporter.verify();
     console.log('✅ Email server is ready to send messages');
+    console.log("Transporter initialized successfully");
     
     // Make transporter available to all routes
     app.locals.transporter = transporter;
