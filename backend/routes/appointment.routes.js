@@ -75,8 +75,8 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
 
     // Email to admin
     const adminMail = {
-      from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+      from: "Krish Vet Corner <vetcorner2025@gmail.com>",
+      to: "vetcorner2025@gmail.com",
       subject: `🆕 NEW APPOINTMENT BOOKING - ${personName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 2px solid #10b981; border-radius: 16px; overflow: hidden;">
@@ -151,7 +151,8 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
           <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 2px solid #e5e7eb;">
             <p style="color: #6b7280; font-size: 13px; margin: 0;">
               🐾 <strong>Krish Vet Corner</strong> - Professional Pet Care<br>
-              Warsaw, Poland | <a href="mailto:${process.env.EMAIL_USER}" style="color: #10b981; text-decoration: none;">${process.env.EMAIL_USER}</a>
+              Warsaw, Poland | <a href="mailto:vetcorner2025@gmail.com" style="color: #10b981; text-decoration: none;">vetcorner2025@gmail.com
+              </a>
             </p>
           </div>
         </div>
@@ -164,7 +165,7 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
 
     // Email to customer
     const customerMail = {
-      from: process.env.EMAIL_USER,
+      from: "Krish Vet Corner <vetcorner2025@gmail.com>",
       to: email,
       subject: '✅ Appointment Booked Successfully - Krish Vet Corner',
       html: `
@@ -216,7 +217,7 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
                 <strong>Krish Vet Corner</strong><br>
                 Warsaw, Poland<br>
                 📞 ${phone}<br>
-                📧 ${process.env.EMAIL_USER}
+                📧 vetcorner2025@gmail.com
               </p>
             </div>
 
@@ -230,7 +231,7 @@ router.post('/book', appointmentUpload.single('screenshot'), async (req, res) =>
           <div style="background: #f9fafb; padding: 20px; text-align: center; border-top: 2px solid #e5e7eb;">
             <p style="color: #6b7280; font-size: 13px; margin: 0;">
               This is an automated confirmation. Please do not reply to this email.<br>
-              For queries, contact us at <a href="mailto:${process.env.EMAIL_USER}" style="color: #10b981; text-decoration: none;">${process.env.EMAIL_USER}</a>
+              For queries, contact us at <a href="mailto:vetcorner2025@gmail.com" style="color: #10b981; text-decoration: none;">vetcorner2025@gmail.com</a>
             </p>
           </div>
         </div>
