@@ -128,69 +128,67 @@ const Store = () => {
         </div>
 
         {/* Mobile/Tablet View */}
-        <div className="md:hidden mb-12 overflow-x-auto no-scrollbar">
-          <div className="flex gap-4 px-4 snap-x snap-mandatory">
-            {categories.map((category) => (
-              <div
-                key={category.id}
-                className="min-w-[95%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 flex flex-col"
-              >
-                {/* Image */}
-                <div className="relative h-64 overflow-hidden flex-shrink-0">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-full object-cover"
-                  />
+        <div className="md:hidden mb-12 sm:mb-20 overflow-x-auto no-scrollbar flex gap-4 px-4 snap-x snap-mandatory">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="min-w-[95%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 flex flex-col"
+            >
+              {/* Image */}
+              <div className="relative h-64 overflow-hidden flex-shrink-0">
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="w-full h-full object-cover"
+                />
 
-                  {/* Icon Badge */}
-                  <div className="absolute top-3 right-3 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl shadow-lg">
-                    {category.icon}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {category.name}
-                  </h3>
-
-                  <p className="text-sm text-gray-600 mb-5 line-clamp-2">
-                    {category.description}
-                  </p>
-
-                  <Link
-                    to={category.path}
-                    className={`group/btn relative inline-flex items-center justify-center w-full px-5 py-3 bg-gradient-to-r ${category.gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 text-sm`}
-                  >
-                    <span className="relative z-10 flex items-center gap-2">
-                      Browse All
-                      <ArrowRight
-                        className="transition-transform duration-300 group-hover/btn:translate-x-2"
-                        size={18}
-                      />
-                    </span>
-                  </Link>
+                {/* Icon Badge */}
+                <div className="absolute top-3 right-3 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-3xl shadow-lg">
+                  {category.icon}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center">
-          <div className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl sm:rounded-2xl shadow-lg">
-            <Sparkles className="text-purple-600 flex-shrink-0" size={20} />
-            <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
-              Need help choosing?{" "}
-              <Link
-                to="/appointment"
-                className="text-purple-600 hover:text-purple-800 underline"
-              >
-                Book a consultation
-              </Link>
-            </p>
-          </div>
+              {/* Content */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {category.name}
+                </h3>
+
+                <p className="text-sm text-gray-600 mb-5 line-clamp-2">
+                  {category.description}
+                </p>
+
+                <Link
+                  to={category.path}
+                  className={`group/btn relative inline-flex items-center justify-center w-full px-5 py-3 bg-gradient-to-r ${category.gradient} text-white font-bold rounded-xl overflow-hidden transition-all duration-300 text-sm`}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Browse All
+                    <ArrowRight
+                      className="transition-transform duration-300 group-hover/btn:translate-x-2"
+                      size={18}
+                    />
+                  </span>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom CTA */}
+      <div className="text-center">
+        <div className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl sm:rounded-2xl shadow-lg">
+          <Sparkles className="text-purple-600 flex-shrink-0" size={20} />
+          <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800">
+            Need help choosing?{" "}
+            <Link
+              to="/appointment"
+              className="text-purple-600 hover:text-purple-800 underline"
+            >
+              Book a consultation
+            </Link>
+          </p>
         </div>
       </div>
     </section>
