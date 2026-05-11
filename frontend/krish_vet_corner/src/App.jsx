@@ -206,8 +206,8 @@ function App() {
                 <div className="relative">
                   <span className="absolute inset-0 rounded-full bg-blue-400 opacity-50 blur-md"></span>
 
-                  <div className="relative bg-gradient-to-r from-blue-500 to-indigo-500 p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-blue-500/50">
-                    <ChevronUp className="w-3 h-3 text-white" />
+                  <div className="relative bg-gradient-to-r from-blue-500 to-indigo-500 p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-blue-500/50">
+                    <ChevronUp className="w-4 h-4 text-white" />
                   </div>
                 </div>
               </button>
