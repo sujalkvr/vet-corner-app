@@ -132,7 +132,7 @@ const Store = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="min-w-[85%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 flex flex-col"
+              className="min-w-[80%] snap-center group relative h-[420px] bg-white rounded-2xl overflow-hidden shadow-xl flex-shrink-0 flex flex-col"
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden flex-shrink-0">
