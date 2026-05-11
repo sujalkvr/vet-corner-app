@@ -201,13 +201,13 @@ function App() {
             {showScrollTop && (
               <button
                 onClick={scrollToTop}
-                className="fixed bottom-24 right-6 z-[9999] group"
+                className="fixed bottom-24 right-7.5 z-[9999] group"
               >
                 <div className="relative">
                   <span className="absolute inset-0 rounded-full bg-blue-400 opacity-50 blur-md"></span>
 
                   <div className="relative bg-gradient-to-r from-blue-500 to-indigo-500 p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-blue-500/50">
-                    <ChevronUp className="w-6 h-6 text-white" />
+                    <ChevronUp className="w-3 h-3 text-white" />
                   </div>
                 </div>
               </button>
