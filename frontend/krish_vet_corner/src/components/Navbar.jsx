@@ -140,50 +140,53 @@ const Navbar = ({ showBanner }) => {
           </div>
         </div>
       </nav>
-      Mobile Menu
-      {mobileOpen && (
-        <div
-          className={`lg:hidden bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl fixed left-3 top-[80px] w-50 z-30 transition-all duration-300 ${
-            showBanner ? "top-[92px]" : "top-[72px]"
-          }`}
-        >
-          <div className="flex flex-col items-start px-4 py-4 space-y-3">
-            {navLinks.map((link) =>
-              link.name === "Our Expertise" ? (
-                <button
-                  key={link.name}
-                  onClick={() => {
-                    setMobileOpen(false);
-                    window.dispatchEvent(new Event("openExpertise"));
-                  }}
-                  className="group relative px-3 py-2 rounded-lg font-medium text-gray-700 hover:text-blue-600 hover:shadow-md transition-all duration-300"
-                >
-                  {link.name}
-                </button>
-              ) : (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
-                    (
-                      link.path === "/"
-                        ? activeSection === "/"
-                        : activeSection === link.path ||
-                          location.hash === link.path ||
-                          location.pathname === link.path
-                    )
-                      ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
-                      : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ),
-            )}
-          </div>
+      {/* Mobile Menu */}
+
+      <div
+        className={`lg:hidden bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl fixed right-3 w-52 z-30 transition-all duration-300 ease-out ${
+          showBanner ? "top-[92px]" : "top-[72px]"
+        } ${
+          mobileOpen
+            ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+            : "opacity-0 translate-y-5 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="flex flex-col items-start px-4 py-4 space-y-3">
+          {navLinks.map((link) =>
+            link.name === "Our Expertise" ? (
+              <button
+                key={link.name}
+                onClick={() => {
+                  setMobileOpen(false);
+                  window.dispatchEvent(new Event("openExpertise"));
+                }}
+                className="group relative px-3 py-2 rounded-lg font-medium text-gray-700 hover:text-blue-600 hover:shadow-md transition-all duration-300"
+              >
+                {link.name}
+              </button>
+            ) : (
+              <Link
+                key={link.name}
+                to={link.path}
+                onClick={() => setMobileOpen(false)}
+                className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
+                  (
+                    link.path === "/"
+                      ? activeSection === "/"
+                      : activeSection === link.path ||
+                        location.hash === link.path ||
+                        location.pathname === link.path
+                  )
+                    ? "text-blue-600 font-semibold shadow-md shadow-blue-100"
+                    : "text-gray-700 hover:text-blue-600 hover:shadow-md hover:shadow-blue-100/50"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ),
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
