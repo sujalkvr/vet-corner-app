@@ -28,7 +28,11 @@ const Navbar = ({ showBanner }) => {
       setActiveSection(current);
 
       // MOBILE NAVBAR SHOW/HIDE
+
       if (window.innerWidth < 1024) {
+        // CLOSE MOBILE MENU ON SCROLL
+        setMobileOpen(false);
+
         if (window.scrollY > lastScrollY) {
           setShowNavbar(false); // scrolling down
         } else {
