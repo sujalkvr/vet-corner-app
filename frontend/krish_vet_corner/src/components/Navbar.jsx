@@ -62,9 +62,14 @@ const Navbar = ({ showBanner }) => {
                 alt="Krish Vet Corner"
                 className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300 rounded-lg shadow-md hover:shadow-lg"
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              {/* <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
                 Krish Vet Corner
-              </span>
+              </span> */}
+              <img
+                src="/images/logo-text.png"
+                alt="Krish Vet Corner"
+                className="h-10 w-auto object-contain"
+              />
             </Link>
 
             {/* Desktop Links */}
