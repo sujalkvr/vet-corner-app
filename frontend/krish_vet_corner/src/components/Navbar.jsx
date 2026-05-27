@@ -140,12 +140,11 @@ const Navbar = ({ showBanner }) => {
           </div>
         </div>
       </nav>
-
-      {/* Mobile Menu
+      Mobile Menu
       {mobileOpen && (
         <div
-          className={`lg:hidden bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl fixed left-0 right-0 z-30 transition-all duration-300 ${
-            showBanner ? "top-[92px]" : "top-[64px]"
+          className={`lg:hidden bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl fixed left-3 top-[80px] w-50 z-30 transition-all duration-300 ${
+            showBanner ? "top-[92px]" : "top-[72px]"
           }`}
         >
           <div className="flex flex-col items-start px-4 py-4 space-y-3">
@@ -184,77 +183,7 @@ const Navbar = ({ showBanner }) => {
             )}
           </div>
         </div>
-      )} */}
-      {/* Mobile Drawer Menu */}
-      <>
-        {/* BACKDROP */}
-        <div
-          onClick={() => setMobileOpen(false)}
-          className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-all duration-300 lg:hidden ${
-            mobileOpen ? "opacity-100 visible" : "opacity-0 invisible"
-          }`}
-        />
-
-        {/* DRAWER */}
-        <div
-          className={`fixed top-0 left-0 h-full w-[75%] max-w-[320px] bg-white shadow-2xl z-50 transform transition-transform duration-300 lg:hidden ${
-            mobileOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          {/* TOP AREA */}
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
-            <img
-              src="/images/logo-text.png"
-              alt="Krish Vet Corner"
-              className="h-10 w-auto object-contain"
-            />
-
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="text-3xl text-gray-700"
-            >
-              ✕
-            </button>
-          </div>
-
-          {/* MENU ITEMS */}
-          <div className="flex flex-col px-5 py-6 space-y-5">
-            {navLinks.map((link) =>
-              link.name === "Our Expertise" ? (
-                <button
-                  key={link.name}
-                  onClick={() => {
-                    setMobileOpen(false);
-                    window.dispatchEvent(new Event("openExpertise"));
-                  }}
-                  className="text-left text-lg font-medium text-gray-700 hover:text-blue-600 transition-all duration-300"
-                >
-                  {link.name}
-                </button>
-              ) : (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`text-lg font-medium transition-all duration-300 ${
-                    (
-                      link.path === "/"
-                        ? activeSection === "/"
-                        : activeSection === link.path ||
-                          location.hash === link.path ||
-                          location.pathname === link.path
-                    )
-                      ? "text-blue-600"
-                      : "text-gray-700 hover:text-blue-600"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ),
-            )}
-          </div>
-        </div>
-      </>
+      )}
     </>
   );
 };
