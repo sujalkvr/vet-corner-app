@@ -2,47 +2,47 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ showBanner }) => {
-const [mobileOpen, setMobileOpen] = useState(false);
-const location = useLocation();
-const [activeSection, setActiveSection] = useState("/");
-const [showNavbar, setShowNavbar] = useState(true);
-const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const [activeSection, setActiveSection] = useState("/");
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   useEffect(() => {
-  const sections = ["services", "about", "store", "blog", "contact"];
+    const sections = ["services", "about", "store", "blog", "contact"];
 
-  const handleScroll = () => {
-    let current = "/";
+    const handleScroll = () => {
+      let current = "/";
 
-    sections.forEach((id) => {
-      const el = document.getElementById(id);
+      sections.forEach((id) => {
+        const el = document.getElementById(id);
 
-      if (el) {
-        const rect = el.getBoundingClientRect();
+        if (el) {
+          const rect = el.getBoundingClientRect();
 
-        if (rect.top <= 120 && rect.bottom >= 120) {
-          current = `#${id}`;
+          if (rect.top <= 120 && rect.bottom >= 120) {
+            current = `#${id}`;
+          }
         }
+      });
+
+      setActiveSection(current);
+
+      // MOBILE NAVBAR SHOW/HIDE
+      if (window.innerWidth < 1024) {
+        if (window.scrollY > lastScrollY) {
+          setShowNavbar(false); // scrolling down
+        } else {
+          setShowNavbar(true); // scrolling up
+        }
+
+        setLastScrollY(window.scrollY);
       }
-    });
+    };
 
-    setActiveSection(current);
+    window.addEventListener("scroll", handleScroll);
 
-    // MOBILE NAVBAR SHOW/HIDE
-    if (window.innerWidth < 1024) {
-      if (window.scrollY > lastScrollY) {
-        setShowNavbar(false); // scrolling down
-      } else {
-        setShowNavbar(true); // scrolling up
-      }
-
-      setLastScrollY(window.scrollY);
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [lastScrollY]);  
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -62,14 +62,10 @@ const [lastScrollY, setLastScrollY] = useState(0);
     <>
       {/* Desktop Navbar */}
       <nav
-  className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
-    showBanner ? "top-[28px]" : "top-0"
-  } ${
-    showNavbar
-      ? "translate-y-0"
-      : "-translate-y-full"
-  }`}
->
+        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
+          showBanner ? "top-[28px]" : "top-0"
+        } ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -109,6 +105,7 @@ const [lastScrollY, setLastScrollY] = useState(0);
                   <Link
                     key={link.name}
                     to={link.path}
+                    onClick={() => setMobileOpen(false)}
                     className={`group relative px-3 py-2 rounded-lg font-medium transition-all duration-300 ${
                       (
                         link.path === "/"
@@ -150,14 +147,15 @@ const [lastScrollY, setLastScrollY] = useState(0);
             showBanner ? "top-[92px]" : "top-[64px]"
           }`}
         >
-          <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
+          <div className="flex flex-col items-start px-4 py-4 space-y-3">
             {navLinks.map((link) =>
               link.name === "Our Expertise" ? (
                 <button
-                  key={link.name}
-                  onClick={() =>
-                    window.dispatchEvent(new Event("openExpertise"))
-                  }
+                  key={link.name} 
+                  onClick={() => {
+                    window.dispatchEvent(new Event("openExpertise"));
+                    setMobileOpen(false);
+                  }}
                   className="group relative px-3 py-2 rounded-lg font-medium text-gray-700 hover:text-blue-600 hover:shadow-md transition-all duration-300"
                 >
                   {link.name}
