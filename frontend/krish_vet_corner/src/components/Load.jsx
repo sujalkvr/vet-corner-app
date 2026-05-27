@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
 
 const Load = ({ onLoadComplete }) => {
   const videoRef = useRef(null);
@@ -21,13 +21,12 @@ const Load = ({ onLoadComplete }) => {
 
   return (
     <div className="fixed inset-0 bg-white z-[10000] flex flex-col items-center justify-center overflow-hidden">
-      
       {/* Animated Title */}
-      <h1 className="text-4xl md:text-5xl lg:text-6xl font-black
-        bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600
-        bg-clip-text text-transparent mb-10 animate-pop">
-        Krish Vet Corner
-      </h1>
+      <img
+        src="/images/logo-text.png"
+        alt="Krish Vet Corner"
+        className="h-20 md:h-24 lg:h-28 w-auto object-contain mb-10 animate-pop"
+      />
 
       {/* Video (UNCHANGED) */}
       <video
