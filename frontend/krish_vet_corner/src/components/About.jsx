@@ -76,14 +76,14 @@ const About = () => {
                 </p>
               </div>
             </div>
-
+            <br />
             {/* Bio */}
             <div className="bg-white/70 backdrop-blur-xl p-8 lg:p-10 rounded-3xl shadow-2xl border border-gray-200/50 hover:shadow-emerald-300/30 transition-all duration-500">
               <h4 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
                 <Heart className="w-8 h-8 text-red-500 mr-3" />
                 About Krish Vet Corner
               </h4>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              <div className="max-w-3xl mx-auto text-left text-[17px] text-gray-700 leading-9 space-y-6 mb-6">
                 {showMore ? (
                   <>
                     <p>
@@ -93,59 +93,69 @@ const About = () => {
                       replace in-person veterinary care, but to complement it
                       with timely, evidence-based guidance, clear communication,
                       and support for informed decisions — especially in
-                      stressful or critical moments. During years in busy
-                      veterinary hospitals, we noticed consultations often felt
-                      rushed, leaving pet parents with unanswered questions.
-                      Krish Vet Corner was started to bridge this gap through
-                      teleconsultation, offering clear and personalized
-                      guidance, making veterinary care more accessible, while
-                      respecting the importance of in-person examinations and
-                      emergency care when required. We offer teleconsultations
-                      for:
+                      stressful or critical moments.
                     </p>
-                    <li> Second opinions and treatment clarification</li>
-                    <li>
-                      Vaccination, deworming, nutrition, and medication
-                      guidance{" "}
-                    </li>
-                    <li>
-                       Reproductive health, breeding advice, pregnancy care,
-                      and birth-control options
-                    </li>
-                    <li>
-                       Zoonotic disease awareness, especially dog bites
-                      (rabies) and preventive care{" "}
-                    </li>
-                    <li>
-                      {" "}
-                      Guidance on identifying urgent situations and when a
-                      clinic visit is essential{" "}
-                    </li>
+                    <p>
+                      During years in busy veterinary hospitals, we noticed
+                      consultations often felt rushed, leaving pet parents with
+                      unanswered questions. Krish Vet Corner was started to
+                      bridge this gap through teleconsultation, offering clear
+                      and personalized guidance, making veterinary care more
+                      accessible, while respecting the importance of in-person
+                      examinations and emergency care when required.
+                    </p>
+                    We offer teleconsultations for:
+                    <ul className="list-disc pl-6 space-y-3 text-left">
+                      <li>Second opinions and treatment clarification</li>
+
+                      <li>
+                        Vaccination, deworming, nutrition, and medication
+                        guidance{" "}
+                      </li>
+
+                      <li>
+                        Reproductive health, breeding advice, pregnancy care,
+                        and birth-control options
+                      </li>
+
+                      <li>
+                        Zoonotic disease awareness, especially dog bites
+                        (rabies) and preventive care{" "}
+                      </li>
+
+                      <li>
+                        Guidance on identifying urgent situations and when a
+                        clinic visit is essential{" "}
+                      </li>
+                    </ul>
                     <button
                       onClick={() => setShowMore(false)}
-                      className="text-emerald-600 font-semibold ml-1 hover:underline"
+                      className="text-emerald-600 font-semibold hover:underline mt-4"
                     >
                       Read Less
                     </button>
                   </>
                 ) : (
                   <>
-                    Krish Vet Corner was founded on a simple belief: every pet
-                    deserves the right treatment, and every pet parent deserves
-                    clear guidance and expert care Our goal isn’t to replace
-                    in-person veterinary care, but to complement it with timely,
-                    evidence-based guidance, clear communication, and support
-                    for informed decisions — especially in stressful or critical
-                    moments.
+                    <p>
+                      Krish Vet Corner was founded on a simple belief: every pet
+                      deserves the right treatment, and every pet parent
+                      deserves clear guidance and expert care Our goal isn’t to
+                      replace in-person veterinary care, but to complement it
+                      with timely, evidence-based guidance, clear communication,
+                      and support for informed decisions — especially in
+                      stressful or critical moments.
+                    </p>
+
                     <button
                       onClick={() => setShowMore(true)}
-                      className="text-emerald-600 font-semibold ml-1 hover:underline"
+                      className="text-emerald-600 font-semibold hover:underline mt-2"
                     >
                       Read More
                     </button>
                   </>
                 )}
-              </p>
+              </div>
               <p className="text-lg text-gray-700 leading-relaxed"></p>
             </div>
           </div>
