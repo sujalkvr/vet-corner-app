@@ -2,31 +2,47 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ showBanner }) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
-  const [activeSection, setActiveSection] = useState("/");
+const [mobileOpen, setMobileOpen] = useState(false);
+const location = useLocation();
+const [activeSection, setActiveSection] = useState("/");
+const [showNavbar, setShowNavbar] = useState(true);
+const [lastScrollY, setLastScrollY] = useState(0);
   useEffect(() => {
-    const sections = ["services", "about", "store", "blog", "contact"];
+  const sections = ["services", "about", "store", "blog", "contact"];
 
-    const handleScroll = () => {
-      let current = "/";
+  const handleScroll = () => {
+    let current = "/";
 
-      sections.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 120) {
-            current = `#${id}`;
-          }
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+
+      if (el) {
+        const rect = el.getBoundingClientRect();
+
+        if (rect.top <= 120 && rect.bottom >= 120) {
+          current = `#${id}`;
         }
-      });
+      }
+    });
 
-      setActiveSection(current);
-    };
+    setActiveSection(current);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // MOBILE NAVBAR SHOW/HIDE
+    if (window.innerWidth < 1024) {
+      if (window.scrollY > lastScrollY) {
+        setShowNavbar(false); // scrolling down
+      } else {
+        setShowNavbar(true); // scrolling up
+      }
+
+      setLastScrollY(window.scrollY);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [lastScrollY]);  
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -46,10 +62,14 @@ const Navbar = ({ showBanner }) => {
     <>
       {/* Desktop Navbar */}
       <nav
-        className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
-          showBanner ? "top-[28px]" : "top-0"
-        }`}
-      >
+  className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
+    showBanner ? "top-[28px]" : "top-0"
+  } ${
+    showNavbar
+      ? "translate-y-0"
+      : "-translate-y-full"
+  }`}
+>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
