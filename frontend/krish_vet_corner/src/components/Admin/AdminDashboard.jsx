@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useNavigate } from "react-router-dom";
+import { Extension } from "@tiptap/core";
+import { TextStyle } from "@tiptap/extension-text-style";
 import {
   Upload,
   Trash2,
@@ -118,9 +120,53 @@ const editorTextLength = (html) => {
   return doc.body.textContent?.length || 0;
 };
 
+const FontSize = Extension.create({
+  name: "fontSize",
+
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["textStyle"],
+        attributes: {
+          fontSize: {
+            default: null,
+
+            parseHTML: (element) => element.style.fontSize || null,
+
+            renderHTML: (attributes) => {
+              if (!attributes.fontSize) return {};
+
+              return {
+                style: `font-size: ${attributes.fontSize}`,
+              };
+            },
+          },
+        },
+      },
+    ];
+  },
+
+  addCommands() {
+    return {
+      setFontSize:
+        (fontSize) =>
+        ({ chain }) =>
+          chain().setMark("textStyle", { fontSize }).run(),
+
+      unsetFontSize:
+        () =>
+        ({ chain }) =>
+          chain()
+            .setMark("textStyle", { fontSize: null })
+            .removeEmptyTextStyle()
+            .run(),
+    };
+  },
+});
+
 const RichTextEditor = ({ content, setContent, disabled }) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, TextStyle, FontSize],
     content: content || "",
     editable: !disabled,
 
@@ -178,6 +224,32 @@ const RichTextEditor = ({ content, setContent, disabled }) => {
   return (
     <div className="border-2 border-gray-200 rounded-xl overflow-hidden focus-within:border-blue-500">
       <div className="flex flex-wrap gap-2 p-3 bg-gray-50 border-b">
+        <select
+          aria-label="Font size"
+          title="Change font size"
+          className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm font-semibold"
+          value={editor.getAttributes("textStyle").fontSize || "16px"}
+          onChange={(e) => {
+            const size = e.target.value;
+
+            if (size === "default") {
+              editor.chain().focus().unsetFontSize().run();
+            } else {
+              editor.chain().focus().setFontSize(size).run();
+            }
+          }}
+          disabled={disabled}
+        >
+          <option value="default">Default</option>
+          <option value="12px">12 px</option>
+          <option value="14px">14 px</option>
+          <option value="16px">16 px</option>
+          <option value="18px">18 px</option>
+          <option value="20px">20 px</option>
+          <option value="24px">24 px</option>
+          <option value="28px">28 px</option>
+        </select>
+
         <button
           type="button"
           className={buttonClass(editor.isActive("bold"))}
