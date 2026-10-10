@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import DOMPurify from "dompurify";
 import { API_URL } from "../api";
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -203,11 +204,16 @@ const BlogDetail = () => {
         )}
 
         {/* Blog Content */}
+
+        {/* Blog Content */}
         <div className="prose prose-lg max-w-none">
           <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl p-8 md:p-12 border border-gray-100">
-            <div className="text-gray-800 leading-relaxed whitespace-pre-wrap text-lg">
-              {blog.content}
-            </div>
+            <div
+              className="blog-content text-gray-800 text-lg"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(blog.content || ""),
+              }}
+            />
           </div>
         </div>
 

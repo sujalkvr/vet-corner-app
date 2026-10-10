@@ -1,8 +1,8 @@
 @import "tailwindcss";
 /* src/index.css - Replace everything with this */
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
 
 @layer base {
   html {
@@ -14,7 +14,7 @@
     @apply relative px-3 py-2 text-lg font-medium text-gray-700 hover:text-blue-600 transition-all duration-300;
   }
   .navbar-link::after {
-    content: '';
+    content: "";
     @apply absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300;
   }
   .navbar-link:hover::after {
@@ -23,8 +23,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fadeIn {
@@ -32,8 +38,13 @@
 }
 
 @keyframes pulse-slow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .animate-pulse-slow {
@@ -51,4 +62,66 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Rich-text editor formatting */
+.tiptap {
+  min-height: 16rem;
+  outline: none;
+  line-height: 1.7;
+}
+
+.tiptap p {
+  margin: 0 0 1rem;
+}
+
+.tiptap h2,
+.blog-content h2 {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.tiptap ul,
+.blog-content ul {
+  list-style-type: disc;
+  padding-left: 1.75rem;
+  margin: 1rem 0;
+}
+
+.tiptap ol,
+.blog-content ol {
+  list-style-type: decimal;
+  padding-left: 1.75rem;
+  margin: 1rem 0;
+}
+
+.tiptap li,
+.blog-content li {
+  display: list-item;
+  margin: 0.35rem 0;
+}
+
+.tiptap li p,
+.blog-content li p {
+  margin: 0;
+}
+
+.blog-content {
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.blog-content p {
+  margin: 0 0 1.25rem;
+}
+
+.blog-content p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-content h2:first-child {
+  margin-top: 0;
 }

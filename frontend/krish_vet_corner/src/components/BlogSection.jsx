@@ -7,9 +7,14 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { API_URL } from "../api";
+import DOMPurify from "dompurify";
 import { Link } from "react-router-dom";
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
+  const getBlogPreview = (html) => {
+    const doc = new DOMParser().parseFromString(html || "", "text/html");
+    return doc.body.textContent?.replace(/\s+/g, " ").trim() || "";
+  };
   const [activeSliders, setActiveSliders] = useState({});
   // const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -240,7 +245,7 @@ const BlogSection = () => {
                 </h3>
 
                 <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
-                  {blog.content}
+                  {getBlogPreview(blog.content)}
                 </p>
 
                 <div className="flex items-center justify-between mb-8">
@@ -305,8 +310,8 @@ const BlogSection = () => {
                     </h3>
 
                     <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed">
-                      {blog.content}
-                    </p>
+                      {getBlogPreview(blog.content)}
+                    </p>  
 
                     <Link
                       to={`/blog/${blog.slug}`}

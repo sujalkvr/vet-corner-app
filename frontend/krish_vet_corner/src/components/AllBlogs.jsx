@@ -9,6 +9,10 @@ const AllBlogs = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const getBlogPreview = (html) => {
+    const doc = new DOMParser().parseFromString(html || "", "text/html");
+    return doc.body.textContent?.replace(/\s+/g, " ").trim() || "";
+  };
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -156,7 +160,7 @@ const AllBlogs = () => {
                   </h2>
 
                   <p className="text-gray-600 line-clamp-3 leading-relaxed mb-4">
-                    {blog.content}
+                    {getBlogPreview(blog.content)}
                   </p>
 
                   {/* Read More Link */}

@@ -1,5 +1,7 @@
 // src/components/Admin/AdminDashboard.jsx - COMPLETE FIXED VERSION
 import { useState, useEffect } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { useNavigate } from "react-router-dom";
 import {
   Upload,
@@ -108,6 +110,134 @@ const BlogCard = ({ blog, index, onDelete, isFeatured }) => {
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+const editorTextLength = (html) => {
+  const doc = new DOMParser().parseFromString(html || "", "text/html");
+  return doc.body.textContent?.length || 0;
+};
+
+const RichTextEditor = ({ content, setContent, disabled }) => {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: content || "",
+    editable: !disabled,
+
+    editorProps: {
+      attributes: {
+        class: "min-h-64 px-4 py-3 focus:outline-none prose max-w-none",
+      },
+
+      transformPastedHTML(html) {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+
+        // Remove Word-specific classes and inline styles that can
+        // interfere with the editor's normal formatting.
+        doc.querySelectorAll("*").forEach((element) => {
+          element.removeAttribute("class");
+          element.removeAttribute("style");
+          element.removeAttribute("id");
+        });
+
+        // Remove Microsoft Word metadata and unsupported elements.
+        doc
+          .querySelectorAll("meta, link, style, script, xml, o\\:p")
+          .forEach((element) => element.remove());
+
+        return doc.body.innerHTML;
+      },
+    },
+
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML());
+    },
+  });
+
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(!disabled);
+    }
+  }, [editor, disabled]);
+
+  useEffect(() => {
+    if (editor && !content) {
+      editor.commands.clearContent();
+    }
+  }, [editor, content]);
+
+  if (!editor) return null;
+
+  const buttonClass = (active) =>
+    `px-3 py-2 rounded-lg border text-sm font-semibold ${
+      active
+        ? "bg-blue-600 text-white border-blue-600"
+        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+    }`;
+
+  return (
+    <div className="border-2 border-gray-200 rounded-xl overflow-hidden focus-within:border-blue-500">
+      <div className="flex flex-wrap gap-2 p-3 bg-gray-50 border-b">
+        <button
+          type="button"
+          className={buttonClass(editor.isActive("bold"))}
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={disabled}
+        >
+          B
+        </button>
+
+        <button
+          type="button"
+          className={buttonClass(editor.isActive("italic"))}
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={disabled}
+        >
+          <em>I</em>
+        </button>
+
+        <button
+          type="button"
+          className={buttonClass(editor.isActive("heading", { level: 2 }))}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          disabled={disabled}
+        >
+          H2
+        </button>
+
+        <button
+          type="button"
+          className={buttonClass(editor.isActive("bulletList"))}
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          disabled={disabled}
+        >
+          • List
+        </button>
+
+        <button
+          type="button"
+          className={buttonClass(editor.isActive("orderedList"))}
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          disabled={disabled}
+        >
+          1. List
+        </button>
+
+        <button
+          type="button"
+          className={buttonClass(false)}
+          onClick={() =>
+            editor.chain().focus().unsetAllMarks().clearNodes().run()
+          }
+          disabled={disabled}
+        >
+          Clear formatting
+        </button>
+      </div>
+
+      <EditorContent editor={editor} />
     </div>
   );
 };
@@ -465,14 +595,22 @@ const AdminDashboard = () => {
                 <label className="block font-semibold mb-2 text-gray-700">
                   Content *
                 </label>
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none h-64 resize-none"
-                  placeholder="Write your blog content here... You can write multiple paragraphs."
-                  required
+
+                <RichTextEditor
+                  content={content}
+                  setContent={setContent}
                   disabled={loading}
                 />
+
+                <p className="text-sm text-gray-500 mt-2">
+                  Select text to format it. Press Enter to start a new
+                  paragraph.
+                </p>
+
+                <p className="text-sm text-gray-500 mt-1">
+                  {editorTextLength(content)} characters
+                </p>
+
                 <p className="text-sm text-gray-500 mt-2">
                   {content.length} characters •{" "}
                   {Math.ceil(content.split(" ").filter((w) => w).length / 200)}{" "}
