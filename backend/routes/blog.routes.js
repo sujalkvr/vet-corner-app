@@ -112,12 +112,14 @@ router.post('/', verifyToken, blogUpload.array('images', 3), async (req, res) =>
       });
     }
     
-    if (!req.files || req.files.length !== 3) {
-      return res.status(400).json({ 
-        success: false,
-        message: 'Exactly 3 images are required' 
-      });
-    }
+    
+if (!req.files || req.files.length < 1 || req.files.length > 3) {
+  return res.status(400).json({
+    success: false,
+    message: 'Please upload between 1 and 3 images'
+  });
+}
+
     
     // Generate slug from title
     const slug = title
