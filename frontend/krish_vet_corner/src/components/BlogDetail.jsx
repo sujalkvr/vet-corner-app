@@ -36,9 +36,15 @@ const BlogDetail = () => {
     fetchBlog();
   }, [slug]);
 
-  // Auto-slide images
+  // Auto-slide images only on desktop
   useEffect(() => {
     if (!blog || !blog.images || blog.images.length <= 1) return;
+
+    // Disable automatic image sliding below desktop width
+    if (window.innerWidth < 1024) {
+      console.log("[BlogDetail] Auto-slider disabled on mobile");
+      return;
+    }
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % blog.images.length);
