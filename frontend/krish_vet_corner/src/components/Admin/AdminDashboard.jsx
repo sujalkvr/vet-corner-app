@@ -157,8 +157,8 @@ const AdminDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (images.length !== 3) {
-      alert("Please upload exactly 3 images");
+    if (images.length < 1 || images.length > 3) {
+      alert("Please upload between 1 and 3 images");
       return;
     }
 
@@ -482,7 +482,7 @@ const AdminDashboard = () => {
 
               <div>
                 <label className="block font-semibold mb-2 text-gray-700">
-                  Upload 3 Images *
+                  Upload Images (1–3 required) *
                 </label>
                 <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-all bg-gray-50">
                   <Upload className="w-12 h-12 mx-auto text-gray-400 mb-4" />
@@ -508,12 +508,12 @@ const AdminDashboard = () => {
                         ✓ {images.length} file(s) selected
                       </span>
                     ) : (
-                      "Select exactly 3 images (JPG, PNG, GIF, WebP)"
+                      "Select 1 to 3 images (JPG, PNG, GIF, WebP)"
                     )}
                   </p>
-                  {images.length > 0 && images.length !== 3 && (
+                  {images.length > 3 && (
                     <p className="text-red-600 text-sm mt-2">
-                      ⚠️ Please select exactly 3 images
+                      ⚠️ Please select a maximum of 3 images
                     </p>
                   )}
                 </div>
@@ -521,7 +521,7 @@ const AdminDashboard = () => {
 
               <button
                 type="submit"
-                disabled={loading || images.length !== 3}
+                disabled={loading || images.length < 1 || images.length > 3}
                 className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-4 rounded-xl hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Upload size={20} />
