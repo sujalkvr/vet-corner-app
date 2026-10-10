@@ -11,6 +11,34 @@ const BlogDetail = () => {
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const difference = touchStartX - touchEndX;
+    const swipeThreshold = 50;
+
+    if (Math.abs(difference) > swipeThreshold) {
+      if (difference > 0) {
+        // Swipe left: next image
+        setCurrentImageIndex((prev) => (prev + 1) % blog.images.length);
+      } else {
+        // Swipe right: previous image
+        setCurrentImageIndex(
+          (prev) => (prev - 1 + blog.images.length) % blog.images.length,
+        );
+      }
+    }
+
+    setTouchStartX(null);
+  };
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
@@ -128,7 +156,11 @@ const BlogDetail = () => {
         {/* Featured Image Slider */}
         {blog.images && blog.images.length > 0 && (
           <div className="relative mb-12 rounded-3xl overflow-hidden shadow-2xl">
-            <div className="relative h-96 md:h-[500px] lg:h-[600px]">
+            <div
+              className="relative h-96 md:h-[500px] lg:h-[600px] touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               {blog.images.map((img, idx) => (
                 <img
                   key={idx}
