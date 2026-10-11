@@ -30,8 +30,8 @@ const Appointment = () => {
   const [preview, setPreview] = useState("");
 
   const serviceTypes = [
-    " Online Consultation",
-    "Home visit ",
+    "Online Consultation",
+    "Home Visit",
     "Vet Student Support",
     "Vaccination",
     "Consultation",
