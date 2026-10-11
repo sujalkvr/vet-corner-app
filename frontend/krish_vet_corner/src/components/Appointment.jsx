@@ -114,17 +114,124 @@ const Appointment = () => {
 
       <div className="max-w-7xl mx-auto relative z-20">
         {/* Hero Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 bg-clip-text text-transparent drop-shadow-2xl mb-4 leading-tight">
             Book Your Appointment
           </h1>
+
           <div className="max-w-2xl mx-auto">
-            <h className="text-lg md:text-xl text-gray-700 font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-700 font-light leading-relaxed">
               <b>
-                how it works: Book Service Online → Consult with Vet→ Receive
+                How it works: Book Service Online → Consult with Vet → Receive
                 Advice/Digital Prescription → Follow-up
               </b>
-            </h>
+            </p>
+          </div>
+        </div>
+
+        {/* Service Pricing Section */}
+        <div className="mb-14">
+          <div className="text-center mb-7">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+              Our Service Pricing
+            </h2>
+            <p className="text-gray-600">
+              Clear and simple pricing for our main services
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {/* Online Consultation */}
+            <div className="group bg-white/90 backdrop-blur-xl rounded-xl p-4 border border-emerald-200 shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center">
+              <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="5" width="18" height="14" rx="2" />
+                  <path d="m10 9 5 3-5 3z" />
+                </svg>
+              </div>
+
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                Online Consultation
+              </h3>
+
+              <p className="text-sm text-gray-500 mb-2">
+                Veterinary consultation online
+              </p>
+
+              <p className="text-3xl font-extrabold text-emerald-600">₹299</p>
+            </div>
+
+            {/* Home Visit */}
+            <div className="group bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-teal-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center">
+              <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br from-teal-500 to-blue-500 flex items-center justify-center text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m3 10 9-7 9 7" />
+                  <path d="M5 9v12h14V9" />
+                  <path d="M9 21v-8h6v8" />
+                </svg>
+              </div>
+
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                Home Visit
+              </h3>
+
+              <p className="text-sm text-gray-500 mb-2">
+                Veterinary care at your home
+              </p>
+
+              <p className="text-3xl font-extrabold text-teal-600">₹1,499</p>
+            </div>
+
+            {/* Vet Student Support */}
+            <div className="group bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-blue-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center">
+              <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m2 10 10-5 10 5-10 5-10-5Z" />
+                  <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                  <path d="M22 10v6" />
+                </svg>
+              </div>
+
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
+                Vet Student Support
+              </h3>
+
+              <p className="text-sm text-gray-500 mb-2">
+                Guidance and support for vet students
+              </p>
+
+              <p className="text-3xl font-extrabold text-blue-600">₹299</p>
+            </div>
           </div>
         </div>
 
