@@ -31,6 +31,7 @@ import Animation from "./components/Animation";
 import Faq from "./components/Faq";
 import More from "./components/More";
 import Team from "./components/Team";
+import WebinarSection from "./components/WebinarSection";
 import "./index.css";
 import { MessageCircle, ChevronUp } from "lucide-react";
 
@@ -105,6 +106,7 @@ function App() {
                       <About />
                       <Services />
                       <Team />
+                      <WebinarSection />
                       <BlogSection />
                       <Store />
                       <Faq />
@@ -119,7 +121,7 @@ function App() {
                   element={
                     <>
                       <Services />
-                      <Footer />
+                      <Footer />  
                     </>
                   }
                 />

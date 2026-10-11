@@ -121,6 +121,7 @@ app.use('/api/blogs', require('./routes/blog.routes'));
 app.use('/api/notifications', require('./routes/notification.routes'));
 app.use('/api/products', require('./routes/product.routes.js'));
 app.use('/api/team', require('./routes/teamRoutes'));
+app.use('/api/webinars', require('./routes/webinar.routes'));
 
 // ============= ERROR HANDLING =============
 const multer = require('multer');

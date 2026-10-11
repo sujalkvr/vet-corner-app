@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useNavigate } from "react-router-dom";
 import { Extension } from "@tiptap/core";
 import { TextStyle } from "@tiptap/extension-text-style";
+import WebinarManager from "./WebinarManager";
 import {
   Upload,
   Trash2,
@@ -637,6 +638,16 @@ const AdminDashboard = () => {
           >
             🔔 Notifications
           </button>
+          <button
+            onClick={() => setActiveTab("webinars")}
+            className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base ${
+              activeTab === "webinars"
+                ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            📅 Webinars
+          </button>
         </div>
 
         {/* Create Blog Tab */}
@@ -968,6 +979,12 @@ const AdminDashboard = () => {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {activeTab === "webinars" && (
+          <div className="animate-fadeIn">
+            <WebinarManager />
           </div>
         )}
       </div>
