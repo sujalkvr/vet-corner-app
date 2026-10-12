@@ -478,28 +478,30 @@ router.post("/:id/register", async (req, res) => {
       `;
 
       try {
-        await Promise.all([
-          transporter.sendMail({
-            from: `"Krish Vet Corner" <${process.env.BREVO_EMAIL}>`,
-            to: process.env.ADMIN_EMAIL || "vetcorner2025@gmail.com",
-            subject: `New webinar registration: ${webinar.title}`,
-            html: `<h2>New webinar registration</h2>${details}`,
-          }),
-          transporter.sendMail({
-            from: `"Krish Vet Corner" <${process.env.BREVO_EMAIL}>`,
-            to: normalizedEmail,
-            subject: `Registration received: ${webinar.title}`,
-            html: `
-              <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
-                <h2>Registration received!</h2>
-                <p>Hi ${safe.name},</p>
-                <p>Your registration for <strong>${safe.title}</strong> has been received.</p>
-                ${details}
-                <p>Thank you for registering with Krish Vet Corner.</p>
-              </div>
-            `,
-          }),
-        ]);
+        
+await Promise.all([
+  transporter.sendMail({
+    from: '"Krish Vet Corner" <vetcorner2025@gmail.com>',
+    to: process.env.ADMIN_EMAIL || "vetcorner2025@gmail.com",
+    subject: `New webinar registration: ${webinar.title}`,
+    html: `<h2>New webinar registration</h2>${details}`,
+  }),
+  transporter.sendMail({
+    from: '"Krish Vet Corner" <vetcorner2025@gmail.com>',
+    to: normalizedEmail,
+    subject: `Registration received: ${webinar.title}`,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:auto">
+        <h2>Registration received!</h2>
+        <p>Hi ${safe.name},</p>
+        <p>Your registration for <strong>${safe.title}</strong> has been received.</p>
+        ${details}
+        <p>Thank you for registering with Krish Vet Corner.</p>
+      </div>
+    `,
+  }),
+]);
+
 
         emailSent = true;
       } catch (emailError) {
