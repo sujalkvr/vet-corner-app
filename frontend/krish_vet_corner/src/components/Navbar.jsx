@@ -29,18 +29,21 @@ const Navbar = ({ showBanner }) => {
 
       // MOBILE NAVBAR SHOW/HIDE
 
+      // NAVBAR SHOW/HIDE ON DESKTOP AND MOBILE
+
       if (window.innerWidth < 1024) {
-        // CLOSE MOBILE MENU ON SCROLL
+        // Close the mobile menu when scrolling
         setMobileOpen(false);
-
-        if (window.scrollY > lastScrollY) {
-          setShowNavbar(false); // scrolling down
-        } else {
-          setShowNavbar(true); // scrolling up
-        }
-
-        setLastScrollY(window.scrollY);
       }
+
+      // Show navbar when scrolling up, hide when scrolling down
+      // if (window.scrollY > lastScrollY && window.scrollY > 100) {
+      //   setShowNavbar(false);
+      // } else {
+      //   setShowNavbar(true);
+      // }
+
+      // setLastScrollY(window.scrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -68,7 +71,9 @@ const Navbar = ({ showBanner }) => {
       <nav
         className={`bg-white/80 backdrop-blur-xl shadow-xl sticky z-50 border-b border-gray-100 transition-all duration-300 ${
           showBanner ? "top-[28px]" : "top-0"
-        } ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}
+        } 
+        // ${showNavbar ? "translate-y-0" : "-translate-y-full"}
+        `}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
