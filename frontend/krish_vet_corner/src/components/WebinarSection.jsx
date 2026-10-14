@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { CalendarDays, Clock, UserRound, ArrowRight, X } from "lucide-react";
 import { API_URL } from "../api";
@@ -9,10 +8,10 @@ const emptyForm = {
   email: "",
   mobile: "",
   gender: "",
+  address: "",
   city: "",
   country: "",
 };
-
 const WebinarSection = () => {
   const [webinars, setWebinars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +21,7 @@ const WebinarSection = () => {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState("");
+  const [paymentScreenshot, setPaymentScreenshot] = useState(null);
 
   useEffect(() => {
     const fetchWebinars = async () => {
@@ -63,6 +63,7 @@ const WebinarSection = () => {
   const openRegistration = (webinar) => {
     setSelectedWebinar(webinar);
     setForm(emptyForm);
+    setPaymentScreenshot(null);
     setMessage("");
     setFormError("");
   };
@@ -71,6 +72,7 @@ const WebinarSection = () => {
     if (submitting) return;
     setSelectedWebinar(null);
     setForm(emptyForm);
+    setPaymentScreenshot(null);
     setMessage("");
     setFormError("");
   };
@@ -84,13 +86,42 @@ const WebinarSection = () => {
     setMessage("");
 
     try {
+      const mobile = form.mobile.trim();
+
+      if (!/^\d{10}$/.test(mobile)) {
+        throw new Error("Mobile number must contain exactly 10 digits.");
+      }
+
+      const isPaid = selectedWebinar.feeType === "Paid";
+
+      if (isPaid && !form.transactionId?.trim()) {
+        throw new Error("Please enter your payment transaction ID.");
+      }
+
+      if (isPaid && !paymentScreenshot) {
+        throw new Error("Please upload your payment screenshot.");
+      }
+
+      const body = new FormData();
+
+      Object.entries({
+        ...form,
+        mobile,
+        transactionId: isPaid ? form.transactionId.trim() : "",
+      }).forEach(([key, value]) => {
+        body.append(key, value ?? "");
+      });
+
+      if (isPaid && paymentScreenshot) {
+        body.append("screenshot", paymentScreenshot);
+      }
+
       const response = await fetch(
         `${API_URL}/api/webinars/${selectedWebinar._id}/register`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
+          body,
+        },
       );
 
       const data = await response.json();
@@ -100,11 +131,15 @@ const WebinarSection = () => {
       }
 
       setMessage(
-        data.emailSent === false
-          ? "Registration successful, but email delivery failed. Please contact the organizer."
-          : "Registration successful! Check your email for confirmation."
+        isPaid
+          ? "Registration submitted successfully. Your payment is pending admin review. You will receive an email after the decision."
+          : data.attendeeEmailSent === false
+            ? "Registration successful, but confirmation email delivery failed. Please contact the organizer."
+            : "Registration successful! Check your email for confirmation.",
       );
+
       setForm(emptyForm);
+      setPaymentScreenshot(null);
     } catch (err) {
       setFormError(err.message || "Registration failed. Please try again.");
     } finally {
@@ -113,7 +148,10 @@ const WebinarSection = () => {
   };
 
   return (
-    <section id="webinars" className="bg-gradient-to-b from-white to-emerald-50 py-16 sm:py-20">
+    <section
+      id="webinars"
+      className="bg-gradient-to-b from-white to-emerald-50 py-16 sm:py-20"
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-800">
@@ -126,18 +164,20 @@ const WebinarSection = () => {
           </h2>
 
           <p className="mt-3 text-gray-600">
-            Join our sessions to learn more about pet health and veterinary care.
+            Join our sessions to learn more about pet health and veterinary
+            care.
           </p>
         </div>
 
         {loading && (
-          <p className="py-10 text-center text-gray-600">
-            Loading webinars...
-          </p>
+          <p className="py-10 text-center text-gray-600">Loading webinars...</p>
         )}
 
         {!loading && error && (
-          <div role="alert" className="mx-auto max-w-2xl rounded-xl bg-red-50 p-4 text-center text-red-700">
+          <div
+            role="alert"
+            className="mx-auto max-w-2xl rounded-xl bg-red-50 p-4 text-center text-red-700"
+          >
             {error}
           </div>
         )}
@@ -175,15 +215,19 @@ const WebinarSection = () => {
 
                 <div className="flex flex-1 flex-col p-5 sm:p-6">
                   <div className="mb-3 flex items-start gap-2 text-sm text-gray-600">
-                    <CalendarDays size={17} className="mt-0.5 shrink-0 text-emerald-600" />
-                    <span>
-                      {formatDate(webinar.date, webinar.timeZone)}
-                    </span>
+                    <CalendarDays
+                      size={17}
+                      className="mt-0.5 shrink-0 text-emerald-600"
+                    />
+                    <span>{formatDate(webinar.date, webinar.timeZone)}</span>
                   </div>
 
                   {webinar.endDate && (
                     <div className="mb-3 flex items-start gap-2 text-sm text-gray-600">
-                      <Clock size={17} className="mt-0.5 shrink-0 text-emerald-600" />
+                      <Clock
+                        size={17}
+                        className="mt-0.5 shrink-0 text-emerald-600"
+                      />
                       <span>
                         Ends: {formatDate(webinar.endDate, webinar.timeZone)}
                       </span>
@@ -195,13 +239,23 @@ const WebinarSection = () => {
                   </h3>
 
                   <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
-                    <UserRound size={17} className="shrink-0 text-emerald-600" />
+                    <UserRound
+                      size={17}
+                      className="shrink-0 text-emerald-600"
+                    />
                     <span>
                       {webinar.speakerName}
                       {webinar.speakerTitle ? ` · ${webinar.speakerTitle}` : ""}
                     </span>
                   </div>
-
+                  <p className="mt-4 flex-1 whitespace-pre-line text-sm leading-6 text-gray-600">
+                    {webinar.description}
+                  </p>
+                  <p className="mt-3 text-sm font-semibold text-emerald-700">
+                    {webinar.feeType === "Paid"
+                      ? `Fee: ₹${webinar.feeAmount}`
+                      : `Fee: ${webinar.feeLabel || "Free"}`}
+                  </p>
                   <p className="mt-4 flex-1 whitespace-pre-line text-sm leading-6 text-gray-600">
                     {webinar.description}
                   </p>
@@ -234,32 +288,69 @@ const WebinarSection = () => {
             aria-labelledby="webinar-registration-title"
             className="my-6 max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl sm:p-8"
           >
-            <div className="mb-6 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold text-emerald-700">
-                  Webinar registration
-                </p>
-                <h3 id="webinar-registration-title" className="mt-1 text-2xl font-bold text-gray-900">
-                  {selectedWebinar.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">
-                  {formatDate(selectedWebinar.date, selectedWebinar.timeZone)}
-                </p>
-              </div>
+            {!message && (
+              <div className="mb-6 flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm font-semibold text-emerald-700">
+                    Webinar registration
+                  </p>
+                  <h3
+                    id="webinar-registration-title"
+                    className="mt-1 text-2xl font-bold text-gray-900"
+                  >
+                    {selectedWebinar.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-600">
+                    {formatDate(selectedWebinar.date, selectedWebinar.timeZone)}
+                  </p>
 
-              <button
-                type="button"
-                onClick={closeRegistration}
-                disabled={submitting}
-                aria-label="Close registration form"
-                className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
-              >
-                <X size={22} />
-              </button>
-            </div>
+                  <div className="mt-3 rounded-xl bg-emerald-50 p-4">
+                    <p className="font-semibold text-emerald-800">
+                      {selectedWebinar.feeType === "Paid"
+                        ? `Registration Fee: ₹${selectedWebinar.feeAmount}`
+                        : `Registration Fee: ${selectedWebinar.feeLabel || "Free"}`}
+                    </p>
+
+                    {selectedWebinar.feeType === "Paid" && (
+                      <div className="mt-3 space-y-3">
+                        <p className="text-sm text-gray-700">
+                          Pay using the QR code below, then enter your
+                          transaction ID and upload a screenshot of your
+                          payment.
+                        </p>
+
+                        <img
+                          src="/images/qr.jpg"
+                          alt="Payment QR code"
+                          className="mx-auto max-h-64 w-auto rounded-lg border bg-white object-contain p-2"
+                        />
+
+                        <p className="text-xs text-gray-600">
+                          Your registration will remain pending until the admin
+                          verifies your payment.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={closeRegistration}
+                  disabled={submitting}
+                  aria-label="Close registration form"
+                  className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+                >
+                  <X size={22} />
+                </button>
+              </div>
+            )}
 
             {message ? (
-              <div role="status" className="rounded-xl bg-emerald-50 p-5 text-emerald-800">
+              <div
+                role="status"
+                className="rounded-xl bg-emerald-50 p-5 text-emerald-800"
+              >
                 {message}
                 <button
                   type="button"
@@ -280,7 +371,9 @@ const WebinarSection = () => {
                       autoComplete="name"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, name: e.target.value })
+                      }
                     />
                   </label>
 
@@ -293,7 +386,9 @@ const WebinarSection = () => {
                       placeholder="e.g. Veterinary student"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.position}
-                      onChange={(e) => setForm({ ...form, position: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, position: e.target.value })
+                      }
                     />
                   </label>
 
@@ -305,7 +400,9 @@ const WebinarSection = () => {
                       autoComplete="email"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, email: e.target.value })
+                      }
                     />
                   </label>
 
@@ -314,11 +411,20 @@ const WebinarSection = () => {
                     <input
                       required
                       type="tel"
-                      maxLength={25}
+                      inputMode="numeric"
                       autoComplete="tel"
+                      maxLength={10}
+                      pattern="[0-9]{10}"
+                      title="Enter exactly 10 digits"
+                      placeholder="10-digit mobile number"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.mobile}
-                      onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .replace(/\D/g, "")
+                          .slice(0, 10);
+                        setForm({ ...form, mobile: value });
+                      }}
                     />
                   </label>
 
@@ -328,14 +434,34 @@ const WebinarSection = () => {
                       required
                       className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.gender}
-                      onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, gender: e.target.value })
+                      }
                     >
                       <option value="">Select gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
-                      <option value="Prefer not to say">Prefer not to say</option>
+                      <option value="Prefer not to say">
+                        Prefer not to say
+                      </option>
                     </select>
+                  </label>
+
+                  <label className="text-sm font-semibold text-gray-700 sm:col-span-2">
+                    Full address *
+                    <textarea
+                      required
+                      maxLength={500}
+                      autoComplete="street-address"
+                      rows={3}
+                      placeholder="House/flat number, street, area and locality"
+                      className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
+                      value={form.address}
+                      onChange={(e) =>
+                        setForm({ ...form, address: e.target.value })
+                      }
+                    />
                   </label>
 
                   <label className="text-sm font-semibold text-gray-700">
@@ -345,7 +471,9 @@ const WebinarSection = () => {
                       autoComplete="address-level2"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.city}
-                      onChange={(e) => setForm({ ...form, city: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, city: e.target.value })
+                      }
                     />
                   </label>
 
@@ -356,13 +484,64 @@ const WebinarSection = () => {
                       autoComplete="country-name"
                       className="mt-2 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-emerald-500"
                       value={form.country}
-                      onChange={(e) => setForm({ ...form, country: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, country: e.target.value })
+                      }
                     />
                   </label>
                 </div>
 
+                {selectedWebinar.feeType === "Paid" && (
+                  <div className="space-y-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <h4 className="font-semibold text-gray-900">
+                      Payment Details
+                    </h4>
+
+                    <label className="block text-sm font-semibold text-gray-700">
+                      Transaction ID *
+                      <input
+                        required
+                        type="text"
+                        maxLength={150}
+                        autoComplete="off"
+                        placeholder="Enter your payment transaction ID"
+                        className="mt-2 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none focus:border-emerald-500"
+                        value={form.transactionId || ""}
+                        onChange={(e) =>
+                          setForm({ ...form, transactionId: e.target.value })
+                        }
+                      />
+                    </label>
+
+                    <label className="block text-sm font-semibold text-gray-700">
+                      Payment Screenshot *
+                      <input
+                        required
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        className="mt-2 block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm"
+                        onChange={(e) =>
+                          setPaymentScreenshot(e.target.files?.[0] || null)
+                        }
+                      />
+                      <span className="mt-2 block text-xs font-normal text-gray-500">
+                        Upload a JPG, PNG, WebP, or GIF image. Maximum size: 5
+                        MB.
+                      </span>
+                      {paymentScreenshot && (
+                        <span className="mt-2 block break-all text-xs font-medium text-emerald-700">
+                          Selected: {paymentScreenshot.name}
+                        </span>
+                      )}
+                    </label>
+                  </div>
+                )}
+
                 {formError && (
-                  <p role="alert" className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                  <p
+                    role="alert"
+                    className="rounded-lg bg-red-50 p-3 text-sm text-red-700"
+                  >
                     {formError}
                   </p>
                 )}

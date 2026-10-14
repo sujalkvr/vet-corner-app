@@ -49,6 +49,26 @@ const webinarSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+
+    // Webinar fee configuration
+    feeType: {
+      type: String,
+      enum: ["Free", "Paid"],
+      default: "Free",
+      required: true,
+    },
+    feeLabel: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: 100,
+    },
+    feeAmount: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+
     isPublished: {
       type: Boolean,
       default: false,

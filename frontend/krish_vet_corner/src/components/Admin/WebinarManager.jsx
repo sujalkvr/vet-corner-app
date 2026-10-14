@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { API_URL } from "../../api";
 import {
@@ -20,6 +19,9 @@ const emptyForm = {
   endDate: "",
   timeZone: "Asia/Kolkata",
   isPublished: false,
+  feeType: "Free",
+  feeLabel: "",
+  feeAmount: "0",
 };
 
 const inputClass =
@@ -36,6 +38,9 @@ export default function WebinarManager() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [reviewComments, setReviewComments] = useState({});
+  const [proofPreview, setProofPreview] = useState(null);
+  const [reviewingId, setReviewingId] = useState(null);
 
   const token = () => localStorage.getItem("adminToken");
 
@@ -88,7 +93,12 @@ export default function WebinarManager() {
       description: webinar.description || "",
       speakerName: webinar.speakerName || "",
       speakerTitle: webinar.speakerTitle || "",
-      date: webinar.date ? new Date(webinar.date).toISOString().slice(0, 16) : "",
+      feeType: webinar.feeType || "Free",
+      feeLabel: webinar.feeLabel || "",
+      feeAmount: String(webinar.feeAmount ?? 0),
+      date: webinar.date
+        ? new Date(webinar.date).toISOString().slice(0, 16)
+        : "",
       endDate: webinar.endDate
         ? new Date(webinar.endDate).toISOString().slice(0, 16)
         : "",
@@ -120,13 +130,10 @@ export default function WebinarManager() {
 
       if (poster) body.append("poster", poster);
 
-      const data = await request(
-        editingId ? `/${editingId}` : "",
-        {
-          method: editingId ? "PUT" : "POST",
-          body,
-        }
-      );
+      const data = await request(editingId ? `/${editingId}` : "", {
+        method: editingId ? "PUT" : "POST",
+        body,
+      });
 
       setMessage(editingId ? "Webinar updated." : "Webinar created.");
       resetForm();
@@ -139,11 +146,7 @@ export default function WebinarManager() {
   };
 
   const handleDelete = async (webinar) => {
-    if (
-      !window.confirm(
-        `Delete "${webinar.title}"? This cannot be undone.`
-      )
-    ) {
+    if (!window.confirm(`Delete "${webinar.title}"? This cannot be undone.`)) {
       return;
     }
 
@@ -177,6 +180,75 @@ export default function WebinarManager() {
     }
   };
 
+  const handleReview = async (person, status) => {
+    const decision = status === "Approved" ? "approve" : "reject";
+
+    if (!window.confirm(`Are you sure you want to ${decision} this payment?`)) {
+      return;
+    }
+
+    setReviewingId(person._id);
+    setError("");
+    setMessage("");
+
+    try {
+      const data = await request(
+        `/${viewingId}/registrations/${person._id}/review`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            status,
+            comments: reviewComments[person._id] || "",
+          }),
+        },
+      );
+
+      setMessage(data.message || `Payment ${status.toLowerCase()}.`);
+
+      const updated = await request(`/${viewingId}/registrations`);
+      setRegistrations(updated.registrations || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setReviewingId(null);
+    }
+  };
+
+  const handleViewProof = async (person) => {
+    setError("");
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/webinars/${viewingId}/registrations/${person._id}/payment-proof`,
+        {
+          headers: {
+            Authorization: `Bearer ${token()}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.message || "Could not load payment screenshot.");
+      }
+
+      const blob = await response.blob();
+
+      // Release the previous preview URL before replacing it.
+      if (proofPreview?.url) {
+        URL.revokeObjectURL(proofPreview.url);
+      }
+
+      setProofPreview({
+        url: URL.createObjectURL(blob),
+        name: person.name,
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   const handleExport = () => {
     if (!registrations.length) {
       setError("There are no registrations to export.");
@@ -189,13 +261,19 @@ export default function WebinarManager() {
       "Email",
       "Mobile",
       "Gender",
+      "Address",
       "City",
       "Country",
+      "Fee Type",
+      "Fee Label",
+      "Fee Amount",
+      "Transaction ID",
+      "Payment Status",
+      "Admin Comments",
       "Registered At",
     ];
 
-    const escapeCsv = (value) =>
-      `"${String(value ?? "").replace(/"/g, '""')}"`;
+    const escapeCsv = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
 
     const rows = registrations.map((item) => [
       item.name,
@@ -203,11 +281,16 @@ export default function WebinarManager() {
       item.email,
       item.mobile,
       item.gender,
+      item.address,
       item.city,
       item.country,
-      item.createdAt
-        ? new Date(item.createdAt).toLocaleString()
-        : "",
+      item.feeType,
+      item.feeLabel,
+      item.feeAmount,
+      item.transactionId,
+      item.paymentStatus,
+      item.adminComments,
+      item.createdAt ? new Date(item.createdAt).toLocaleString() : "",
     ]);
 
     const csv = [columns, ...rows]
@@ -215,7 +298,7 @@ export default function WebinarManager() {
       .join("\r\n");
 
     const url = URL.createObjectURL(
-      new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8;" })
+      new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8;" }),
     );
 
     const link = document.createElement("a");
@@ -263,7 +346,10 @@ export default function WebinarManager() {
       )}
 
       {message && (
-        <div role="status" className="rounded-xl bg-emerald-50 p-4 text-emerald-700">
+        <div
+          role="status"
+          className="rounded-xl bg-emerald-50 p-4 text-emerald-700"
+        >
           {message}
         </div>
       )}
@@ -294,9 +380,7 @@ export default function WebinarManager() {
             <input
               className={`${inputClass} mt-2`}
               value={form.title}
-              onChange={(e) =>
-                setForm({ ...form, title: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
               required
               maxLength={200}
             />
@@ -331,9 +415,7 @@ export default function WebinarManager() {
               type="datetime-local"
               className={`${inputClass} mt-2`}
               value={form.date}
-              onChange={(e) =>
-                setForm({ ...form, date: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, date: e.target.value })}
               required
             />
           </label>
@@ -344,9 +426,7 @@ export default function WebinarManager() {
               type="datetime-local"
               className={`${inputClass} mt-2`}
               value={form.endDate}
-              onChange={(e) =>
-                setForm({ ...form, endDate: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, endDate: e.target.value })}
             />
           </label>
 
@@ -355,9 +435,7 @@ export default function WebinarManager() {
             <select
               className={`${inputClass} mt-2`}
               value={form.timeZone}
-              onChange={(e) =>
-                setForm({ ...form, timeZone: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, timeZone: e.target.value })}
             >
               <option value="Asia/Kolkata">India (IST)</option>
               <option value="UTC">UTC</option>
@@ -368,14 +446,76 @@ export default function WebinarManager() {
           </label>
         </div>
 
+        <div className="space-y-4 rounded-xl border border-gray-200 bg-gray-50 p-4">
+          <h4 className="font-bold text-gray-900">Registration Fee</h4>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="block text-sm font-semibold text-gray-700">
+              Fee type *
+              <select
+                className={`${inputClass} mt-2`}
+                value={form.feeType}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    feeType: e.target.value,
+                    feeAmount:
+                      e.target.value === "Free"
+                        ? "0"
+                        : form.feeAmount === "0"
+                          ? ""
+                          : form.feeAmount,
+                    feeLabel: e.target.value === "Paid" ? "" : form.feeLabel,
+                  })
+                }
+                required
+              >
+                <option value="Free">Free</option>
+                <option value="Paid">Paid</option>
+              </select>
+            </label>
+
+            {form.feeType === "Free" ? (
+              <label className="block text-sm font-semibold text-gray-700">
+                Free-fee display label
+                <input
+                  className={`${inputClass} mt-2`}
+                  value={form.feeLabel}
+                  onChange={(e) =>
+                    setForm({ ...form, feeLabel: e.target.value })
+                  }
+                  maxLength={100}
+                  placeholder="e.g. Your Love"
+                />
+                <span className="mt-1 block text-xs font-normal text-gray-500">
+                  Optional. The webinar remains free.
+                </span>
+              </label>
+            ) : (
+              <label className="block text-sm font-semibold text-gray-700">
+                Fee amount (₹) *
+                <input
+                  type="number"
+                  className={`${inputClass} mt-2`}
+                  value={form.feeAmount}
+                  onChange={(e) =>
+                    setForm({ ...form, feeAmount: e.target.value })
+                  }
+                  min="1"
+                  step="0.01"
+                  required
+                />
+              </label>
+            )}
+          </div>
+        </div>
+
         <label className="block text-sm font-semibold text-gray-700">
           Description *
           <textarea
             className={`${inputClass} mt-2 min-h-32`}
             value={form.description}
-            onChange={(e) =>
-              setForm({ ...form, description: e.target.value })
-            }
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
             required
           />
         </label>
@@ -419,11 +559,7 @@ export default function WebinarManager() {
           disabled={saving}
           className="w-full rounded-xl bg-emerald-600 px-5 py-3 font-bold text-white hover:bg-emerald-700 disabled:opacity-50 sm:w-auto"
         >
-          {saving
-            ? "Saving..."
-            : editingId
-              ? "Save Changes"
-              : "Create Webinar"}
+          {saving ? "Saving..." : editingId ? "Save Changes" : "Create Webinar"}
         </button>
       </form>
 
@@ -432,9 +568,7 @@ export default function WebinarManager() {
           All Webinars ({webinars.length})
         </h3>
 
-        {loading && (
-          <p className="text-gray-500">Loading webinars...</p>
-        )}
+        {loading && <p className="text-gray-500">Loading webinars...</p>}
 
         {!loading && webinars.length === 0 && (
           <div className="rounded-2xl border bg-white p-10 text-center text-gray-600">
@@ -476,9 +610,12 @@ export default function WebinarManager() {
                 <h4 className="text-lg font-bold">{webinar.title}</h4>
                 <p className="text-sm text-gray-600">
                   Speaker: {webinar.speakerName}
-                  {webinar.speakerTitle
-                    ? ` · ${webinar.speakerTitle}`
-                    : ""}
+                  {webinar.speakerTitle ? ` · ${webinar.speakerTitle}` : ""}
+                </p>
+                <p className="text-sm font-semibold text-emerald-700">
+                  {webinar.feeType === "Paid"
+                    ? `Fee: ₹${webinar.feeAmount}`
+                    : `Fee: ${webinar.feeLabel || "Free"}`}
                 </p>
                 <p className="whitespace-pre-wrap text-sm text-gray-600">
                   {webinar.description}
@@ -516,6 +653,7 @@ export default function WebinarManager() {
                       <h5 className="font-bold">
                         Registrations ({registrations.length})
                       </h5>
+
                       <button
                         type="button"
                         onClick={handleExport}
@@ -531,26 +669,158 @@ export default function WebinarManager() {
                       </p>
                     ) : (
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
+                        <table className="w-full min-w-[1100px] text-left text-sm">
                           <thead className="bg-gray-50">
                             <tr>
-                              {["Name", "Email", "Mobile", "City", "Country"].map(
-                                (heading) => (
-                                  <th key={heading} className="px-3 py-2">
-                                    {heading}
-                                  </th>
-                                )
-                              )}
+                              {[
+                                "Name",
+                                "Email",
+                                "Mobile",
+                                "Address",
+                                "Fee",
+                                "Payment Status",
+                                "Payment Proof",
+                                "Admin Review",
+                              ].map((heading) => (
+                                <th
+                                  key={heading}
+                                  className="px-3 py-3 font-semibold"
+                                >
+                                  {heading}
+                                </th>
+                              ))}
                             </tr>
                           </thead>
+
                           <tbody>
                             {registrations.map((person) => (
-                              <tr key={person._id} className="border-t">
-                                <td className="px-3 py-2">{person.name}</td>
-                                <td className="px-3 py-2">{person.email}</td>
-                                <td className="px-3 py-2">{person.mobile}</td>
-                                <td className="px-3 py-2">{person.city}</td>
-                                <td className="px-3 py-2">{person.country}</td>
+                              <tr
+                                key={person._id}
+                                className="border-t align-top"
+                              >
+                                <td className="px-3 py-3">{person.name}</td>
+
+                                <td className="px-3 py-3">{person.email}</td>
+
+                                <td className="px-3 py-3">{person.mobile}</td>
+
+                                <td className="px-3 py-3">
+                                  <div>{person.address || "Not provided"}</div>
+                                  <div className="text-xs text-gray-500">
+                                    {[person.city, person.country]
+                                      .filter(Boolean)
+                                      .join(", ")}
+                                  </div>
+                                </td>
+
+                                <td className="px-3 py-3">
+                                  {person.feeType === "Paid"
+                                    ? `₹${person.feeAmount}`
+                                    : person.feeLabel || "Free"}
+                                </td>
+
+                                <td className="px-3 py-3">
+                                  <span
+                                    className={`inline-block rounded-full px-2 py-1 text-xs font-semibold ${
+                                      person.paymentStatus === "Approved"
+                                        ? "bg-emerald-100 text-emerald-700"
+                                        : person.paymentStatus === "Rejected"
+                                          ? "bg-red-100 text-red-700"
+                                          : person.paymentStatus ===
+                                              "Pending Review"
+                                            ? "bg-amber-100 text-amber-800"
+                                            : "bg-gray-100 text-gray-700"
+                                    }`}
+                                  >
+                                    {person.paymentStatus || "Not Required"}
+                                  </span>
+
+                                  {person.transactionId && (
+                                    <p className="mt-2 break-all text-xs text-gray-500">
+                                      Transaction ID: {person.transactionId}
+                                    </p>
+                                  )}
+                                </td>
+
+                                <td className="px-3 py-3">
+                                  {person.feeType === "Paid" &&
+                                  person.paymentScreenshotPath ? (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleViewProof(person)}
+                                      className="rounded-lg border border-blue-200 px-3 py-2 text-xs font-semibold text-blue-700 hover:bg-blue-50"
+                                    >
+                                      View Screenshot
+                                    </button>
+                                  ) : (
+                                    <span className="text-gray-400">
+                                      Not applicable
+                                    </span>
+                                  )}
+                                </td>
+
+                                <td className="min-w-[240px] px-3 py-3">
+                                  {person.paymentStatus === "Pending Review" ? (
+                                    <div className="space-y-2">
+                                      <textarea
+                                        className="w-full rounded-lg border border-gray-300 p-2 text-sm"
+                                        rows={3}
+                                        maxLength={2000}
+                                        placeholder="Optional comments for attendee"
+                                        value={reviewComments[person._id] || ""}
+                                        onChange={(e) =>
+                                          setReviewComments((previous) => ({
+                                            ...previous,
+                                            [person._id]: e.target.value,
+                                          }))
+                                        }
+                                      />
+
+                                      <div className="flex flex-wrap gap-2">
+                                        <button
+                                          type="button"
+                                          disabled={reviewingId === person._id}
+                                          onClick={() =>
+                                            handleReview(person, "Approved")
+                                          }
+                                          className="rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                                        >
+                                          {reviewingId === person._id
+                                            ? "Saving..."
+                                            : "Approve"}
+                                        </button>
+
+                                        <button
+                                          type="button"
+                                          disabled={reviewingId === person._id}
+                                          onClick={() =>
+                                            handleReview(person, "Rejected")
+                                          }
+                                          className="rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                                        >
+                                          Reject
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="text-xs text-gray-600">
+                                      {person.reviewedBy && (
+                                        <p>Reviewed by: {person.reviewedBy}</p>
+                                      )}
+
+                                      {person.adminComments && (
+                                        <p className="mt-1 whitespace-pre-wrap">
+                                          Comments: {person.adminComments}
+                                        </p>
+                                      )}
+
+                                      {person.paymentStatus ===
+                                        "Not Required" && (
+                                        <span>No review required</span>
+                                      )}
+                                    </div>
+                                  )}
+                                </td>
                               </tr>
                             ))}
                           </tbody>
@@ -564,6 +834,48 @@ export default function WebinarManager() {
           ))}
         </div>
       </section>
+
+      {proofPreview && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => {
+            URL.revokeObjectURL(proofPreview.url);
+            setProofPreview(null);
+          }}
+        >
+          <div
+            className="w-full max-w-3xl rounded-2xl bg-white p-5 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <h3 className="text-lg font-bold">Payment Screenshot</h3>
+                <p className="text-sm text-gray-500">
+                  Registration: {proofPreview.name}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  URL.revokeObjectURL(proofPreview.url);
+                  setProofPreview(null);
+                }}
+                className="rounded-lg border p-2 hover:bg-gray-50"
+                aria-label="Close screenshot"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <img
+              src={proofPreview.url}
+              alt="Payment proof"
+              className="mx-auto max-h-[70vh] max-w-full rounded-lg object-contain"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
