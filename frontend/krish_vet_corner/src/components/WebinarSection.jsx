@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { CalendarDays, Clock, UserRound, ArrowRight, X } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  UserRound,
+  ArrowRight,
+  X,
+  ChevronRight,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import { API_URL } from "../api";
 
 const emptyForm = {
@@ -195,83 +203,123 @@ const WebinarSection = () => {
         )}
 
         {!loading && !error && webinars.length > 0 && (
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {webinars.map((webinar) => (
-              <article
-                key={webinar._id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="relative h-56 overflow-hidden bg-gray-100">
-                  <img
-                    src={webinar.posterUrl}
-                    alt={`${webinar.title} poster`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-emerald-700 shadow-sm">
-                    Webinar
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col p-5 sm:p-6">
-                  <div className="mb-3 flex items-start gap-2 text-sm text-gray-600">
-                    <CalendarDays
-                      size={17}
-                      className="mt-0.5 shrink-0 text-emerald-600"
-                    />
-                    <span>{formatDate(webinar.date, webinar.timeZone)}</span>
-                  </div>
-
-                  {webinar.endDate && (
-                    <div className="mb-3 flex items-start gap-2 text-sm text-gray-600">
-                      <Clock
-                        size={17}
-                        className="mt-0.5 shrink-0 text-emerald-600"
+          <>
+            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+              {webinars.slice(0, 3).map((webinar) => (
+                <article
+                  key={webinar._id}
+                  className="group flex h-[520px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  {/* Webinar Poster */}
+                  <div className="relative h-52 shrink-0 overflow-hidden bg-gray-100">
+                    {webinar.posterUrl ? (
+                      <img
+                        src={webinar.posterUrl}
+                        alt={`${webinar.title} poster`}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
-                      <span>
-                        Ends: {formatDate(webinar.endDate, webinar.timeZone)}
-                      </span>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex h-full items-center justify-center bg-emerald-50 text-emerald-600">
+                        <CalendarDays size={44} />
+                      </div>
+                    )}
 
-                  <h3 className="text-xl font-bold leading-snug text-gray-900">
-                    {webinar.title}
-                  </h3>
-
-                  <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
-                    <UserRound
-                      size={17}
-                      className="shrink-0 text-emerald-600"
-                    />
-                    <span>
-                      {webinar.speakerName}
-                      {webinar.speakerTitle ? ` · ${webinar.speakerTitle}` : ""}
+                    <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-emerald-700 shadow-sm">
+                      Webinar
                     </span>
                   </div>
-                  <p className="mt-4 flex-1 whitespace-pre-line text-sm leading-6 text-gray-600">
-                    {webinar.description}
-                  </p>
-                  <p className="mt-3 text-sm font-semibold text-emerald-700">
-                    {webinar.feeType === "Paid"
-                      ? `Fee: ₹${webinar.feeAmount}`
-                      : `Fee: ${webinar.feeLabel || "Free"}`}
-                  </p>
-                  <p className="mt-4 flex-1 whitespace-pre-line text-sm leading-6 text-gray-600">
-                    {webinar.description}
-                  </p>
 
-                  <button
-                    type="button"
-                    onClick={() => openRegistration(webinar)}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-                  >
-                    Register Now
-                    <ArrowRight size={18} />
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+                  {/* Webinar Details */}
+                  <div className="flex min-h-0 flex-1 flex-col p-5">
+                    <div className="mb-2 flex items-start gap-2 text-sm text-gray-600">
+                      <CalendarDays
+                        size={16}
+                        className="mt-0.5 shrink-0 text-emerald-600"
+                      />
+                      <span className="line-clamp-2">
+                        {formatDate(webinar.date, webinar.timeZone)}
+                      </span>
+                    </div>
+
+                    {webinar.endDate && (
+                      <div className="mb-2 flex items-start gap-2 text-sm text-gray-600">
+                        <Clock
+                          size={16}
+                          className="mt-0.5 shrink-0 text-emerald-600"
+                        />
+                        <span className="line-clamp-2">
+                          Ends: {formatDate(webinar.endDate, webinar.timeZone)}
+                        </span>
+                      </div>
+                    )}
+
+                    <h3 className="line-clamp-2 text-xl font-bold leading-snug text-gray-900">
+                      {webinar.title}
+                    </h3>
+
+                    <div className="mt-2 flex items-start gap-2 text-sm text-gray-600">
+                      <UserRound
+                        size={16}
+                        className="mt-0.5 shrink-0 text-emerald-600"
+                      />
+                      <span className="line-clamp-2">
+                        {webinar.speakerName}
+                        {webinar.speakerTitle
+                          ? ` · ${webinar.speakerTitle}`
+                          : ""}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
+                      {webinar.description}
+                    </p>
+
+                    <p className="mt-2 text-sm font-semibold text-emerald-700">
+                      {webinar.feeType === "Paid"
+                        ? `Fee: ₹${webinar.feeAmount}`
+                        : `Fee: ${webinar.feeLabel || "Free"}`}
+                    </p>
+
+                    {/* Keep links at the bottom of every card */}
+                    <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+                      <Link
+                        to={`/webinar/${webinar._id}`}
+                        className="inline-flex items-center font-semibold text-emerald-700 transition hover:text-emerald-800"
+                      >
+                        View More
+                        <ChevronRight size={18} className="ml-1" />
+                      </Link>
+
+                      <button
+                        type="button"
+                        onClick={() => openRegistration(webinar)}
+                        className="inline-flex items-center justify-center gap-1 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                      >
+                        Register
+                        <ArrowRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {webinars.length > 0 && (
+              <div className="mt-10 text-center">
+                <Link
+                  to="/webinars"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-7 py-3 font-bold text-white shadow-md transition hover:bg-emerald-700 hover:shadow-lg"
+                >
+                  View All Webinars
+                  <ArrowRight
+                    size={20}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+            )}
+          </>
         )}
       </div>
 

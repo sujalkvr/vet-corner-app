@@ -32,6 +32,8 @@ import Faq from "./components/Faq";
 import More from "./components/More";
 import Team from "./components/Team";
 import WebinarSection from "./components/WebinarSection";
+import AllWebinars from "./components/AllWebinars";
+import WebinarDetail from "./components/WebinarDetail";
 import "./index.css";
 import { MessageCircle, ChevronUp } from "lucide-react";
 
@@ -121,7 +123,7 @@ function App() {
                   element={
                     <>
                       <Services />
-                      <Footer />  
+                      <Footer />
                     </>
                   }
                 />
@@ -146,6 +148,9 @@ function App() {
 
                 <Route path="/blog" element={<AllBlogs />} />
                 <Route path="/blog/:slug" element={<BlogDetail />} />
+
+                <Route path="/webinars" element={<AllWebinars />} />
+                <Route path="/webinar/:id" element={<WebinarDetail />} />
 
                 <Route
                   path="/store/:category"

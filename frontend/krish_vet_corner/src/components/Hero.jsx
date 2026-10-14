@@ -20,7 +20,7 @@ const Hero = () => {
   }, [images.length]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-emerald-50/90 via-white to-emerald-50/80">
+    <section className="relative min-h-[calc(100vh-144px)] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-emerald-50/90 via-white to-emerald-50/80">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-50">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.08),transparent_50%)]" />

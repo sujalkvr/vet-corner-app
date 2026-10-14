@@ -311,7 +311,7 @@ const BlogSection = () => {
 
                     <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed">
                       {getBlogPreview(blog.content)}
-                    </p>  
+                    </p>
 
                     <Link
                       to={`/blog/${blog.slug}`}
